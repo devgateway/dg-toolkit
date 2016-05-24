@@ -26,7 +26,9 @@
 		<java.version>1.8</java.version>
 		<joda.time.version>2.7</joda.time.version>
 		<jadira.usertype.version>3.2.0.GA</jadira.usertype.version>
-		<ehcache.version>2.6.11</ehcache.version>		
+		<ehcache.version>2.6.11</ehcache.version>
+        <json.schema.validator.version>2.2.6</json.schema.validator.version>
+        <json.patch.version>1.9</json.patch.version>
 	</properties>
 
 <parent>
@@ -82,7 +84,35 @@
         </dependency>
 		
 
-	</dependencies>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.13</version>
+        </dependency>
+
+        <dependency>
+    		<groupId>de.flapdoodle.embed</groupId>
+    		<artifactId>de.flapdoodle.embed.mongo</artifactId>    
+	</dependency>
+
+        <dependency>
+            <groupId>com.github.fge</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>${json.schema.validator.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.fge</groupId>
+            <artifactId>json-patch</artifactId>
+            <version>${json.patch.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.3</version>
+        </dependency>
+    </dependencies>
 
 	<build>
 	<resources>
