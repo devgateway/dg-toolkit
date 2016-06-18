@@ -15,11 +15,12 @@ module.exports = {
       { test: /\.(jsx|es6)$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
       { test: /\.json$/, loader: 'json' },
       { test: /\.css$/, exclude: /\.useable\.css$/, loader: "style!css" },
-      { test: /\.less$/, loader: "style!css!less" }
+      { test: /\.less$/, loader: "style!css!less" },
+      { test: /\.tsx?$/, loader: 'ts-loader'}
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.es6', '.jsx']
+    extensions: ['', '.js', '.es6', '.jsx', '.ts', '.tsx']
   },
   devtool: 'source-map',
   plugins: [
