@@ -52,7 +52,7 @@ public class CacheConfiguration {
 	}
 
 	@Bean
-	@Profile({ "integration", "dev" })
+	@Profile("!prod")
 	public EhCacheManagerFactoryBean ehCacheManagerFactoryBeanDev() {
 		EhCacheManagerFactoryBean ehCacheManagerFactoryBean = new EhCacheManagerFactoryBean();
 		ehCacheManagerFactoryBean.setConfigLocation(new ClassPathResource("ehcache-dev.xml"));
