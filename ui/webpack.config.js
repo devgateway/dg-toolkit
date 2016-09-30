@@ -2,6 +2,7 @@ var config = require('./webpack.dev.config.js');
 var webpack = require('webpack');
 config.entry = "./index.jsx";
 config.output.filename = "index.min.js";
+config.module.loaders[0].loaders.pop();
 delete config.devtool;
 config.plugins = config.plugins.filter(function(plugin){
   return !(plugin instanceof webpack.HotModuleReplacementPlugin);
