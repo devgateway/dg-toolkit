@@ -97,6 +97,12 @@ public class FileInputBootstrapFormComponentWrapper<T> extends FormComponentPane
         // unnecessary classes to the component
     }
 
+    /**
+     * Use @{@link javax.validation.constraints.Size} on the target entity.
+     * @param maxFiles
+     * @return
+     */
+    @Deprecated
     public FileInputBootstrapFormComponentWrapper<T> maxFiles(final int maxFiles) {
         this.maxFiles = maxFiles;
 

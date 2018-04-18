@@ -19,6 +19,7 @@ import org.devgateway.toolkit.persistence.excel.annotation.ExcelExport;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,7 +29,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
-import java.io.Serializable;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,42 +48,56 @@ public class TestForm extends AbstractAuditableEntity {
     private static final long serialVersionUID = 1L;
 
     @ExcelExport
+    @NotNull
     private String textField;
 
     @ExcelExport
+    @NotNull
     @Column(length = DBConstants.MAX_DEFAULT_TEXT_LENGTH)
     private String textArea;
 
     @Column(length = DBConstants.MAX_DEFAULT_TEXT_LENGTH)
+    @NotNull
     private String summernote;
 
     @ExcelExport
+    @NotNull
     private Boolean checkbox;
 
+    @NotNull
     private Boolean checkboxPicker;
 
+    @NotNull
     private Boolean checkboxToggle;
 
+    @NotNull
     private String colorPicker;
 
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @ManyToOne
+    @NotNull
     private Group entitySelect;
 
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @ManyToMany
+    @NotNull
     private List<Role> entityMultiSelect;
 
+    @NotNull
     private Date date;
 
+    @NotNull
     private Date dateTime;
 
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @ManyToOne
+    @NotNull
     private Group preloadedEntitySelect;
 
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @NotEmpty
+    @Size(min = 1, max = 10)
     private Set<FileMetadata> fileInput;
 
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

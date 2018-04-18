@@ -118,11 +118,6 @@ public class EditUserPage extends AbstractEditPage<Person> {
         username.required();
         username.getField().add(new UsernamePatternValidator());
         StringValue idPerson = getPageParameters().get(WebConstants.PARAM_ID);
-        if (!idPerson.isNull()) {
-            username.getField().add(new UniqueUsernameValidator(idPerson.toLong()));
-        } else {
-            username.getField().add(new UniqueUsernameValidator());
-        }
         editForm.add(username);
         MetaDataRoleAuthorizationStrategy.authorize(username, Component.ENABLE, SecurityConstants.Roles.ROLE_ADMIN);
 

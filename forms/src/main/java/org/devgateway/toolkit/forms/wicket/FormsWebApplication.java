@@ -32,6 +32,7 @@ import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxNewWindowNotifyingBehavior;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
+import org.apache.wicket.bean.validation.BeanValidationConfiguration;
 import org.apache.wicket.devutils.diskstore.DebugDiskDataStore;
 import org.apache.wicket.markup.html.IPackageResourceGuard;
 import org.apache.wicket.markup.html.SecurePackageResourceGuard;
@@ -62,6 +63,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 import org.wicketstuff.select2.ApplicationSettings;
 
+import javax.validation.Validator;
 import java.math.BigDecimal;
 
 /**
@@ -84,6 +86,9 @@ public class FormsWebApplication extends AuthenticatedWebApplication {
 
     @Autowired
     private SessionFinderService sessionFinderService;
+
+    @Autowired
+    private Validator validator;
 
     @Autowired
     private SummernoteJpaStorageService summernoteJpaStorageService;
@@ -190,6 +195,12 @@ public class FormsWebApplication extends AuthenticatedWebApplication {
         return SSAuthenticatedWebSession.class;
     }
 
+    protected void configureBeanValidation() {
+        BeanValidationConfiguration validationConfiguration = new BeanValidationConfiguration();
+        validationConfiguration.setValidatorProvider(() -> validator);
+        validationConfiguration.configure(this);
+    }
+
     /**
      * <ul>
      * <li>making the wicket components injectable by activating the
@@ -215,6 +226,9 @@ public class FormsWebApplication extends AuthenticatedWebApplication {
         // this ensures that spring DI works for wicket components and pages
         // see @SpringBean annotation
         getComponentInstantiationListeners().add(new SpringComponentInjector(this, applicationContext));
+
+        //wicket bean validation
+        configureBeanValidation();
 
         // this will scan packages for pages with @MountPath annotations and
         // automatically create URLs for them

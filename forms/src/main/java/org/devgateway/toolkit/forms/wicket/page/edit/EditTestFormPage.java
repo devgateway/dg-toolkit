@@ -76,23 +76,19 @@ public class EditTestFormPage extends AbstractEditPage<TestForm> {
 
         TextFieldBootstrapFormComponent<String> textField = new TextFieldBootstrapFormComponent<>("textField");
         editForm.add(textField);
-        textField.required();
         textField.enableRevisionsView();
-
 
         TextAreaFieldBootstrapFormComponent<String> textArea = new TextAreaFieldBootstrapFormComponent<>("textArea");
         editForm.add(textArea);
-        textArea.required();
 
         SummernoteBootstrapFormComponent summernote = new SummernoteBootstrapFormComponent("summernote");
         editForm.add(summernote);
-        summernote.required().enableRevisionsView();
+        summernote.enableRevisionsView();
 
         editForm.add(new TestFormChildPanel("testFormChildren"));
 
         Select2ChoiceBootstrapFormComponent<Group> entitySelect = new Select2ChoiceBootstrapFormComponent<Group>(
                 "entitySelect", new GenericPersistableJpaTextChoiceProvider<>(groupService));
-        entitySelect.required();
         editForm.add(entitySelect);
 
         Select2MultiChoiceBootstrapFormComponent<Role> entityMultiSelect =
@@ -103,35 +99,28 @@ public class EditTestFormPage extends AbstractEditPage<TestForm> {
         editForm.add(entityMultiSelect);
 
         CheckBoxBootstrapFormComponent checkbox = new CheckBoxBootstrapFormComponent("checkbox");
-        checkbox.required();
         editForm.add(checkbox);
         //checkbox.enableRevisionsView();
 
         CheckBoxPickerBootstrapFormComponent checkboxPicker =
                 new CheckBoxPickerBootstrapFormComponent("checkboxPicker");
-        checkboxPicker.required();
         editForm.add(checkboxPicker);
         //checkboxPicker.enableRevisionsView();
 
         CheckBoxToggleBootstrapFormComponent checkboxToggle =
                 new CheckBoxToggleBootstrapFormComponent("checkboxToggle");
-        checkboxToggle.required();
         editForm.add(checkboxToggle);
 
         DateFieldBootstrapFormComponent date = new DateFieldBootstrapFormComponent("date");
-        date.required();
         editForm.add(date);
 
         DateTimeFieldBootstrapFormComponent dateTime = new DateTimeFieldBootstrapFormComponent("dateTime");
-        dateTime.required();
         editForm.add(dateTime);
 
         FileInputBootstrapFormComponent fileInput = new FileInputBootstrapFormComponent("fileInput");
-        fileInput.required();
         editForm.add(fileInput);
 
         ColorPickerBootstrapFormComponent colorPicker = new ColorPickerBootstrapFormComponent("colorPicker");
-        colorPicker.required();
         editForm.add(colorPicker);
     }
 

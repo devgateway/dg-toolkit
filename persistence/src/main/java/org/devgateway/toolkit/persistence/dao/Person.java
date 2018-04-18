@@ -14,6 +14,7 @@ package org.devgateway.toolkit.persistence.dao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.devgateway.toolkit.persistence.dao.categories.Group;
 import org.devgateway.toolkit.persistence.excel.annotation.ExcelExport;
+import org.devgateway.toolkit.persistence.validator.constraint.UniqueUsername;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
@@ -27,13 +28,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity
 @Audited
+@UniqueUsername
 @Table(indexes = {@Index(columnList = "username")})
 public class Person extends AbstractAuditableEntity implements UserDetails {
     private static final long serialVersionUID = 109780377848343674L;

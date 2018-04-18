@@ -24,7 +24,6 @@
         <commons.lang3.version>3.2.1</commons.lang3.version>
         <guava.version>28.1-jre</guava.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
-        <hibernate-validator.version>6.1.0.Final</hibernate-validator.version>
     </properties>
 
     <parent>
@@ -43,6 +42,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
         <dependency>
@@ -152,25 +156,6 @@
             <groupId>org.apache.derby</groupId>
             <artifactId>derbynet</artifactId>
             <version>${derby.version}</version>
-        </dependency>
-
-        <!-- This is used just in case we need bean validation -->
-        <!--<dependency>-->
-        <!--<groupId>javax.validation</groupId>-->
-        <!--<artifactId>validation-api</artifactId>-->
-        <!--<version>2.0.1.Final</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>javax.el</groupId>-->
-        <!--<artifactId>javax.el-api</artifactId>-->
-        <!--<version>3.0.1-b06</version>-->
-        <!--</dependency>-->
-
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate-validator.version}</version>
         </dependency>
 
         <dependency>
