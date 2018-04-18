@@ -11,14 +11,27 @@
  *******************************************************************************/
 package org.devgateway.toolkit.forms.wicket;
 
-import java.math.BigDecimal;
-
+import com.google.javascript.jscomp.CompilationLevel;
+import de.agilecoders.wicket.core.Bootstrap;
+import de.agilecoders.wicket.core.markup.html.RenderJavaScriptToFooterHeaderResponseDecorator;
+import de.agilecoders.wicket.core.request.resource.caching.version.Adler32ResourceVersion;
+import de.agilecoders.wicket.core.settings.BootstrapSettings;
+import de.agilecoders.wicket.core.settings.IBootstrapSettings;
+import de.agilecoders.wicket.extensions.javascript.GoogleClosureJavaScriptCompressor;
+import de.agilecoders.wicket.extensions.javascript.YuiCssCompressor;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.editor.SummernoteConfig;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.editor.SummernoteFileStorage;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.editor.SummernoteStoredImageResourceReference;
+import de.agilecoders.wicket.less.BootstrapLess;
+import de.agilecoders.wicket.webjars.WicketWebjars;
+import nl.dries.wicket.hibernate.dozer.SessionFinderHolder;
 import org.apache.wicket.Application;
 import org.apache.wicket.ConverterLocator;
 import org.apache.wicket.IConverterLocator;
 import org.apache.wicket.Page;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
+import org.apache.wicket.bean.validation.BeanValidationConfiguration;
 import org.apache.wicket.devutils.diskstore.DebugDiskDataStore;
 import org.apache.wicket.markup.html.IPackageResourceGuard;
 import org.apache.wicket.markup.html.SecurePackageResourceGuard;
@@ -44,21 +57,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 
-import com.google.javascript.jscomp.CompilationLevel;
-
-import de.agilecoders.wicket.core.Bootstrap;
-import de.agilecoders.wicket.core.markup.html.RenderJavaScriptToFooterHeaderResponseDecorator;
-import de.agilecoders.wicket.core.request.resource.caching.version.Adler32ResourceVersion;
-import de.agilecoders.wicket.core.settings.BootstrapSettings;
-import de.agilecoders.wicket.core.settings.IBootstrapSettings;
-import de.agilecoders.wicket.extensions.javascript.GoogleClosureJavaScriptCompressor;
-import de.agilecoders.wicket.extensions.javascript.YuiCssCompressor;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.editor.SummernoteConfig;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.editor.SummernoteFileStorage;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.editor.SummernoteStoredImageResourceReference;
-import de.agilecoders.wicket.less.BootstrapLess;
-import de.agilecoders.wicket.webjars.WicketWebjars;
-import nl.dries.wicket.hibernate.dozer.SessionFinderHolder;
+import javax.validation.Validator;
+import java.math.BigDecimal;
 
 /**
  * The web application class also serves as spring boot starting point by using
@@ -83,6 +83,9 @@ public class FormsWebApplication extends AuthenticatedWebApplication {
 
     @Autowired
     private SessionFinderService sessionFinderService;
+
+    @Autowired
+    private Validator validator;
 
     public static void main(final String[] args) {
         SpringApplication.run(FormsWebApplication.class, args);
@@ -181,6 +184,12 @@ public class FormsWebApplication extends AuthenticatedWebApplication {
         return SSAuthenticatedWebSession.class;
     }
 
+    protected void configureBeanValidation() {
+        BeanValidationConfiguration validationConfiguration = new BeanValidationConfiguration();
+        validationConfiguration.setValidatorProvider(() -> validator);
+        validationConfiguration.configure(this);
+    }
+
     /**
      * <ul>
      * <li>making the wicket components injectable by activating the
@@ -204,6 +213,9 @@ public class FormsWebApplication extends AuthenticatedWebApplication {
         // this ensures that spring DI works for wicket components and pages
         // see @SpringBean annotation
         getComponentInstantiationListeners().add(new SpringComponentInjector(this, applicationContext));
+
+        //wicket bean validation
+        configureBeanValidation();
 
         // this will scan packages for pages with @MountPath annotations and
         // automatically create URLs for them

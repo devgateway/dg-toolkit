@@ -31,6 +31,11 @@ public class PasswordFieldBootstrapFormComponent extends GenericBootstrapFormCom
         super(id, labelModel, model);
     }
 
+    @Override
+    protected void addWicketBeanValidator() {
+
+    }
+
     /**
      * @param id
      * @param model

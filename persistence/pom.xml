@@ -45,6 +45,14 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
         </dependency>
 
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
@@ -156,18 +164,6 @@
             <groupId>org.apache.derby</groupId>
             <artifactId>derbynet</artifactId>
             <version>${derby.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.1.0.Final</version>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.el</groupId>
-            <artifactId>javax.el-api</artifactId>
-            <version>2.2.5</version>
         </dependency>
 
         <dependency>

@@ -82,62 +82,62 @@ public class EditTestFormPage extends AbstractEditPage<TestForm> {
         super.onInitialize();
 
         TextFieldBootstrapFormComponent<String> textField = new TextFieldBootstrapFormComponent<>("textField");
-        textField.required();
+        //textField.required();
         editForm.add(textField);
 
         TextAreaFieldBootstrapFormComponent<String> textArea = new TextAreaFieldBootstrapFormComponent<>("textArea");
-        textArea.required();
+        //textArea.required();
         editForm.add(textArea);
 
         SummernoteBootstrapFormComponent summernote = new SummernoteBootstrapFormComponent("summernote");
-        summernote.required();
+//        summernote.required();
         //summernote.setEnabled(false);
         editForm.add(summernote);
 
         Select2ChoiceBootstrapFormComponent<Group> entitySelect = new Select2ChoiceBootstrapFormComponent<Group>(
                 "entitySelect", new GenericPersistableJpaRepositoryTextChoiceProvider<Group>(groupRepository));
-        entitySelect.required();
+//        entitySelect.required();
         editForm.add(entitySelect);
 
         Select2MultiChoiceBootstrapFormComponent<Role> entityMultiSelect =
                 new Select2MultiChoiceBootstrapFormComponent<Role>("entityMultiSelect",
                         new GenericPersistableJpaRepositoryTextChoiceProvider<Role>(roleRepository));
-        entityMultiSelect.required();
+//        entityMultiSelect.required();
         editForm.add(entityMultiSelect);
 
         CheckBoxBootstrapFormComponent checkbox = new CheckBoxBootstrapFormComponent("checkbox");
-        checkbox.required();
+//        checkbox.required();
         editForm.add(checkbox);
 
         CheckBoxPickerBootstrapFormComponent checkboxPicker =
                 new CheckBoxPickerBootstrapFormComponent("checkboxPicker");
-        checkboxPicker.required();
+//        checkboxPicker.required();
         editForm.add(checkboxPicker);
 
         CheckBoxToggleBootstrapFormComponent checkboxToggle =
                 new CheckBoxToggleBootstrapFormComponent("checkboxToggle");
-        checkboxToggle.required();
+//        checkboxToggle.required();
         editForm.add(checkboxToggle);
 
         DateFieldBootstrapFormComponent date = new DateFieldBootstrapFormComponent("date");
-        date.required();
+//        date.required();
         editForm.add(date);
 
         DateTimeFieldBootstrapFormComponent dateTime = new DateTimeFieldBootstrapFormComponent("dateTime");
-        dateTime.required();
+//        dateTime.required();
         editForm.add(dateTime);
 
         FileInputBootstrapFormComponent fileInput = new FileInputBootstrapFormComponent("fileInput");
-        fileInput.required();
+//        fileInput.required();
         editForm.add(fileInput);
 
         Select2ChoiceBootstrapFormComponent<Group> preloadedEntitySelect = new Select2ChoiceBootstrapFormComponent<>(
                 "preloadedEntitySelect", new GenericChoiceProvider<>(groupRepository.findAll()));
-        preloadedEntitySelect.required();
+//        preloadedEntitySelect.required();
         editForm.add(preloadedEntitySelect);
 
         ColorPickerBootstrapFormComponent colorPicker = new ColorPickerBootstrapFormComponent("colorPicker");
-        colorPicker.required();
+//        colorPicker.required();
         editForm.add(colorPicker);
     }
 

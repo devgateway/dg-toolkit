@@ -210,11 +210,11 @@ public class EditUserPage extends AbstractEditPage<Person> {
         userName.required();
         userName.getField().add(new UsernamePatternValidator());
         StringValue idPerson = getPageParameters().get(WebConstants.PARAM_ID);
-        if (!idPerson.isNull()) {
-            userName.getField().add(new UniqueUsernameValidator(idPerson.toLong()));
-        } else {
-            userName.getField().add(new UniqueUsernameValidator());
-        }
+//        if (!idPerson.isNull()) {
+//            userName.getField().add(new UniqueUsernameValidator(idPerson.toLong()));
+//        } else {
+//            userName.getField().add(new UniqueUsernameValidator());
+//        }
         userName.setIsFloatedInput(true);
         editForm.add(userName);
         MetaDataRoleAuthorizationStrategy.authorize(userName, Component.ENABLE, SecurityConstants.Roles.ROLE_ADMIN);

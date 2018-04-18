@@ -1,23 +1,26 @@
-/*******************************************************************************
+/**
  * Copyright (c) 2015 Development Gateway, Inc and others.
- *
+ * <p>
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the MIT License (MIT)
  * which accompanies this distribution, and is available at
  * https://opensource.org/licenses/MIT
- *
+ * <p>
  * Contributors:
  * Development Gateway - initial API and implementation
- *******************************************************************************/
+ */
 /**
  *
  */
 package org.devgateway.toolkit.persistence.dao;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import org.devgateway.toolkit.persistence.dao.categories.Group;
+import org.devgateway.toolkit.persistence.dao.categories.Role;
+import org.devgateway.toolkit.persistence.excel.annotation.ExcelExport;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.envers.Audited;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,13 +29,12 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
-import org.devgateway.toolkit.persistence.dao.categories.Group;
-import org.devgateway.toolkit.persistence.dao.categories.Role;
-import org.devgateway.toolkit.persistence.excel.annotation.ExcelExport;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.envers.Audited;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author mpostelnicu
@@ -46,42 +48,56 @@ public class TestForm extends AbstractAuditableEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ExcelExport
+    @NotNull
     private String textField;
 
     @ExcelExport
+    @NotNull
     @Column(length = DBConstants.MAX_DEFAULT_TEXT_LENGTH)
     private String textArea;
 
     @Column(length = DBConstants.MAX_DEFAULT_TEXT_LENGTH)
+    @NotNull
     private String summernote;
 
     @ExcelExport
+    @NotNull
     private Boolean checkbox;
 
+    @NotNull
     private Boolean checkboxPicker;
 
+    @NotNull
     private Boolean checkboxToggle;
 
+    @NotNull
     private String colorPicker;
 
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @ManyToOne
+    @NotNull
     private Group entitySelect;
 
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @ManyToMany
+    @NotNull
     private List<Role> entityMultiSelect;
 
+    @NotNull
     private Date date;
 
+    @NotNull
     private Date dateTime;
 
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @ManyToOne
+    @NotNull
     private Group preloadedEntitySelect;
 
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @NotEmpty
+    @Size(min = 1, max = 10)
     private Set<FileMetadata> fileInput;
 
     public TestForm() {

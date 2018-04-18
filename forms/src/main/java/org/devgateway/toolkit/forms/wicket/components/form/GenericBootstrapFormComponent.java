@@ -22,6 +22,7 @@ import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
 import org.apache.wicket.ajax.attributes.ThrottlingSettings;
 import org.apache.wicket.ajax.form.AjaxFormChoiceComponentUpdatingBehavior;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.bean.validation.PropertyValidator;
 import org.apache.wicket.event.IEvent;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.basic.Label;
@@ -166,6 +167,10 @@ public abstract class GenericBootstrapFormComponent<TYPE, FIELD extends FormComp
         this(id, new ResourceModel(id + ".label"), model);
     }
 
+    protected void addWicketBeanValidator() {
+        getField().add(new PropertyValidator<>());
+    }
+
     public GenericBootstrapFormComponent(final String id, final IModel<String> labelModel, final IModel<TYPE> model) {
         super(id, model);
         this.labelModel = labelModel;
@@ -246,6 +251,7 @@ public abstract class GenericBootstrapFormComponent<TYPE, FIELD extends FormComp
         border.add(viewModeField);
 
         tooltipLabel.setConfigWithTrigger(configWithTrigger);
+        addWicketBeanValidator();
     }
 
     /**
