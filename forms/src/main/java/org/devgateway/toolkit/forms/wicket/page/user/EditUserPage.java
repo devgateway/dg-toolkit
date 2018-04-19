@@ -49,8 +49,6 @@ import org.devgateway.toolkit.persistence.repository.RoleRepository;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.wicketstuff.annotation.mount.MountPath;
 
-import java.util.List;
-
 @AuthorizeInstantiation(SecurityConstants.Roles.ROLE_USER)
 @MountPath(value = "/account")
 public class EditUserPage extends AbstractEditPage<Person> {
@@ -112,33 +110,6 @@ public class EditUserPage extends AbstractEditPage<Person> {
 
         this.jpaRepository = userRepository;
         this.listPageClass = ListUserPage.class;
-    }
-
-    protected class UniqueUsernameValidator implements IValidator<String> {
-
-        private static final long serialVersionUID = -2412508063601996929L;
-        private Long userId;
-
-        public UniqueUsernameValidator() {
-            this.userId = new Long(-1);
-        }
-
-        public UniqueUsernameValidator(final Long userId) {
-            this.userId = userId;
-        }
-
-        @Override
-        public void validate(final IValidatable<String> validatable) {
-            String username = validatable.getValue();
-            List<Person> persons = userRepository.findByName(username);
-            for (int i = 0; i < persons.size(); i++) {
-                if (persons.get(i) != null && !persons.get(i).getId().equals(userId)) {
-                    ValidationError error = new ValidationError(getString("uniqueUser"));
-                    validatable.error(error);
-                    break;
-                }
-            }
-        }
     }
 
     protected class UniqueEmailAddressValidator implements IValidator<String> {
