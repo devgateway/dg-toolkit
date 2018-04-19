@@ -265,30 +265,6 @@ public class EditUserPage extends AbstractEditPage<Person> {
         }
     }
 
-    protected class UniqueUsernameValidator implements IValidator<String> {
-        private static final long serialVersionUID = -2412508063601996929L;
-
-        private Long userId;
-
-        public UniqueUsernameValidator() {
-            this.userId = Long.valueOf(-1);
-        }
-
-        public UniqueUsernameValidator(final Long userId) {
-            this.userId = userId;
-        }
-
-        @Override
-        public void validate(final IValidatable<String> validatable) {
-            final String username = validatable.getValue();
-            final Person person = personService.findByUsername(username);
-            if (person != null && !person.getId().equals(userId)) {
-                final ValidationError error = new ValidationError(getString("uniqueUser"));
-                validatable.error(error);
-            }
-        }
-    }
-
     protected class UniqueEmailAddressValidator implements IValidator<String> {
         private static final long serialVersionUID = 972971245491631372L;
 

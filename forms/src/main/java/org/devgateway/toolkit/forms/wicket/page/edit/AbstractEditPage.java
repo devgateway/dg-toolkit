@@ -17,11 +17,15 @@ import de.agilecoders.wicket.core.markup.html.bootstrap.form.BootstrapForm;
 import de.agilecoders.wicket.core.util.Attributes;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.ladda.LaddaAjaxButton;
 import nl.dries.wicket.hibernate.dozer.DozerModel;
+import org.apache.wicket.Application;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
+import org.apache.wicket.bean.validation.BeanValidationConfiguration;
+import org.apache.wicket.bean.validation.BeanValidationContext;
 import org.apache.wicket.markup.ComponentTag;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.Fragment;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
@@ -30,8 +34,10 @@ import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.util.string.interpolator.MapVariableInterpolator;
 import org.apache.wicket.util.visit.IVisit;
 import org.apache.wicket.util.visit.IVisitor;
+import org.apache.wicket.validation.IErrorMessageSource;
 import org.apache.wicket.validation.ValidationError;
 import org.devgateway.toolkit.forms.WebConstants;
 import org.devgateway.toolkit.forms.exceptions.NullJpaServiceException;
@@ -53,7 +59,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
 import javax.persistence.EntityManager;
+import javax.validation.Validator;
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * @author mpostelnicu Page used to make editing easy, extend to get easy access
@@ -135,6 +143,10 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
         return entityManager;
     }
 
+    @SpringBean
+    private Validator validator;
+
+
     public void flushReportingCaches() {
         if (reportsCacheService != null) {
             reportsCacheService.flushCache();
@@ -149,6 +161,22 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
 
     public Class<?> getNewInstanceClass() {
         return newInstance().getClass();
+    }
+
+    static final class FormErrorSource implements IErrorMessageSource, Serializable {
+        private final Form<?> form;
+
+        private FormErrorSource(final Form<?> form) {
+            this.form = form;
+        }
+
+        @Override
+        public String getMessage(final String key, final Map<String, Object> vars) {
+            String s = form.getString(key);
+            return new MapVariableInterpolator(s, vars, Application.get()
+                    .getResourceSettings()
+                    .getThrowExceptionOnMissingResource()).toString();
+        }
     }
 
     public GenericBootstrapValidationVisitor getBootstrapValidationVisitor(final AjaxRequestTarget target) {
@@ -267,9 +295,21 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
 
     }
 
+    protected void validateFormModelObject() {
+        T bean = editForm.getModelObject();
+        if (bean == null) {
+            return;
+        }
+        BeanValidationContext config = BeanValidationConfiguration.get();
+        validator.validate(bean).forEach(v -> editForm.error(config.getViolationTranslator().convert(v).getErrorMessage(
+                editForm.getFormErrorSource()))
+        );
+    }
 
     public class EditForm extends BootstrapForm<T> {
         private static final long serialVersionUID = -9127043819229346784L;
+        private FormErrorSource formErrorSource;
+
 
         /**
          * wrap the model with a {@link CompoundPropertyModel} to ease editing
@@ -282,15 +322,22 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
             setModel(compoundModel);
         }
 
-        public EditForm(final String id, final IModel<T> model) {
-            this(id);
-            setCompoundPropertyModel(model);
+        @Override
+        protected void onValidateModelObjects() {
+            super.onValidateModelObjects();
+            validateFormModelObject();
+        }
+
+        public FormErrorSource getFormErrorSource() {
+            return formErrorSource;
         }
 
         public EditForm(final String id) {
             super(id);
 
             setOutputMarkupId(true);
+
+            formErrorSource = new FormErrorSource(this);
 
             saveButton = getSaveEditPageButton();
             add(saveButton);
