@@ -15,10 +15,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.devgateway.toolkit.persistence.dao.categories.Group;
 import org.devgateway.toolkit.persistence.dao.categories.Role;
 import org.devgateway.toolkit.persistence.excel.annotation.ExcelExport;
+import org.devgateway.toolkit.persistence.validator.constraint.RetypePasswordCheck;
+import org.devgateway.toolkit.persistence.validator.constraint.UniqueEmail;
 import org.devgateway.toolkit.persistence.validator.constraint.UniqueUsername;
+import org.devgateway.toolkit.persistence.validator.constraint.ValidPassword;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -27,6 +32,8 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -35,19 +42,28 @@ import java.util.List;
 @Entity
 @Audited
 @UniqueUsername
+@ValidPassword
+@UniqueEmail
+@RetypePasswordCheck
 public class Person extends AbstractAuditableEntity implements Serializable, UserDetails {
     private static final long serialVersionUID = 109780377848343674L;
 
     @ExcelExport
+    @Pattern(regexp = "[a-zA-Z0-9]*", message = "{UsernamePatternValidator}")
+    @NotNull
     private String username;
 
     @ExcelExport
+    @NotNull
     private String firstName;
 
     @ExcelExport
+    @NotNull
     private String lastName;
 
     @ExcelExport
+    @Email
+    @NotNull
     private String email;
 
     @JsonIgnore
@@ -66,6 +82,7 @@ public class Person extends AbstractAuditableEntity implements Serializable, Use
 
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
     private Group group;
 
     @Transient
@@ -86,6 +103,7 @@ public class Person extends AbstractAuditableEntity implements Serializable, Use
 
     @ManyToMany(fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @NotEmpty
     private List<Role> roles;
 
     @Override
@@ -147,8 +165,7 @@ public class Person extends AbstractAuditableEntity implements Serializable, Use
     }
 
     /**
-     * @param authorities
-     *            the authorities to set
+     * @param authorities the authorities to set
      */
     public void setAuthorities(final Collection<? extends GrantedAuthority> authorities) {
         this.authorities = authorities;

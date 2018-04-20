@@ -16,17 +16,11 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.authroles.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.validation.EqualPasswordInputValidator;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.string.StringValue;
-import org.apache.wicket.validation.IValidatable;
-import org.apache.wicket.validation.IValidator;
-import org.apache.wicket.validation.ValidationError;
-import org.apache.wicket.validation.validator.EmailAddressValidator;
-import org.apache.wicket.validation.validator.PatternValidator;
 import org.devgateway.toolkit.forms.WebConstants;
 import org.devgateway.toolkit.forms.security.SecurityConstants;
 import org.devgateway.toolkit.forms.security.SecurityUtil;
@@ -90,7 +84,7 @@ public class EditUserPage extends AbstractEditPage<Person> {
             new PasswordFieldBootstrapFormComponent("plainPassword");
 
     protected final PasswordFieldBootstrapFormComponent cpassword =
-            new PasswordFieldBootstrapFormComponent("plainPasswordCheck", new Model<>());
+            new PasswordFieldBootstrapFormComponent("plainPasswordCheck");
 
     protected CheckBoxBootstrapFormComponent changePass = new CheckBoxBootstrapFormComponent("changePass") {
         private static final long serialVersionUID = -1591795804543610117L;
@@ -112,54 +106,6 @@ public class EditUserPage extends AbstractEditPage<Person> {
         this.listPageClass = ListUserPage.class;
     }
 
-    protected class UniqueEmailAddressValidator implements IValidator<String> {
-        private static final long serialVersionUID = 972971245491631372L;
-
-        private Long userId;
-
-        public UniqueEmailAddressValidator() {
-            this.userId = new Long(-1);
-        }
-
-        public UniqueEmailAddressValidator(final Long userId) {
-            this.userId = userId;
-        }
-
-        @Override
-        public void validate(final IValidatable<String> validatable) {
-            String emailAddress = validatable.getValue();
-            Person person = userRepository.findByEmail(emailAddress);
-            if (person != null && !person.getId().equals(userId)) {
-                ValidationError error = new ValidationError(getString("uniqueEmailAddress"));
-                validatable.error(error);
-            }
-        }
-    }
-
-    public class PasswordPatternValidator extends PatternValidator {
-        private static final long serialVersionUID = 7886016396095273777L;
-
-        // 1 digit, 1 lower, 1 upper, 1 symbol "@#$%", from 6 to 20
-        // private static final String PASSWORD_PATTERN =
-        // "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})";
-        // 1 digit, 1 caps letter, from 10 to 20
-        private static final String PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-z]).{10,20})";
-
-        public PasswordPatternValidator() {
-            super(PASSWORD_PATTERN);
-        }
-
-    }
-
-    public class UsernamePatternValidator extends PatternValidator {
-        private static final long serialVersionUID = -5456988677371244333L;
-
-        private static final String USERNAME_PATTERN = "[a-zA-Z0-9]*";
-
-        public UsernamePatternValidator() {
-            super(USERNAME_PATTERN);
-        }
-    }
 
     @Override
     protected Person newInstance() {
@@ -178,45 +124,27 @@ public class EditUserPage extends AbstractEditPage<Person> {
 
         super.onInitialize();
 
-        userName.required();
-        userName.getField().add(new UsernamePatternValidator());
         StringValue idPerson = getPageParameters().get(WebConstants.PARAM_ID);
-//        if (!idPerson.isNull()) {
-//            userName.getField().add(new UniqueUsernameValidator(idPerson.toLong()));
-//        } else {
-//            userName.getField().add(new UniqueUsernameValidator());
-//        }
         userName.setIsFloatedInput(true);
         editForm.add(userName);
         MetaDataRoleAuthorizationStrategy.authorize(userName, Component.ENABLE, SecurityConstants.Roles.ROLE_ADMIN);
 
-        firstName.required();
         firstName.setIsFloatedInput(true);
         editForm.add(firstName);
 
-        lastName.required();
         lastName.setIsFloatedInput(true);
         editForm.add(lastName);
 
-        email.required();
-        email.getField().add(EmailAddressValidator.getInstance());
-        if (!idPerson.isNull()) {
-            email.getField().add(new UniqueEmailAddressValidator(idPerson.toLong()));
-        } else {
-            email.getField().add(new UniqueEmailAddressValidator());
-        }
         email.setIsFloatedInput(true);
         editForm.add(email);
 
         title.setIsFloatedInput(true);
         editForm.add(title);
 
-        group.required();
         group.setIsFloatedInput(true);
         editForm.add(group);
         MetaDataRoleAuthorizationStrategy.authorize(group, Component.RENDER, SecurityConstants.Roles.ROLE_ADMIN);
 
-        roles.required();
         roles.getField().setOutputMarkupId(true);
         roles.setIsFloatedInput(true);
         editForm.add(roles);
@@ -239,7 +167,6 @@ public class EditUserPage extends AbstractEditPage<Person> {
         changePass.setIsFloatedInput(true);
         editForm.add(changePass);
 
-        password.getField().add(new PasswordPatternValidator());
         password.setOutputMarkupId(true);
         password.setIsFloatedInput(true);
         editForm.add(password);
@@ -247,8 +174,6 @@ public class EditUserPage extends AbstractEditPage<Person> {
         cpassword.setOutputMarkupId(true);
         cpassword.setIsFloatedInput(true);
         editForm.add(cpassword);
-
-        editForm.add(new EqualPasswordInputValidator(password.getField(), cpassword.getField()));
 
         enabled.setIsFloatedInput(true);
         editForm.add(enabled);
