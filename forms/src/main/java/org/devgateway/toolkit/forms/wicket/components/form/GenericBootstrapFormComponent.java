@@ -252,6 +252,7 @@ public abstract class GenericBootstrapFormComponent<TYPE, FIELD extends FormComp
             @Override
             protected void onError(final AjaxRequestTarget target, final RuntimeException e) {
                 target.add(border);
+                super.onError(target, e);
             }
         });
     }
