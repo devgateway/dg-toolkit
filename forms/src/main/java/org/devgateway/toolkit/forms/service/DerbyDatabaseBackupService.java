@@ -18,6 +18,7 @@ import java.net.UnknownHostException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
@@ -57,12 +58,22 @@ public class DerbyDatabaseBackupService {
     public void backupDatabase() {
         String databaseProductName;
 
+        Connection conn = null;
         try {
-            databaseProductName = datasource.getConnection().getMetaData().getDatabaseProductName();
+            conn = datasource.getConnection();
+            databaseProductName = conn.getMetaData().getDatabaseProductName();
         } catch (SQLException e) {
             LOGGER.error("Cannot read databaseProductName from Connection!"
                     + DerbyDatabaseBackupService.class.getCanonicalName() + " cannot continue!" + e);
             return;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         if (DATABASE_PRODUCT_NAME_APACHE_DERBY.equals(databaseProductName)) {
             backupDerbyDatabase();
