@@ -24,7 +24,7 @@
         <commons.lang3.version>3.2.1</commons.lang3.version>
         <guava.version>28.1-jre</guava.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
-        <hibernate-validator.version>6.0.18.Final</hibernate-validator.version>
+        <hibernate-validator.version>6.1.0.Final</hibernate-validator.version>
     </properties>
 
     <parent>
