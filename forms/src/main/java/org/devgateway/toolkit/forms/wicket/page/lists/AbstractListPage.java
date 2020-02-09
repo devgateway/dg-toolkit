@@ -23,6 +23,7 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColu
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.filter.FilterToolbar;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.filter.GoAndClearFilter;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.filter.IFilteredColumn;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
@@ -83,6 +84,8 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
 
     private BootstrapBookmarkablePageLink<T> editPageLink;
 
+    protected Boolean filterGoReset = false;
+
     protected Form excelForm;
 
     @SpringBean
@@ -137,7 +140,10 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
         add(filterForm);
 
         if (hasFilteredColumns()) {
-            dataTable.addTopToolbar(new FilterToolbar(dataTable, filterForm));
+            GoAndClearFilter go = new BootstrapGoClearFilter("go", filterForm);
+            FilterToolbar filterToolbar = new GoFilterToolbar(dataTable, go, filterForm);
+            filterToolbar.setVisibilityAllowed(filterGoReset);
+            dataTable.addTopToolbar(filterToolbar);
         }
 
         PageParameters pageParameters = new PageParameters();
