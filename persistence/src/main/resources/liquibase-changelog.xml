@@ -18,6 +18,7 @@
             <tableExists tableName="CATEGORY" />
         </preConditions>
         <insert tableName="CATEGORY">
+            <column name="ID" valueSequenceNext="HIBERNATE_SEQUENCE" />
             <column name="LABEL" value="group1" />
             <column name="DTYPE" value="Group" />
         </insert>
@@ -28,16 +29,12 @@
             <tableExists tableName="ROLE" />
         </preConditions>
         <insert tableName="ROLE">
+            <column name="ID" valueSequenceNext="HIBERNATE_SEQUENCE" />
             <column name="AUTHORITY" value="ROLE_USER" />
         </insert>
         <insert tableName="ROLE">
+            <column name="ID" valueSequenceNext="HIBERNATE_SEQUENCE" />
             <column name="AUTHORITY" value="ROLE_ADMIN" />
-        </insert>
-        <insert tableName="ROLE">
-            <column name="AUTHORITY" value="ROLE_EDITOR" />
-        </insert>
-        <insert tableName="ROLE">
-            <column name="AUTHORITY" value="ROLE_VALIDATOR" />
         </insert>
     </changeSet>
 
@@ -57,15 +54,6 @@
             <tableExists tableName="PERSON" />
         </preConditions>
         <sqlFile path="Person_roles.sql" />
-    </changeSet>
-
-    <changeSet id="9" author="Octavian Ciubotaru">
-        <preConditions onFail="CONTINUE">
-            <tableExists tableName="PERSON_ROLES" />
-            <tableExists tableName="ROLE" />
-            <tableExists tableName="PERSON" />
-        </preConditions>
-        <sqlFile path="Renamed_roles.sql" />
     </changeSet>
 
 </databaseChangeLog>
