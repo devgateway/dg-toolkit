@@ -149,6 +149,7 @@ public class LoginPage extends BasePage {
 
                     if (session.signIn(name, pass)) {
                         Person user = SecurityUtil.getCurrentAuthenticatedPerson();
+                        changeSessionId();
                         if (BooleanUtils.isTrue(user.getChangePasswordNextSignIn())) {
                             final PageParameters pageParam = new PageParameters();
                             pageParam.add(WebConstants.PARAM_ID, user.getId());
@@ -213,6 +214,11 @@ public class LoginPage extends BasePage {
                     referrer = savedRequest.getRedirectUrl();
                 }
             }
+        }
+
+        private void changeSessionId() {
+            HttpServletRequest request = (HttpServletRequest) RequestCycle.get().getRequest().getContainerRequest();
+            request.changeSessionId();
         }
     }
 }
