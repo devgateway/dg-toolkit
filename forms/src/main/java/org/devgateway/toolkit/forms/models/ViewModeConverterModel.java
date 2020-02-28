@@ -11,13 +11,13 @@
  *******************************************************************************/
 package org.devgateway.toolkit.forms.models;
 
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.Date;
+
 import org.apache.wicket.model.IModel;
 import org.devgateway.toolkit.forms.WebConstants;
 import org.devgateway.toolkit.forms.wicket.components.form.GenericBootstrapFormComponent;
-
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
 
 /**
  * @author mpostelnicu Converter for {@link GenericBootstrapFormComponent}
@@ -26,7 +26,8 @@ import java.util.Date;
  *         convert the model object to something printable (string-like)
  */
 public class ViewModeConverterModel<T> implements IModel<String> {
-    private static final SimpleDateFormat SDF = new SimpleDateFormat("dd-MM-yyyy");
+
+    private static final DateTimeFormatter SDF = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     private final IModel<T> originalModel;
 
@@ -55,7 +56,7 @@ public class ViewModeConverterModel<T> implements IModel<String> {
 
         // convert date to a nicer format
         if (object instanceof Date) {
-            return SDF.format((Date) object);
+            return SDF.format(((Date) object).toInstant());
         }
 
         // alas just return the string value of the object
