@@ -33,7 +33,7 @@ import java.io.Serializable;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @DiscriminatorColumn(length = Category.DTYPE_COLUMN_LENGTH)
 @Table(indexes = {@Index(columnList = "label"), @Index(columnList = "DTYPE")})
-public class Category extends AbstractAuditableEntity implements Serializable, Labelable {
+public class Category extends AbstractAuditableEntity implements Labelable {
 
     static final int DTYPE_COLUMN_LENGTH = 100;
 
