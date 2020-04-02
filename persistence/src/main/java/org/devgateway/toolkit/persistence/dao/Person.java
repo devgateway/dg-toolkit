@@ -35,7 +35,7 @@ import java.util.List;
 @Entity
 @Audited
 @Table(indexes = {@Index(columnList = "username")})
-public class Person extends AbstractAuditableEntity implements Serializable, UserDetails {
+public class Person extends AbstractAuditableEntity implements UserDetails {
     private static final long serialVersionUID = 109780377848343674L;
 
     @ExcelExport
