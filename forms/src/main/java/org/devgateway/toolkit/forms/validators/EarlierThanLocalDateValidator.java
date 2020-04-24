@@ -8,11 +8,11 @@ import java.time.LocalDate;
 public class EarlierThanLocalDateValidator extends AbstractEarlierThanDateValidator<LocalDate> {
     private static final long serialVersionUID = 3649981314668993772L;
 
-    public EarlierThanLocalDateValidator(LocalDate highDate) {
+    public EarlierThanLocalDateValidator(final LocalDate highDate) {
         super(highDate);
     }
 
-    protected boolean isBefore(LocalDate highValue, LocalDate currentValue) {
+    protected boolean isBefore(final LocalDate highValue, final LocalDate currentValue) {
         return highValue.isBefore(currentValue);
     }
 }

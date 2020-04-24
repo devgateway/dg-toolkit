@@ -26,11 +26,11 @@ import java.util.Date;
 public class EarlierThanDateValidator extends AbstractEarlierThanDateValidator<Date> {
     private static final long serialVersionUID = -6111787761451589941L;
 
-    public EarlierThanDateValidator(Date highDate) {
+    public EarlierThanDateValidator(final Date highDate) {
         super(highDate);
     }
 
-    protected boolean isBefore(Date highValue, Date currentValue) {
+    protected boolean isBefore(final Date highValue, final Date currentValue) {
         return highValue.before(currentValue);
     }
 }
