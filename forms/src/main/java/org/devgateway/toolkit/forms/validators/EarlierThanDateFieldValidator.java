@@ -14,9 +14,7 @@
  */
 package org.devgateway.toolkit.forms.validators;
 
-import org.apache.wicket.validation.IValidatable;
-import org.apache.wicket.validation.IValidator;
-import org.apache.wicket.validation.ValidationError;
+import org.devgateway.toolkit.forms.wicket.components.form.AbstractDateFieldBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.DateFieldBootstrapFormComponent;
 
 import java.util.Date;
@@ -25,35 +23,21 @@ import java.util.Date;
  * @author mpostelnicu {@link DateFieldBootstrapFormComponent} validator for
  *         dates that have a chronology
  */
-public class EarlierThanDateFieldValidator implements IValidator<Date> {
-
-    private static final long serialVersionUID = 1L;
-
-    private final DateFieldBootstrapFormComponent highDate;
+public class EarlierThanDateFieldValidator extends AbstractEarlierThanDateFieldValidator<Date> {
+    private static final long serialVersionUID = -2178272950402808280L;
 
     /**
      * Provide a {@link DateFieldBootstrapFormComponent} that has to be
      * chronologically after the current's
      * {@link DateFieldBootstrapFormComponent} validator
+     *
+     * @param highDate
      */
-    public EarlierThanDateFieldValidator(final DateFieldBootstrapFormComponent highDate) {
-        this.highDate = highDate;
+    public EarlierThanDateFieldValidator(AbstractDateFieldBootstrapFormComponent highDate) {
+        super(highDate);
     }
 
-    @Override
-    public void validate(final IValidatable<Date> validatable) {
-        highDate.getField().validate();
-        if (!highDate.getField().isValid()) {
-            return;
-        }
-
-        final Date endDate = highDate.getField().getConvertedInput();
-
-        if (endDate != null && validatable.getValue() != null && endDate.before(validatable.getValue())) {
-            final ValidationError error = new ValidationError(this);
-            error.setVariable("highDateName", highDate.getLabelModel().getObject());
-            validatable.error(error);
-        }
+    protected boolean isBefore(Date highValue, Date currentValue) {
+        return highValue.before(currentValue);
     }
-
 }

@@ -23,26 +23,14 @@ import java.util.Date;
  * @author idobre
  * @since 5/18/15
  */
-public class EarlierThanDateValidator implements IValidator<Date> {
+public class EarlierThanDateValidator extends AbstractEarlierThanDateValidator<Date> {
+    private static final long serialVersionUID = -6111787761451589941L;
 
-    private static final long serialVersionUID = 1L;
-
-    private Date highDate;
-
-    public EarlierThanDateValidator(final Date highDate) {
-        this.highDate = highDate;
+    public EarlierThanDateValidator(Date highDate) {
+        super(highDate);
     }
 
-    @Override
-    public void validate(final IValidatable<Date> validatable) {
-        if (highDate == null) {
-            return;
-        }
-
-        if (validatable.getValue() != null && highDate.before(validatable.getValue())) {
-            ValidationError error = new ValidationError(this);
-            error.setVariable("highDate", highDate);
-            validatable.error(error);
-        }
+    protected boolean isBefore(Date highValue, Date currentValue) {
+        return highValue.before(currentValue);
     }
 }

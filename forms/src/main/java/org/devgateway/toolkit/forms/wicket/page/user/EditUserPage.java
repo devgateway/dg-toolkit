@@ -13,6 +13,7 @@ package org.devgateway.toolkit.forms.wicket.page.user;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.wicket.Component;
+import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.authroles.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
@@ -30,6 +31,7 @@ import org.devgateway.toolkit.forms.WebConstants;
 import org.devgateway.toolkit.forms.security.SecurityConstants;
 import org.devgateway.toolkit.forms.security.SecurityUtil;
 import org.devgateway.toolkit.forms.service.SendEmailService;
+import org.devgateway.toolkit.forms.wicket.components.form.BootstrapCancelButton;
 import org.devgateway.toolkit.forms.wicket.components.form.CheckBoxToggleBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.PasswordFieldBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.Select2ChoiceBootstrapFormComponent;
@@ -217,13 +219,28 @@ public class EditUserPage extends AbstractEditPage<Person> {
                 }
 
                 jpaService.save(person);
-                if (!SecurityUtil.isCurrentUserAdmin()) {
-                    setResponsePage(Homepage.class);
-                } else {
-                    setResponsePage(listPageClass);
-                }
+                setResponsePage(EditUserPage.this.getResponsePage());
             }
         };
+    }
+
+    @Override
+    protected BootstrapCancelButton getCancelButton(String id) {
+        return new BootstrapCancelButton(id, new StringResourceModel("cancelButton", this, null)) {
+
+            @Override
+            protected void onSubmit(final AjaxRequestTarget target) {
+                setResponsePage(EditUserPage.this.getResponsePage());
+            }
+        };
+    }
+
+    private Class<? extends Page> getResponsePage() {
+        if (!SecurityUtil.isCurrentUserAdmin()) {
+            return Homepage.class;
+        } else {
+            return listPageClass;
+        }
     }
 
     public static class PasswordPatternValidator extends PatternValidator {
