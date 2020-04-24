@@ -225,7 +225,7 @@ public class EditUserPage extends AbstractEditPage<Person> {
     }
 
     @Override
-    protected BootstrapCancelButton getCancelButton(String id) {
+    protected BootstrapCancelButton getCancelButton(final String id) {
         return new BootstrapCancelButton(id, new StringResourceModel("cancelButton", this, null)) {
 
             @Override

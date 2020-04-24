@@ -55,7 +55,7 @@ public class DateFieldBootstrapFormComponent extends AbstractDateFieldBootstrapF
     }
 
     @Override
-    protected DateTextField newDateTextField(String id, AbstractDateTextFieldConfig config) {
+    protected DateTextField newDateTextField(final String id, final AbstractDateTextFieldConfig config) {
         return new DateTextField(id, initFieldModel(), (DateTextFieldConfig) config);
     }
 }

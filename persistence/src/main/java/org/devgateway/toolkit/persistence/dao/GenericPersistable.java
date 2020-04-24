@@ -32,12 +32,12 @@ public class GenericPersistable extends AbstractPersistable<Long> implements Ser
      * Custom serialization for id is needed since Spring Data JPA 2.x AbstractPersistable no longer implements
      * Serializable.
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
+    private void writeObject(final ObjectOutputStream out) throws IOException {
         out.writeObject(getId());
         out.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
         Long id = (Long) in.readObject();
 
         // If this entity was proxied by dozer-hibernate-model then do not restore the id since it will raise a

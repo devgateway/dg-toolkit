@@ -13,15 +13,16 @@ import java.time.LocalDate;
 public class LocalDateFieldBootstrapFormComponent extends AbstractDateFieldBootstrapFormComponent<LocalDate> {
     private static final long serialVersionUID = 7896197163912288823L;
 
-    public LocalDateFieldBootstrapFormComponent(String id, IModel<String> labelModel, IModel<LocalDate> model) {
+    public LocalDateFieldBootstrapFormComponent(final String id, final IModel<String> labelModel,
+                                                final IModel<LocalDate> model) {
         super(id, labelModel, model);
     }
 
-    public LocalDateFieldBootstrapFormComponent(String id) {
+    public LocalDateFieldBootstrapFormComponent(final String id) {
         super(id);
     }
 
-    public LocalDateFieldBootstrapFormComponent(String id, IModel<LocalDate> model) {
+    public LocalDateFieldBootstrapFormComponent(final String id, final IModel<LocalDate> model) {
         super(id, model);
     }
 
@@ -31,7 +32,7 @@ public class LocalDateFieldBootstrapFormComponent extends AbstractDateFieldBoots
     }
 
     @Override
-    protected LocalDateTextField newDateTextField(String id, AbstractDateTextFieldConfig config) {
+    protected LocalDateTextField newDateTextField(final String id, final AbstractDateTextFieldConfig config) {
         return new LocalDateTextField(id, initFieldModel(), (LocalDateTextFieldConfig) config);
     }
 }

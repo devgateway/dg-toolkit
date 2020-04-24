@@ -18,7 +18,8 @@ public class LocalDateFilteredBootstrapPropertyColumn<T, S> extends TextFiltered
         super(displayModel, sortProperty, propertyExpression);
     }
 
-    public LocalDateFilteredBootstrapPropertyColumn(final IModel<String> displayModel, final String propertyExpression) {
+    public LocalDateFilteredBootstrapPropertyColumn(final IModel<String> displayModel,
+                                                    final String propertyExpression) {
         super(displayModel, propertyExpression);
     }
 

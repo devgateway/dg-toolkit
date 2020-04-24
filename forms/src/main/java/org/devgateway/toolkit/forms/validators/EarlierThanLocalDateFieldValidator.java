@@ -17,11 +17,11 @@ public class EarlierThanLocalDateFieldValidator extends AbstractEarlierThanDateF
      *
      * @param highDate
      */
-    public EarlierThanLocalDateFieldValidator(LocalDateFieldBootstrapFormComponent highDate) {
+    public EarlierThanLocalDateFieldValidator(final LocalDateFieldBootstrapFormComponent highDate) {
         super(highDate);
     }
 
-    protected boolean isBefore(LocalDate highValue, LocalDate currentValue) {
+    protected boolean isBefore(final LocalDate highValue, final LocalDate currentValue) {
         return highValue.isBefore(currentValue);
     }
 }
