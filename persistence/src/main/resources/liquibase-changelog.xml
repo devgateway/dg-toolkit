@@ -14,6 +14,7 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet id="add-default-group" author="mpostelnicu">
+        <validCheckSum>8:7abae053c67b929de53498ce1748868c</validCheckSum>
         <preConditions onFail="CONTINUE">
             <tableExists tableName="CATEGORY" />
         </preConditions>
@@ -25,6 +26,7 @@
     </changeSet>
 
     <changeSet id="add-default-roles" author="mpostelnicu">
+        <validCheckSum>8:e31dc23b29d942fe2815d82d5221b197</validCheckSum>
         <preConditions onFail="CONTINUE">
             <tableExists tableName="ROLE" />
         </preConditions>
@@ -39,6 +41,7 @@
     </changeSet>
 
     <changeSet id="7" author="mpostelnicu">
+        <validCheckSum>8:c87b74e91f02d5de1c84407a0e1c392b</validCheckSum>
         <preConditions onFail="CONTINUE">
             <tableExists tableName="PERSON_ROLES" />
             <tableExists tableName="ROLE" />
@@ -48,6 +51,7 @@
     </changeSet>
 
     <changeSet id="8" author="mpostelnicu">
+        <validCheckSum>8:49ef355fb7188ab0735af4045ca7bcf1</validCheckSum>
         <preConditions onFail="CONTINUE">
             <tableExists tableName="PERSON_ROLES" />
             <tableExists tableName="ROLE" />
