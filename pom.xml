@@ -23,8 +23,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <liquibase.version>3.8.3</liquibase.version>
-        <spring.boot.version>2.1.11.RELEASE</spring.boot.version>
+        <liquibase.version>3.8.9</liquibase.version>
+        <spring.boot.version>2.2.6.RELEASE</spring.boot.version>
         <derby.version>10.14.2.0</derby.version>
         <poi.version>4.0.1</poi.version>
         <docker.image.prefix>devgateway/toolkit</docker.image.prefix>
@@ -38,7 +38,7 @@
         <module>persistence</module>
         <module>web</module>
         <module>ui</module>
-        <module>reporting</module>
+<!--        <module>reporting</module>-->
         <module>forms</module>
         <module>persistence-mongodb</module>
     </modules>
@@ -76,6 +76,11 @@
     </distributionManagement>
 
     <repositories>
+        <repository>
+            <id>jcenter-snapshots</id>
+            <name>jcenter</name>
+            <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
+        </repository>
         <repository>
             <id>jcenter</id>
             <url>https://jcenter.bintray.com/</url>
@@ -119,6 +124,11 @@
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
             <version>${derby.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.plugin</groupId>
+            <artifactId>spring-plugin-core</artifactId>
+            <version>2.0.0.RELEASE</version>
         </dependency>
     </dependencies>
 
