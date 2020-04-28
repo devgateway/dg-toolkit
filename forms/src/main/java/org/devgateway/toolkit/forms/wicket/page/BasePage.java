@@ -94,24 +94,6 @@ public abstract class BasePage extends GenericWebPage<Void> {
         return false;
     }
 
-    public static class HALRedirectPage extends RedirectPage {
-        private static final long serialVersionUID = -750983217518258464L;
-
-        public HALRedirectPage() {
-            super(WebApplication.get().getServletContext().getContextPath() + "/api/browser/");
-        }
-
-    }
-
-    public static class JminixRedirectPage extends RedirectPage {
-        private static final long serialVersionUID = -750983217518258464L;
-
-        public JminixRedirectPage() {
-            super(WebApplication.get().getServletContext().getContextPath() + "/jminix/");
-        }
-
-    }
-
     public static class UIRedirectPage extends RedirectPage {
         private static final long serialVersionUID = -750983217518258464L;
 
@@ -287,24 +269,6 @@ public abstract class BasePage extends GenericWebPage<Void> {
                 list.add(new MenuBookmarkablePageLink<SpringEndpointsPage>(SpringEndpointsPage.class, null,
                         new StringResourceModel("navbar.springendpoints", this, null))
                         .setIconType(FontAwesomeIconType.anchor));
-
-                list.add(new MenuBookmarkablePageLink<JminixRedirectPage>(JminixRedirectPage.class, null,
-                        new StringResourceModel("navbar.jminix", this, null)).setIconType(FontAwesomeIconType.bug));
-
-                final MenuBookmarkablePageLink<HALRedirectPage> halBrowserLink =
-                        new MenuBookmarkablePageLink<HALRedirectPage>(HALRedirectPage.class, null,
-                                new StringResourceModel("navbar.halbrowser", this, null)) {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            protected void onComponentTag(final ComponentTag tag) {
-                                super.onComponentTag(tag);
-                                tag.put("target", "_blank");
-                            }
-                        };
-                halBrowserLink.setIconType(FontAwesomeIconType.rss).setEnabled(true);
-
-                list.add(halBrowserLink);
 
                 final MenuBookmarkablePageLink<UIRedirectPage> uiBrowserLink =
                         new MenuBookmarkablePageLink<UIRedirectPage>(
