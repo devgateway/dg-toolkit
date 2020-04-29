@@ -42,6 +42,10 @@ body {
     margin-bottom: 20px;
 }
 
+.navbar-brand {
+    padding: 0px;
+}
+
 .mainContainer {
     /*
      * The main page content should have some height.

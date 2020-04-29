@@ -270,6 +270,7 @@
                     <include>**/*.css</include>
                     <include>**/*.js</include>
                     <include>**/*.png</include>
+                    <include>**/*.svg</include>
                     <include>**/*.gif</include>
                     <include>**/*.html</include>
                     <include>**/*.properties</include>
