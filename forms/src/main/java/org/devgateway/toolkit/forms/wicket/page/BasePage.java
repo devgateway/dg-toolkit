@@ -33,6 +33,7 @@ import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.markup.head.MetaDataHeaderItem;
 import org.apache.wicket.markup.head.filter.HeaderResponseContainer;
 import org.apache.wicket.markup.html.GenericWebPage;
 import org.apache.wicket.markup.html.TransparentWebMarkupContainer;
@@ -46,6 +47,7 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebSession;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
+import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.resource.JQueryResourceReference;
 import org.apache.wicket.util.string.StringValue;
 import org.devgateway.toolkit.forms.WebConstants;
@@ -195,6 +197,16 @@ public abstract class BasePage extends GenericWebPage<Void> {
         return languageDropDown;
     }
 
+    protected MetaDataHeaderItem getFavicon() {
+        PackageResourceReference faviconRef =
+                new PackageResourceReference(BaseStyles.class, "assets/img/icons/toolkit-favicon.svg");
+        MetaDataHeaderItem icon = MetaDataHeaderItem.forLinkTag("icon",
+                urlFor(faviconRef, null).toString());
+        icon.addTagAttribute("type", "image/svg+xml");
+        return icon;
+
+    }
+
     protected NavbarButton<LogoutPage> newLogoutMenu() {
         // logout menu
         final NavbarButton<LogoutPage> logoutMenu =
@@ -316,6 +328,8 @@ public abstract class BasePage extends GenericWebPage<Void> {
          * @see org.devgateway.toolkit.forms.wicket.styles.BaseStyles
          */
         navbar.setPosition(Navbar.Position.TOP);
+        navbar.setBrandImage(new PackageResourceReference(BaseStyles.class, "assets/img/toolkit-logo-0048.png"),
+                new StringResourceModel("brandImageAltText", this, null));
         navbar.setInverted(true);
 
         navbar.addComponents(NavbarComponents.transform(Navbar.ComponentPosition.RIGHT, newHomeMenu(), newAdminMenu(),
@@ -329,6 +343,9 @@ public abstract class BasePage extends GenericWebPage<Void> {
     @Override
     public void renderHead(final IHeaderResponse response) {
         super.renderHead(response);
+
+        //favicon
+        response.render(getFavicon());
 
         // Load Styles.
         response.render(CssHeaderItem.forReference(BaseStyles.INSTANCE));
