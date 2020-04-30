@@ -348,9 +348,9 @@ public abstract class BasePage extends GenericWebPage<Void> {
         response.render(getFavicon());
 
         // Load Styles.
-        response.render(CssHeaderItem.forReference(BaseStyles.INSTANCE));
         response.render(CssHeaderItem.forReference(BootstrapCssReference.instance()));
         response.render(CssHeaderItem.forReference(FontAwesomeCssReference.instance()));
+        response.render(CssHeaderItem.forReference(BaseStyles.INSTANCE));
 
         // Load Scripts.
         response.render(RespondJavaScriptReference.headerItem());
