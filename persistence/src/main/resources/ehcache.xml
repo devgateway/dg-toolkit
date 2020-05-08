@@ -14,9 +14,4 @@
         <jcache:mbeans enable-management="true" enable-statistics="true"/>
     </ehcache:cache>
 
-    <ehcache:cache alias="servicesCache">
-        <ehcache:heap>100000</ehcache:heap>
-        <jcache:mbeans enable-management="true" enable-statistics="true"/>
-    </ehcache:cache>
-
 </ehcache:config>

@@ -124,12 +124,6 @@ public class MarkupCacheService {
         if (excelExportCache != null) {
             excelExportCache.removeAll();
         }
-
-        // get the reports cache "servicesCache", declared in ehcache.xml
-        final Cache<Object, Object> servicesCache = cm.getCache("servicesCache");
-        if (servicesCache != null) {
-            servicesCache.removeAll();
-        }
     }
 
     private String createCacheKey(final String outputType, final String reportName, final String parameters) {
