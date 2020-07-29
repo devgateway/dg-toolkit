@@ -307,7 +307,7 @@ public abstract class BasePage extends GenericWebPage<Void> {
         };
 
         adminMenu.setIconType(FontAwesomeIconType.cog);
-        MetaDataRoleAuthorizationStrategy.authorize(adminMenu, Component.RENDER, SecurityConstants.Roles.ROLE_ADMIN);
+        MetaDataRoleAuthorizationStrategy.authorize(adminMenu, Component.RENDER, SecurityConstants.Roles.ROLE_USER);
 
         return adminMenu;
     }
