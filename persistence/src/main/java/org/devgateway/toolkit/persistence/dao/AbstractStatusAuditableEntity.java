@@ -7,6 +7,7 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
@@ -31,6 +32,10 @@ public abstract class AbstractStatusAuditableEntity extends AbstractAuditableEnt
     @JsonIgnore
     private String newStatusComment;
 
+    @JsonIgnore
+    @Transient
+    private Boolean removeLock = false;
+
     @Transient
     @JsonIgnore
     private Boolean visibleStatusComments = false;
@@ -38,6 +43,11 @@ public abstract class AbstractStatusAuditableEntity extends AbstractAuditableEnt
     @Transient
     @JsonIgnore
     private Boolean visibleStatusLabel = true;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Person checkedOutUser;
 
     @Override
     public String getStatus() {
@@ -79,5 +89,21 @@ public abstract class AbstractStatusAuditableEntity extends AbstractAuditableEnt
     public void setVisibleStatusLabel(final Boolean visibleStatusLabel) {
         this.visibleStatusLabel = visibleStatusLabel;
 
+    }
+
+    public Person getCheckedOutUser() {
+        return checkedOutUser;
+    }
+
+    public void setCheckedOutUser(final Person checkedOutUser) {
+        this.checkedOutUser = checkedOutUser;
+    }
+
+    public Boolean getRemoveLock() {
+        return removeLock;
+    }
+
+    public void setRemoveLock(Boolean removeLock) {
+        this.removeLock = removeLock;
     }
 }

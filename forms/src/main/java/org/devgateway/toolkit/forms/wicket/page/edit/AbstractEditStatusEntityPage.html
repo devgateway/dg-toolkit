@@ -62,10 +62,18 @@
     <input type="hidden" wicket:id="maxHeight"/>
 
     <div class="row">
-        <div class="col-md-12">
-            <span class="autosave" wicket:id="autoSaveLabel">AutoSaveLabel</span>
+        <div class="col-md-offset-1 col-md-10 autosave">
+            <span wicket:id="autoSaveLabel">AutoSaveLabel</span>
+            <span wicket:id="checkedOutTo">CheckedOutTo</span>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div wicket:id="removeLock"/>
+        </div>
+    </div>
+
 
     <wicket:fragment wicket:id="entityButtons">
         <span wicket:id="extraStatusEntityButtons"></span>

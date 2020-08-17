@@ -13,6 +13,7 @@ package org.devgateway.toolkit.forms.wicket.page.edit;
 
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.core.markup.html.bootstrap.dialog.TextContentModal;
+import de.agilecoders.wicket.core.markup.html.bootstrap.form.BootstrapCheckbox;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesomeIconType;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.ladda.LaddaAjaxButton;
 import org.apache.wicket.AttributeModifier;
@@ -44,6 +45,7 @@ import org.apache.wicket.util.visit.IVisitor;
 import org.devgateway.toolkit.forms.WebConstants;
 import org.devgateway.toolkit.forms.security.SecurityConstants;
 import org.devgateway.toolkit.forms.wicket.components.form.BootstrapSubmitButton;
+import org.devgateway.toolkit.forms.wicket.components.form.CheckBoxBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.CheckBoxYesNoToggleBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.GenericBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.OptionallyRequiredTextAreaFieldComponent;
@@ -64,7 +66,7 @@ import org.wicketstuff.select2.Select2Choice;
  * Page used to make editing easy, extend to get easy access to one entity for editing
  */
 public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAuditableEntity>
-        extends AbstractEditPage<T> implements DefaultValidatorRoleAssignable {
+        extends AbstractEditPage<T> implements DefaultValidatorRoleAssignable, ResourceLockable {
 
     protected Fragment entityButtonsFragment;
 
@@ -92,6 +94,8 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
 
     private Label autoSaveLabel;
 
+    private Label checkedOutToLabel;
+
     private HiddenField<Double> verticalPosition;
 
     private HiddenField<Double> maxHeight;
@@ -99,12 +103,18 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
     protected PageParameters afterSubmitNextParameters;
 
     protected Fragment extraStatusEntityButtonsFragment;
+    private CheckBoxBootstrapFormComponent removeLock;
 
     public AbstractEditStatusEntityPage(final PageParameters parameters) {
         super(parameters);
 
     }
 
+
+    @Override
+    public AbstractStatusAuditableEntity getLockableResource() {
+        return editForm.getModelObject();
+    }
 
     public class ButtonContentModal extends TextContentModal {
         private final Buttons.Type buttonType;
@@ -176,6 +186,7 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
     @Override
     protected void beforeSaveEntity(T saveable) {
         super.beforeSaveEntity(saveable);
+        beforeSaveLockableResource();
 
         afterSubmitNextParameters = parametersAfterSubmitAndNext();
     }
@@ -184,7 +195,13 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
     protected void onInitialize() {
         super.onInitialize();
 
+        if (!canEditLockableResource()) {
+            setResponsePage(listPageClass);
+        }
+
         addAutosaveLabel();
+        addCheckedOutTo();
+        addRemoveLock();
         addVerticalMaxPositionFields();
 
         statusLabel = addStatusLabel();
@@ -265,7 +282,7 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
     }
 
     public boolean isDisableEditingEvent() {
-            return !Strings.isEqual(editForm.getModelObject().getStatus(), DBConstants.Status.DRAFT) || isViewMode();
+        return !Strings.isEqual(editForm.getModelObject().getStatus(), DBConstants.Status.DRAFT) || isViewMode();
     }
 
 
@@ -273,6 +290,26 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
         return false;
 //        return SecurityConstants.Action.VIEW
 //                .equals(permissionEntityRenderableService.getAllowedAccess(this, editForm.getModelObject()));
+    }
+
+    private void addCheckedOutTo() {
+        if (getLockableResource().getCheckedOutUser() == null) {
+            checkedOutToLabel = new Label("checkedOutTo", Model.of(""));
+        } else {
+            checkedOutToLabel = new Label("checkedOutTo",
+                    new StringResourceModel("checkedOutToMessage", this)
+                            .setParameters(getCheckedOutUsername()));
+            checkedOutToLabel.setOutputMarkupPlaceholderTag(true);
+            checkedOutToLabel.setOutputMarkupId(true);
+        }
+        editForm.add(checkedOutToLabel);
+    }
+
+    private void addRemoveLock() {
+        removeLock = new CheckBoxBootstrapFormComponent("removeLock");
+        removeLock.setVisibilityAllowed(getLockableResource().getCheckedOutUser() != null);
+        editForm.add(removeLock);
+        MetaDataRoleAuthorizationStrategy.authorize(removeLock, Component.RENDER, SecurityConstants.Roles.ROLE_ADMIN);
     }
 
     private void addAutosaveLabel() {
@@ -584,6 +621,7 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
             @Override
             protected void onSubmit(final AjaxRequestTarget target) {
                 setStatusAppendComment(DBConstants.Status.DRAFT);
+                editForm.getModelObject().setRemoveLock(true);
                 super.onSubmit(target);
                 target.add(editForm);
                 setButtonsPermissions();
@@ -712,7 +750,7 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
             visit.dontGoDeeper();
 
             // do not process disabled fields
-            if (!object.isEnabledInHierarchy()) {
+            if (!object.isEnabledInHierarchy() || object.getField() instanceof BootstrapCheckbox) {
                 return;
             }
             object.getField().processInput();
