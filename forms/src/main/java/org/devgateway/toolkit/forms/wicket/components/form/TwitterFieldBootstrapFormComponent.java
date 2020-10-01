@@ -39,9 +39,14 @@ public class TwitterFieldBootstrapFormComponent extends TextFieldBootstrapFormCo
 
     @Override
     protected TextField<String> inputField(final String id, final IModel<String> model) {
-        return new TextField<String>(id, initFieldModel()) {
+        return new TextField<>(id, initFieldModel()) {
 
             private static final long serialVersionUID = 1L;
+
+            @Override
+            public boolean isRequired() {
+                return isFmMandatory(super::isRequired);
+            }
 
             @Override
             public void convertInput() {

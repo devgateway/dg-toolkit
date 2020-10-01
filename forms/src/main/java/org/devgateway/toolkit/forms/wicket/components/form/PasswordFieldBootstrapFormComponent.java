@@ -44,6 +44,11 @@ public class PasswordFieldBootstrapFormComponent extends GenericBootstrapFormCom
 
     @Override
     protected PasswordTextField inputField(final String id, final IModel<String> model) {
-        return new PasswordTextField(id, initFieldModel());
+        return new PasswordTextField(id, initFieldModel()) {
+            @Override
+            public boolean isRequired() {
+                return isFmMandatory(super::isRequired);
+            }
+        };
     }
 }

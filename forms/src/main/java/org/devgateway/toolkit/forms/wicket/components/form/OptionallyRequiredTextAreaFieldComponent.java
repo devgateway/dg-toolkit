@@ -55,7 +55,7 @@ public abstract class OptionallyRequiredTextAreaFieldComponent<TYPE> extends Tex
         TextArea<TYPE> textArea = new TextArea<TYPE>(id, initFieldModel()) {
             @Override
             public boolean isRequired() {
-                return OptionallyRequiredTextAreaFieldComponent.this.isRequired();
+                return OptionallyRequiredTextAreaFieldComponent.this.isRequired() && isFmMandatory(super::isRequired);
             }
         };
         return textArea;

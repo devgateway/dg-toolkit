@@ -16,14 +16,12 @@ import de.agilecoders.wicket.core.markup.html.bootstrap.form.FormGroup;
 import de.agilecoders.wicket.core.markup.html.bootstrap.form.InputBehavior;
 import de.agilecoders.wicket.core.markup.html.bootstrap.form.InputBehavior.Size;
 import de.agilecoders.wicket.core.util.Attributes;
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormChoiceComponentUpdatingBehavior;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.event.IEvent;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.TransparentWebMarkupContainer;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckGroup;
 import org.apache.wicket.markup.html.form.FormComponent;
@@ -31,6 +29,8 @@ import org.apache.wicket.markup.html.form.RadioGroup;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.ResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.devgateway.toolkit.forms.fm.DgFmFormComponentSubject;
 import org.devgateway.toolkit.forms.models.SubComponentWrapModel;
 import org.devgateway.toolkit.forms.models.ViewModeConverterModel;
 import org.devgateway.toolkit.forms.wicket.components.FieldPanel;
@@ -38,12 +38,11 @@ import org.devgateway.toolkit.forms.wicket.components.TooltipLabel;
 import org.devgateway.toolkit.forms.wicket.components.util.ComponentUtil;
 import org.devgateway.toolkit.forms.wicket.page.edit.AbstractEditPage;
 import org.devgateway.toolkit.persistence.dao.GenericPersistable;
+import org.devgateway.toolkit.web.fm.service.DgFmService;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.query.AuditEntity;
 import org.hibernate.envers.query.AuditQuery;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
@@ -52,7 +51,8 @@ import java.util.List;
 /**
  * @author mpostelnicu
  */
-public abstract class GenericBootstrapFormComponent<TYPE, FIELD extends FormComponent<TYPE>> extends FieldPanel<TYPE> {
+public abstract class GenericBootstrapFormComponent<TYPE, FIELD extends FormComponent<TYPE>>
+        extends FieldPanel<TYPE> implements DgFmFormComponentSubject {
     private static final long serialVersionUID = -7051128382707812456L;
 
     protected FormGroup border;
@@ -62,6 +62,31 @@ public abstract class GenericBootstrapFormComponent<TYPE, FIELD extends FormComp
     private InputBehavior sizeBehavior;
 
     private TooltipConfig.OpenTrigger configWithTrigger = TooltipConfig.OpenTrigger.hover;
+
+    @SpringBean
+    protected DgFmService fmService;
+
+    private String fmName;
+
+    @Override
+    public DgFmService getFmService() {
+        return fmService;
+    }
+
+    @Override
+    public String getFmName() {
+        return fmName;
+    }
+
+    @Override
+    public void setFmName(String fmName) {
+        this.fmName = fmName;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isFmEnabled(super::isEnabled);
+    }
 
     // use a flag if we need to display a Tooltip since StringResourceModel it's expensive
     private Boolean showTooltip = false;
