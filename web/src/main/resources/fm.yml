@@ -1,0 +1,12 @@
+- name: testForm
+  mixins:
+    - form
+  mandatory: yes
+  enabled: yes
+  softDeps:
+    - testForm/textField
+- name: testForm/textField
+  mixins:
+    - field
+- name: field
+- name: form
