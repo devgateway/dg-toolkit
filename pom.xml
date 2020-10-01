@@ -22,9 +22,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <liquibase.version>3.8.9</liquibase.version>
-        <spring.boot.version>2.2.6.RELEASE</spring.boot.version>
+        <spring.boot.version>2.3.4.RELEASE</spring.boot.version>
         <derby.version>10.14.2.0</derby.version>
         <poi.version>4.0.1</poi.version>
         <docker.image.prefix>devgateway/toolkit</docker.image.prefix>
@@ -33,6 +33,7 @@
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <javassist.version>3.27.0-GA</javassist.version>
+        <jdk-serializable-functional.version>1.9.0</jdk-serializable-functional.version>
     </properties>
 
     <modules>
@@ -122,11 +123,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
-            <version>${derby.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>${javassist.version}</version>
@@ -136,6 +132,7 @@
             <artifactId>spring-plugin-core</artifactId>
             <version>2.0.0.RELEASE</version>
         </dependency>
+
     </dependencies>
 
     <dependencyManagement>
@@ -202,8 +199,8 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
+                        <source>11</source>
+                        <target>11</target>
                     </configuration>
                 </plugin>
             </plugins>
