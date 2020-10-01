@@ -37,6 +37,7 @@ import org.apache.wicket.validation.ValidationError;
 import org.devgateway.toolkit.forms.WebConstants;
 import org.devgateway.toolkit.forms.exceptions.NullJpaServiceException;
 import org.devgateway.toolkit.forms.exceptions.NullListPageClassException;
+import org.devgateway.toolkit.forms.fm.DgFmFormComponentSubject;
 import org.devgateway.toolkit.forms.util.MarkupCacheService;
 import org.devgateway.toolkit.forms.wicket.components.ComponentUtil;
 import org.devgateway.toolkit.forms.wicket.components.form.BootstrapCancelButton;
@@ -47,9 +48,11 @@ import org.devgateway.toolkit.forms.wicket.components.form.SummernoteBootstrapFo
 import org.devgateway.toolkit.forms.wicket.page.BasePage;
 import org.devgateway.toolkit.persistence.dao.GenericPersistable;
 import org.devgateway.toolkit.persistence.service.BaseJpaService;
+import org.devgateway.toolkit.web.fm.service.DgFmService;
 import org.devgateway.toolkit.reporting.spring.util.ReportsCacheService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import javax.persistence.EntityManager;
@@ -59,10 +62,37 @@ import java.io.Serializable;
  * @author mpostelnicu Page used to make editing easy, extend to get easy access
  * to one entity for editing
  */
-public abstract class AbstractEditPage<T extends GenericPersistable & Serializable> extends BasePage {
-    private static final long serialVersionUID = -5928614890244382103L;
+public abstract class AbstractEditPage<T extends GenericPersistable & Serializable> extends BasePage
+        implements DgFmFormComponentSubject {
+    private static final long yoserialVersionUID = -5928614890244382103L;
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractEditPage.class);
+
+    @SpringBean
+    protected DgFmService fmService;
+
+    private String fmName;
+
+    @Override
+    public DgFmService getFmService() {
+        return fmService;
+    }
+
+    @Override
+    public String getFmName() {
+        return fmName;
+    }
+
+
+    @Override
+    public void setFmName(String fmName) {
+        this.fmName = fmName;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isFmEnabled(super::isEnabled);
+    }
 
     /**
      * Factory method for the new instance of the entity being editing. This

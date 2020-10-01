@@ -74,7 +74,9 @@ public class EditTestFormPage extends AbstractEditPage<TestForm> {
     protected void onInitialize() {
         super.onInitialize();
 
+        attachFm("testForm");
         TextFieldBootstrapFormComponent<String> textField = new TextFieldBootstrapFormComponent<>("textField");
+        textField.attachFm("testForm/textFiseld");
         editForm.add(textField);
         textField.required();
         textField.enableRevisionsView();
