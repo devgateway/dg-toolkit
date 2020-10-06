@@ -17,7 +17,7 @@ public enum FileSizeUnit {
 
     private final String name;
 
-    FileSizeUnit(String name) {
+    FileSizeUnit(final String name) {
         this.name = name;
     }
 

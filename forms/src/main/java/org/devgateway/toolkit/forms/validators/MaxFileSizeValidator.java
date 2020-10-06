@@ -22,14 +22,14 @@ public class MaxFileSizeValidator implements IValidator<Collection<FileMetadata>
     private FileSize maxFileSize;
     private long maxFileSizeBytes;
 
-    public MaxFileSizeValidator(FileSize maxFileSize, FormComponent formComponent) {
+    public MaxFileSizeValidator(final FileSize maxFileSize, final FormComponent formComponent) {
         this.maxFileSizeBytes = maxFileSize.toBytes();
         this.maxFileSize = maxFileSize.toHighest();
         this.formComponent = formComponent;
     }
 
     @Override
-    public void validate(IValidatable<Collection<FileMetadata>> validatable) {
+    public void validate(final IValidatable<Collection<FileMetadata>> validatable) {
         NumberFormat formatter = getNumberFormat();
 
         validatable.getValue().stream().filter(m -> m.getSize() > maxFileSizeBytes).forEach(m -> {

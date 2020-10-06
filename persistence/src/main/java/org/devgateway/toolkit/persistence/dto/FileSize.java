@@ -15,11 +15,11 @@ public class FileSize implements Serializable {
 
     private final FileSizeUnit unit;
 
-    public FileSize(double sizeInBytes) {
+    public FileSize(final double sizeInBytes) {
         this(sizeInBytes, FileSizeUnit.B);
     }
 
-    public FileSize(double sizePerUnit, FileSizeUnit fileSizeUnit) {
+    public FileSize(final double sizePerUnit, final FileSizeUnit fileSizeUnit) {
         this.value = sizePerUnit;
         this.unit = fileSizeUnit;
     }
