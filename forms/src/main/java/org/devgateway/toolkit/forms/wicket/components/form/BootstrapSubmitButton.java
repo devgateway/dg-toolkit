@@ -27,7 +27,7 @@ import org.devgateway.toolkit.forms.wicket.components.ComponentUtil;
  * @author mpostelnicu
  * 
  */
-public abstract class BootstrapSubmitButton extends LaddaAjaxButton {
+public abstract class BootstrapSubmitButton extends DgFmLaddaAjaxButton {
 
     private static final long serialVersionUID = 8306451874943978003L;
 

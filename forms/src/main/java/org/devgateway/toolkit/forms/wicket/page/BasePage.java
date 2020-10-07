@@ -27,6 +27,7 @@ import de.agilecoders.wicket.core.util.CssClassNames;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesomeCssReference;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesomeIconType;
 import org.apache.wicket.Component;
+import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.Page;
 import org.apache.wicket.authroles.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.ComponentTag;
@@ -47,8 +48,11 @@ import org.apache.wicket.protocol.http.WebSession;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.resource.JQueryResourceReference;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.string.StringValue;
 import org.devgateway.toolkit.forms.WebConstants;
+import org.devgateway.toolkit.forms.fm.DgFmAttachingVisitor;
+import org.devgateway.toolkit.forms.fm.DgFmFormComponentSubject;
 import org.devgateway.toolkit.forms.security.SecurityConstants;
 import org.devgateway.toolkit.forms.security.SecurityUtil;
 import org.devgateway.toolkit.forms.wicket.page.lists.ListGroupPage;
@@ -58,6 +62,7 @@ import org.devgateway.toolkit.forms.wicket.page.user.EditUserPage;
 import org.devgateway.toolkit.forms.wicket.page.user.LogoutPage;
 import org.devgateway.toolkit.forms.wicket.styles.BaseStyles;
 import org.devgateway.toolkit.persistence.dao.Person;
+import org.devgateway.toolkit.web.fm.service.DgFmService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +75,7 @@ import java.util.Locale;
  *
  * @author miha
  */
-public abstract class BasePage extends GenericWebPage<Void> {
+public abstract class BasePage extends GenericWebPage<Void> implements DgFmFormComponentSubject  {
     private static final long serialVersionUID = -4179591658828697452L;
 
     protected static final Logger logger = LoggerFactory.getLogger(BasePage.class);
@@ -86,6 +91,31 @@ public abstract class BasePage extends GenericWebPage<Void> {
     private Navbar navbar;
 
     protected NotificationPanel feedbackPanel;
+
+    @SpringBean
+    protected DgFmService fmService;
+
+    @Override
+    public DgFmService getFmService() {
+        return fmService;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isFmEnabled(super::isEnabled);
+    }
+
+    @Override
+    public boolean isVisible() {
+        return isFmVisible(super::isVisible);
+    }
+
+//    @Override
+//    public MarkupContainer add(Component... children) {
+//        MarkupContainer ret = super.add(children);
+//        attachFmForChildren(children);
+//        return ret;
+//    }
 
     /**
      * Determines if this page has a fluid container for the content or not.
@@ -187,6 +217,12 @@ public abstract class BasePage extends GenericWebPage<Void> {
         final NotificationPanel notificationPanel = new NotificationPanel("feedback");
         notificationPanel.setOutputMarkupId(true);
         return notificationPanel;
+    }
+
+    @Override
+    protected void onBeforeRender() {
+        super.onBeforeRender();
+        visitChildren(new DgFmAttachingVisitor());
     }
 
     public NavbarDropDownButton newLanguageMenu() {

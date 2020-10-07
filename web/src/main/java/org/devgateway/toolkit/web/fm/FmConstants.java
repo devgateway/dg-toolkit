@@ -8,4 +8,6 @@ public final class FmConstants {
     public static final Boolean DEFAULT_MANDATORY = false;
 
     public static final Boolean DEFAULT_ENABLED = true;
+
+    public static final Boolean DEFAULT_VISIBLE = true;
 }

@@ -63,31 +63,6 @@ public abstract class GenericBootstrapFormComponent<TYPE, FIELD extends FormComp
 
     private TooltipConfig.OpenTrigger configWithTrigger = TooltipConfig.OpenTrigger.hover;
 
-    @SpringBean
-    protected DgFmService fmService;
-
-    private String fmName;
-
-    @Override
-    public DgFmService getFmService() {
-        return fmService;
-    }
-
-    @Override
-    public String getFmName() {
-        return fmName;
-    }
-
-    @Override
-    public void setFmName(String fmName) {
-        this.fmName = fmName;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return isFmEnabled(super::isEnabled);
-    }
-
     // use a flag if we need to display a Tooltip since StringResourceModel it's expensive
     private Boolean showTooltip = false;
 
