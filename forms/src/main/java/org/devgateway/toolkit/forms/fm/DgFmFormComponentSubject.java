@@ -1,11 +1,11 @@
 package org.devgateway.toolkit.forms.fm;
 
-import org.danekja.java.util.function.serializable.SerializableBooleanSupplier;
 import org.devgateway.toolkit.web.fm.DgFmInputSubject;
 
-public interface DgFmFormComponentSubject extends DgFmInputSubject {
+/**
+ * Interface that should be attached to objects for FM behavior, providing input, and also bound to wicket
+ * {@link org.apache.wicket.Component} because it extends {@link DgFmComponentSubject}
+ */
+public interface DgFmFormComponentSubject extends DgFmInputSubject, DgFmComponentSubject {
 
-    default boolean isFmMandatory(SerializableBooleanSupplier requiredSupplier) {
-        return requiredSupplier.getAsBoolean() && isFmMandatory();
-    }
 }

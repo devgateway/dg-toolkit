@@ -74,13 +74,10 @@ public class EditTestFormPage extends AbstractEditStatusEntityPage<TestForm> {
     protected void onInitialize() {
         super.onInitialize();
 
-        attachFm("testForm");
+        editForm.attachFm("testForm");
         TextFieldBootstrapFormComponent<String> textField = new TextFieldBootstrapFormComponent<>("textField");
-        textField.attachFm("testForm/textFiseld");
         editForm.add(textField);
-        textField.required();
         textField.enableRevisionsView();
-
 
         TextAreaFieldBootstrapFormComponent<String> textArea = new TextAreaFieldBootstrapFormComponent<>("textArea");
         editForm.add(textArea);

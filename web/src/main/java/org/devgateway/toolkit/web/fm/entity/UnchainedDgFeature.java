@@ -1,6 +1,7 @@
 package org.devgateway.toolkit.web.fm.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.devgateway.toolkit.web.fm.FmConstants;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -9,9 +10,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class UnchainedDgFeature implements Serializable {
     private String name;
 
-    private Boolean mandatory = false;
+    private Boolean mandatory = FmConstants.DEFAULT_MANDATORY;
 
-    private Boolean enabled = true;
+    private Boolean enabled = FmConstants.DEFAULT_ENABLED;
+
+    private Boolean visible = FmConstants.DEFAULT_VISIBLE;
 
     @JsonIgnore
     private String hash;
@@ -84,6 +87,14 @@ public class UnchainedDgFeature implements Serializable {
 
     public void setSoftDeps(Set<String> softDeps) {
         this.softDeps = softDeps;
+    }
+
+    public Boolean getVisible() {
+        return visible;
+    }
+
+    public void setVisible(Boolean visible) {
+        this.visible = visible;
     }
 
     @Override

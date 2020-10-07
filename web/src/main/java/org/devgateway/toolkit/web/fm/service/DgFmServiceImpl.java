@@ -2,6 +2,7 @@ package org.devgateway.toolkit.web.fm.service;
 
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.beanutils.BeanUtils;
+import org.devgateway.toolkit.web.fm.FmConstants;
 import org.devgateway.toolkit.web.fm.entity.DgFeature;
 import org.devgateway.toolkit.web.fm.entity.UnchainedDgFeature;
 import org.slf4j.Logger;
@@ -45,6 +46,17 @@ public class DgFmServiceImpl implements DgFmService {
     @Value("${fm.printFeaturesInUseOnExit:#{false}}")
     private Boolean printFeaturesInUseOnExit;
 
+    @Value("${fm.defaultsForMissingFeatures:#{true}}")
+    private Boolean defaultsForMissingFeatures;
+
+    public DgFeature createFeatureWithDefaults(String fmName) {
+        DgFeature dgFeature = new DgFeature();
+        dgFeature.setName(fmName);
+        dgFeature.setEnabled(FmConstants.DEFAULT_ENABLED);
+        dgFeature.setMandatory(FmConstants.DEFAULT_MANDATORY);
+        dgFeature.setVisible(FmConstants.DEFAULT_VISIBLE);
+        return dgFeature;
+    }
 
     @PostConstruct
     public void init() {
@@ -54,6 +66,10 @@ public class DgFmServiceImpl implements DgFmService {
         chainFeatures(mutableChainedFeatures);
         projectProperties(mutableChainedFeatures);
         features = ImmutableMap.copyOf(mutableChainedFeatures);
+        emitProjectedFm();
+    }
+
+    private void emitProjectedFm() {
         if (emitProjectedFm) {
             dgFeatureMarshallerService.marshall("_projectedFm.yml", features.values());
         }
@@ -61,6 +77,7 @@ public class DgFmServiceImpl implements DgFmService {
 
     @PreDestroy
     public void decommission() {
+        emitProjectedFm();
         if (printFeaturesInUseOnExit) {
             logger.info(String.format("FM: Features that have been used during this session: %s ",
                     featuresInUse.toString()));
@@ -72,7 +89,11 @@ public class DgFmServiceImpl implements DgFmService {
         logger.debug(String.format("FM: Querying feature %s", featureName));
         DgFeature dgFeature = features.get(featureName);
         if (dgFeature == null) {
-            throw new RuntimeException(String.format("Unknown feature with name %s", featureName));
+            if (defaultsForMissingFeatures) {
+                dgFeature = createFeatureWithDefaults(featureName);
+            } else {
+                throw new RuntimeException(String.format("Unknown feature with name %s", featureName));
+            }
         }
         featuresInUse.add(featureName);
         return dgFeature;
@@ -90,8 +111,25 @@ public class DgFmServiceImpl implements DgFmService {
     }
 
     @Override
+    public Boolean isFeatureVisible(String featureName) {
+        return getFeature(featureName).getVisible();
+    }
+
+
+    @Override
     public Boolean isFeatureMandatory(String featureName) {
         return getFeature(featureName).getMandatory();
+    }
+
+    @Override
+    public String getParentCombinedFmName(String parentFmName, String featureName) {
+        if (parentFmName == null) {
+            return null;
+        }
+        if (featureName == null) {
+            throw new RuntimeException("Cannot create a parent combined fmName for a null fmName");
+        }
+        return parentFmName + "/" + featureName;
     }
 
     private void projectProperties(Map<String, DgFeature> features) {
@@ -106,6 +144,7 @@ public class DgFmServiceImpl implements DgFmService {
         projectChainedHardDeps(feature);
         projectChainedSoftDeps(feature);
         projectEnabled(feature);
+        projectVisible(feature);
         projectMandatory(feature);
         logger.debug(String.format("FM: Projected properties for feature %s", feature));
     }
@@ -120,15 +159,23 @@ public class DgFmServiceImpl implements DgFmService {
         logger.debug(String.format("FM: Projecting enabled for feature %s", feature));
         feature.setEnabled(feature.getEnabled() && feature
                 .getChainedMixins().stream().map(DgFeature::getEnabled).reduce(Boolean::logicalAnd)
-                .orElse(true));
+                .orElse(FmConstants.DEFAULT_ENABLED));
         logger.debug(String.format("FM: Projected enabled for feature %s", feature));
+    }
+
+    private void projectVisible(DgFeature feature) {
+        logger.debug(String.format("FM: Projecting visible for feature %s", feature));
+        feature.setVisible(feature.getVisible() && feature
+                .getChainedMixins().stream().map(DgFeature::getVisible).reduce(Boolean::logicalAnd)
+                .orElse(FmConstants.DEFAULT_VISIBLE));
+        logger.debug(String.format("FM: Projected visible for feature %s", feature));
     }
 
     private void projectMandatory(DgFeature feature) {
         logger.debug(String.format("FM: Projecting mandatory for feature %s", feature));
-        feature.setMandatory(feature.getMandatory() && feature
-                .getChainedMixins().stream().map(DgFeature::getMandatory).reduce(Boolean::logicalAnd)
-                .orElse(true));
+        feature.setMandatory(feature.getMandatory() || feature
+                .getChainedMixins().stream().map(DgFeature::getMandatory).reduce(Boolean::logicalOr)
+                .orElse(FmConstants.DEFAULT_MANDATORY));
         logger.debug(String.format("FM: Projected mandatory for feature %s", feature));
     }
 
@@ -186,13 +233,13 @@ public class DgFmServiceImpl implements DgFmService {
                 throw new RuntimeException(String.format("Unknown %s %s in feature %s", refName, r, fName));
             }
             return dgFeature;
-        }).map(f-> chainFeature(features, f)).forEach(referenceConsumer);
+        }).map(f -> chainFeature(features, f)).forEach(referenceConsumer);
         logger.debug(String.format("FM: Chained references for field %s and reference %s", fName, refName));
     }
 
     private void chainFeatures(Map<String, DgFeature> features) {
         logger.debug("FM: Chaining features");
-        unchainedFeatures.values().forEach(f->chainFeature(features, f));
+        unchainedFeatures.values().forEach(f -> chainFeature(features, f));
         logger.debug("FM: Chained features");
     }
 

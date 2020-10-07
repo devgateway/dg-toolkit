@@ -202,6 +202,7 @@ public class FormsWebApplication extends AuthenticatedWebApplication {
     protected void init() {
         super.init();
 
+        //getFrameworkSettings().setSerializer(new SpringDevToolsSerializer());
         // add allowed woff2 extension
         IPackageResourceGuard packageResourceGuard = getResourceSettings().getPackageResourceGuard();
         if (packageResourceGuard instanceof SecurePackageResourceGuard) {
