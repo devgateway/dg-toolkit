@@ -115,6 +115,11 @@ public class DgFmServiceImpl implements DgFmService {
         return getFeature(featureName).getVisible();
     }
 
+    @Override
+    public int featuresCount() {
+        return features.size();
+    }
+
 
     @Override
     public Boolean isFeatureMandatory(String featureName) {

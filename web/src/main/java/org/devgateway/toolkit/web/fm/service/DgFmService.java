@@ -9,6 +9,8 @@ public interface DgFmService {
     Boolean isFeatureMandatory(String featureName);
     Boolean isFeatureVisible(String featureName);
 
+    int featuresCount();
+
     /**
      * Creates the {@link DgFeature#getName()} by combining the parent FM name with the current feature name.
      * This is generally used by hierarchical component containers (like Wicket) to compile a hierarchical
