@@ -10,6 +10,7 @@
 
 - name: testForm/textField
   mandatory: yes
+  enabled: no
   mixins:
     - field
 

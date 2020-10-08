@@ -8,6 +8,7 @@ public interface DgFmService {
     Boolean isFeatureEnabled(String featureName);
     Boolean isFeatureMandatory(String featureName);
     Boolean isFeatureVisible(String featureName);
+    Boolean isFmActive();
 
     int featuresCount();
 
