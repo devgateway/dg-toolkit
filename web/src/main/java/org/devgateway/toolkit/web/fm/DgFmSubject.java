@@ -19,6 +19,7 @@ public interface DgFmSubject {
     }
 
     void setFmName(String fmName);
+
     String getFmName();
 
     default boolean isFmAttached() {
@@ -34,6 +35,9 @@ public interface DgFmSubject {
      * @param fmName
      */
     default void attachFm(String fmName) {
+        if (!getFmService().isFmActive()) {
+            return;
+        }
         if (StringUtils.isEmpty(fmName)) {
             throw new RuntimeException("Cannot attach to empty fmName!");
         }
@@ -43,6 +47,7 @@ public interface DgFmSubject {
 
     /**
      * combines testing for {@link DgFeature#getEnabled()} with the enabled supplier from the component.
+     *
      * @param enabledSupplier
      * @return
      */
@@ -52,6 +57,7 @@ public interface DgFmSubject {
 
     /**
      * combines testing for {@link DgFeature#getVisible()} with the visible supplier from the component.
+     *
      * @param visibleSupplier
      * @return
      */

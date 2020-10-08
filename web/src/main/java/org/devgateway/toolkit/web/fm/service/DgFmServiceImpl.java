@@ -47,6 +47,9 @@ public class DgFmServiceImpl implements DgFmService {
     @Value("${fm.emitProjected:#{false}}")
     private Boolean emitProjectedFm;
 
+    @Value("${fm.active:#{false}}")
+    private Boolean fmActive;
+
     @Value("${fm.printFeaturesInUseOnExit:#{false}}")
     private Boolean printFeaturesInUseOnExit;
 
@@ -64,13 +67,18 @@ public class DgFmServiceImpl implements DgFmService {
 
     @PostConstruct
     public void init() {
-        featuresInUse = ConcurrentHashMap.newKeySet();
-        hydrateUnchainedFeatures();
-        Map<String, DgFeature> mutableChainedFeatures = new ConcurrentHashMap<>();
-        chainFeatures(mutableChainedFeatures);
-        projectProperties(mutableChainedFeatures);
-        features = ImmutableMap.copyOf(mutableChainedFeatures);
-        emitProjectedFm();
+        if (fmActive) {
+            featuresInUse = ConcurrentHashMap.newKeySet();
+            hydrateUnchainedFeatures();
+            Map<String, DgFeature> mutableChainedFeatures = new ConcurrentHashMap<>();
+            chainFeatures(mutableChainedFeatures);
+            projectProperties(mutableChainedFeatures);
+            features = ImmutableMap.copyOf(mutableChainedFeatures);
+            emitProjectedFm();
+            logger.info("FM: Done initializing the Feature Manager.");
+        } else {
+            logger.info("FM: Feature Manager is disabled.");
+        }
     }
 
     private void emitProjectedFm() {
@@ -81,6 +89,9 @@ public class DgFmServiceImpl implements DgFmService {
 
     @PreDestroy
     public void decommission() {
+        if (!fmActive) {
+            return;
+        }
         emitProjectedFm();
         if (printFeaturesInUseOnExit) {
             logger.info(String.format("FM: Features that have been used during this session: %s ",
@@ -90,6 +101,9 @@ public class DgFmServiceImpl implements DgFmService {
 
     @Override
     public DgFeature getFeature(String featureName) {
+        if (!fmActive) {
+            return null;
+        }
         logger.debug(String.format("FM: Querying feature %s", featureName));
         DgFeature dgFeature = features.get(featureName);
         if (dgFeature == null) {
@@ -105,6 +119,9 @@ public class DgFmServiceImpl implements DgFmService {
 
     @Override
     public Boolean hasFeature(String featureName) {
+        if (!fmActive) {
+            return null;
+        }
         logger.debug(String.format("FM: Checking existence of feature %s", featureName));
         return features.containsKey(featureName);
     }
@@ -122,7 +139,15 @@ public class DgFmServiceImpl implements DgFmService {
     }
 
     @Override
+    public Boolean isFmActive() {
+        return fmActive;
+    }
+
+    @Override
     public int featuresCount() {
+        if (!fmActive) {
+            return 0;
+        }
         return features.size();
     }
 
