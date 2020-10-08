@@ -10,10 +10,19 @@
   mandatory: no
   enabled: no
 
+- name: tender
+
 - name: tenderField
   visible: yes
   enabled: yes
+  hardDeps:
+    - tender
+  softDeps:
+    - tender
 
 - name: tenderChart
   hardDeps:
     - tenderField
+    - tender
+  softDeps:
+    - tender
