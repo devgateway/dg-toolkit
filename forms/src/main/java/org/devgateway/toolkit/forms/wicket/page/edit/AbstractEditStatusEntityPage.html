@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<body>
+<wicket:extend>
+
+    <wicket:child/>
+
+    <br/>
+    <hr class="edit-separator"/>
+    <br/>
+
+    <div class="row status-section">
+        <div class="col-md-4">
+          <div class="form-group">
+
+          </div>
+            <label class="control-label">Current Status:</label>
+            <span wicket:id="statusLabel">Status Label</span>
+        </div>
+
+        <div class="col-md-8" wicket:id="visibleStatusComments"/>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" wicket:id="statusCommentsWrapper">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Status change</th>
+                    <th>Comment</th>
+                    <th>User</th>
+                    <th>Date & Time</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr wicket:id="statusComments">
+                    <td>
+                        <span wicket:id="commentIdx"></span>
+                    </td>
+                    <td>
+                        <span wicket:id="status"></span>
+                    </td>
+                    <td>
+                        <span wicket:id="comment"></span>
+                    </td>
+                    <td>
+                        <span wicket:id="createdBy"></span>
+                    </td>
+                    <td>
+                        <span wicket:id="created"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div wicket:id="newStatusComment"/>
+    </div>
+
+    <input type="hidden" wicket:id="verticalPosition"/>
+    <input type="hidden" wicket:id="maxHeight"/>
+
+    <div class="row">
+        <div class="col-md-offset-1 col-md-10 autosave">
+            <span wicket:id="autoSaveLabel">AutoSaveLabel</span>
+            <span wicket:id="checkedOutTo">CheckedOutTo</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div wicket:id="removeLock"/>
+        </div>
+    </div>
+
+
+    <wicket:fragment wicket:id="entityButtons">
+        <span wicket:id="extraStatusEntityButtons"></span>
+        <button wicket:id="saveSubmit" type="button" class="btn btn-info btn-form-action">Save</button>
+        <button wicket:id="saveContinue" type="button" class="btn btn-info btn-form-action btn-save-as-draft" style="display: none;">Save & Continue</button>
+        <button wicket:id="submitAndNext" type="button" class="btn btn-info btn-form-action">Save & Next</button>
+        <button wicket:id="approve" type="button" class="btn btn-success btn-form-action">Save & Approve</button>
+        <button wicket:id="revertToDraft" type="button" class="btn btn-warning btn-form-action">Save & Validate</button>
+    </wicket:fragment>
+
+    <wicket:fragment wicket:id="noButtons"></wicket:fragment>
+</wicket:extend>
+</body>
+</html>
