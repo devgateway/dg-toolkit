@@ -11,8 +11,10 @@ import org.devgateway.toolkit.web.spring.AsyncControllerLookupService;
 import org.devgateway.toolkit.web.spring.util.AsyncBeanParamControllerMethodCallable;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -31,7 +33,7 @@ public class DgFmTest extends AbstractWebTest {
     public void testFmInit() {
         Assert.assertTrue("Must have at least one feature", fmService.featuresCount() > 0);
         Assert.assertNotNull(fmService.getFeature("testField"));
-        Assert.assertTrue(fmService.getFeature("testField").getEnabled());
+        Assert.assertFalse(fmService.getFeature("testField").getEnabled());
         Assert.assertFalse(fmService.getFeature("testField").getVisible());
     }
 
@@ -55,5 +57,12 @@ public class DgFmTest extends AbstractWebTest {
         Assert.assertFalse(fmService.getFeature("field").getEnabled());
         Assert.assertFalse(fmService.getFeature("testField").getEnabled());
         Assert.assertEquals(FmConstants.DEFAULT_VISIBLE, fmService.getFeature("tenderChart").getEnabled());
+    }
+
+
+    @Test
+    public void testHardDeps() {
+        Assert.assertTrue( fmService.getFeature("tenderChart").getHardDeps().contains("tenderField"));
+        Assert.assertTrue( fmService.getFeature("tenderChart").getHardDeps().contains("tender"));
     }
 }

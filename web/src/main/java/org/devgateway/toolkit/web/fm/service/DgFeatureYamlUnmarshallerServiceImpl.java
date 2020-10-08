@@ -10,11 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@Validated
 public class DgFeatureYamlUnmarshallerServiceImpl implements DgFeatureYamlUnmarshallerService {
 
     private static final Logger logger = LoggerFactory.getLogger(DgFeatureYamlUnmarshallerServiceImpl.class);
@@ -39,6 +43,11 @@ public class DgFeatureYamlUnmarshallerServiceImpl implements DgFeatureYamlUnmars
         }
     }
 
+    @Validated
+    public UnchainedDgFeature validateUnchainedDgFeature(@Valid UnchainedDgFeature unchainedDgFeature) {
+        return unchainedDgFeature;
+    }
+
     @Override
     public List<UnchainedDgFeature> unmarshall(String resourceLocation) {
         logger.debug(String.format("FM: Unmarshalling resource location %s", resourceLocation));
@@ -46,12 +55,12 @@ public class DgFeatureYamlUnmarshallerServiceImpl implements DgFeatureYamlUnmars
             List<UnchainedDgFeature> features = yamlObjectMapper.readValue(getClass().getClassLoader()
                             .getResourceAsStream(resourceLocation),
                     yamlObjectMapper.getTypeFactory().constructCollectionType(List.class, UnchainedDgFeature.class));
-            features.forEach(f -> {
+            List<UnchainedDgFeature> ret = features.stream().peek(f -> {
                 f.setResourceLocation(resourceLocation);
                 f.setHash(createHash(f));
-            });
+            }).map(this::validateUnchainedDgFeature).collect(Collectors.toList());
             logger.debug(String.format("FM: Unmarshalled resource location %s", resourceLocation));
-            return features;
+            return ret;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

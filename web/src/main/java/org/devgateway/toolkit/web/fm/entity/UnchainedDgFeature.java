@@ -3,11 +3,15 @@ package org.devgateway.toolkit.web.fm.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.devgateway.toolkit.web.fm.FmConstants;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class UnchainedDgFeature implements Serializable {
+
+    @NotEmpty
     private String name;
 
     private Boolean mandatory = FmConstants.DEFAULT_MANDATORY;
@@ -21,8 +25,11 @@ public class UnchainedDgFeature implements Serializable {
 
     private String resourceLocation;
 
+    @NotNull
     private Set<String> mixins = ConcurrentHashMap.newKeySet();
+    @NotNull
     private Set<String> hardDeps = ConcurrentHashMap.newKeySet();
+    @NotNull
     private Set<String> softDeps = ConcurrentHashMap.newKeySet();
 
     public String getName() {

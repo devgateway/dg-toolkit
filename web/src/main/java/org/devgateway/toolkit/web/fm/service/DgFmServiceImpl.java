@@ -10,11 +10,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -22,8 +24,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
+@Validated
 public class DgFmServiceImpl implements DgFmService {
 
     private static final Logger logger = LoggerFactory.getLogger(DgFmServiceImpl.class);
@@ -107,11 +111,13 @@ public class DgFmServiceImpl implements DgFmService {
 
     @Override
     public Boolean isFeatureEnabled(String featureName) {
+        logger.debug(String.format("FM: Querying enabled for feature %s", featureName));
         return getFeature(featureName).getEnabled();
     }
 
     @Override
     public Boolean isFeatureVisible(String featureName) {
+        logger.debug(String.format("FM: Querying visible for feature %s", featureName));
         return getFeature(featureName).getVisible();
     }
 
@@ -123,6 +129,7 @@ public class DgFmServiceImpl implements DgFmService {
 
     @Override
     public Boolean isFeatureMandatory(String featureName) {
+        logger.debug(String.format("FM: Querying mandatory for feature %s", featureName));
         return getFeature(featureName).getMandatory();
     }
 
@@ -211,11 +218,12 @@ public class DgFmServiceImpl implements DgFmService {
                 .collect(Collectors.toSet());
     }
 
-    private void hydrateUnchainedFeatures() {
+    public void hydrateUnchainedFeatures() {
         logger.debug("FM: Hydrating unchained features");
         Map<String, UnchainedDgFeature> mutableUnchainedFeatures = new ConcurrentHashMap<>();
-        featureUnmarshallerService.getResources().stream()
-                .map(featureUnmarshallerService::unmarshall).flatMap(Collection::stream).forEach(f -> {
+        Stream<List<UnchainedDgFeature>> listStream = featureUnmarshallerService.getResources().stream()
+                .map(featureUnmarshallerService::unmarshall);
+        listStream.flatMap(Collection::stream).forEach(f -> {
             UnchainedDgFeature existingFeature = mutableUnchainedFeatures.get(f.getName());
             if (!Objects.isNull(existingFeature)) {
                 throw new RuntimeException(String.format("Feature %s from resource %s cannot be loaded. Another "
