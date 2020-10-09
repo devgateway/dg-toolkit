@@ -13,11 +13,11 @@ import org.devgateway.toolkit.web.fm.entity.DgFeature;
  */
 public interface DgFmComponentSubject extends DgFmSubject {
 
-    MetaDataKey<String> FM_NAME_KEY = new MetaDataKey<>() {
+    MetaDataKey<String> FM_NAME_KEY = new MetaDataKey<String>() {
         private static final long serialVersionUID = 1L;
     };
 
-    MetaDataKey<Boolean> FM_NO_AUTO_ATTACH_KEY = new MetaDataKey<>() {
+    MetaDataKey<Boolean> FM_NO_AUTO_ATTACH_KEY = new MetaDataKey<Boolean>() {
         private static final long serialVersionUID = 1L;
     };
 

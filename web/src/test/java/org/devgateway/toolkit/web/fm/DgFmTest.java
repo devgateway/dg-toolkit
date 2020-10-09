@@ -5,19 +5,10 @@ package org.devgateway.toolkit.web.fm;
 
 import org.devgateway.toolkit.web.AbstractWebTest;
 import org.devgateway.toolkit.web.fm.service.DgFmService;
-import org.devgateway.toolkit.web.rest.controller.DummyController;
-import org.devgateway.toolkit.web.rest.entity.Dummy;
-import org.devgateway.toolkit.web.spring.AsyncControllerLookupService;
-import org.devgateway.toolkit.web.spring.util.AsyncBeanParamControllerMethodCallable;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 /**
  * @author mihai

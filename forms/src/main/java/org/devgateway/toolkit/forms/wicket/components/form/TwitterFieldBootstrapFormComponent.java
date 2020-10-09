@@ -39,7 +39,7 @@ public class TwitterFieldBootstrapFormComponent extends TextFieldBootstrapFormCo
 
     @Override
     protected TextField<String> inputField(final String id, final IModel<String> model) {
-        return new TextField<>(id, initFieldModel()) {
+        return new TextField<String>(id, initFieldModel()) {
 
             private static final long serialVersionUID = 1L;
 
