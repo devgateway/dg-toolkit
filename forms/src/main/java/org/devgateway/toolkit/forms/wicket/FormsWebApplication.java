@@ -44,6 +44,7 @@ import org.apache.wicket.request.resource.caching.version.CachingResourceVersion
 import org.apache.wicket.settings.RequestCycleSettings.RenderStrategy;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.util.file.Folder;
+import org.devgateway.toolkit.forms.serializer.SpringDevToolsSerializer;
 import org.devgateway.toolkit.forms.service.SessionFinderService;
 import org.devgateway.toolkit.forms.wicket.components.form.SummernoteJpaStorageService;
 import org.devgateway.toolkit.forms.wicket.converters.NonNumericFilteredBigDecimalConverter;
@@ -209,6 +210,8 @@ public class FormsWebApplication extends AuthenticatedWebApplication {
             SecurePackageResourceGuard guard = (SecurePackageResourceGuard) packageResourceGuard;
             guard.addPattern("+*.woff2");
         }
+
+        getFrameworkSettings().setSerializer(new SpringDevToolsSerializer());
 
         // this ensures that spring DI works for wicket components and pages
         // see @SpringBean annotation
