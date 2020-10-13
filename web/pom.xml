@@ -18,8 +18,7 @@
         <start-class>org.devgateway.toolkit.web.spring.WebApplication</start-class>
         <java.version>1.8</java.version>
         <ooxml-schemas.version>1.4</ooxml-schemas.version>
-        <swagger.version>2.9.2</swagger.version>
-        <jminix.version>1.2.0</jminix.version>
+        <swagger.version>3.0.0-SNAPSHOT</swagger.version>
     </properties>
 
     <parent>
@@ -79,12 +78,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jminix</groupId>
-            <artifactId>jminix</artifactId>
-            <version>${jminix.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>de.flapdoodle.embed</groupId>
             <artifactId>de.flapdoodle.embed.mongo</artifactId>
             <scope>test</scope>
@@ -133,6 +126,12 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-spring-webmvc</artifactId>
             <version>${swagger.version}</version>
         </dependency>
 

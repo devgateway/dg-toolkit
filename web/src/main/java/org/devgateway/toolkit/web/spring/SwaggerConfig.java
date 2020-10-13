@@ -7,16 +7,16 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 
 @Configuration
-@EnableSwagger2
+@EnableSwagger2WebMvc
 public class SwaggerConfig {
     @Bean
     public Docket yaliApi() {
-        return new Docket(DocumentationType.SWAGGER_2).groupName("Api").apiInfo(yaliApiInfo())
+        return new Docket(DocumentationType.SWAGGER_2).groupName("Api").apiInfo(apiInfo())
                 .select().apis(RequestHandlerSelectors.any()).paths(regex("/api/.*")).build();
     }
 
@@ -26,9 +26,9 @@ public class SwaggerConfig {
                 .select().apis(RequestHandlerSelectors.any()).paths(regex("/manage/.*")).build();
     }
 
-    private ApiInfo yaliApiInfo() {
-        return new ApiInfoBuilder().title("Application API")
-                .description("These endpoints are used to feed reports").license("MIT License")
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder().title("DG-Toolkit Application API")
+                .description("Endpoints description").license("MIT License")
                 .licenseUrl("https://opensource.org/licenses/MIT").version("1.0").build();
     }
 

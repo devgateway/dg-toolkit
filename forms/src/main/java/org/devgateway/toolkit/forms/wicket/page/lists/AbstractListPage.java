@@ -27,7 +27,7 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.filter.GoAnd
 import org.apache.wicket.extensions.markup.html.repeater.data.table.filter.IFilteredColumn;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.markup.html.panel.GenericPanel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -74,7 +74,7 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
 
     protected Class<? extends AbstractEditPage<T>> editPageClass;
 
-    private AjaxFallbackBootstrapDataTable<T, String> dataTable;
+    protected AjaxFallbackBootstrapDataTable<T, String> dataTable;
 
     protected List<IColumn<T, String>> columns;
 
@@ -156,8 +156,10 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
         add(editPageLink);
     }
 
-    public class ActionPanel extends Panel {
+    public class ActionPanel extends GenericPanel<T> {
         private static final long serialVersionUID = 5821419128121941939L;
+        protected PageParameters pageParameters;
+        protected BootstrapBookmarkablePageLink<T> editItemPageLink;
 
         /**
          * @param id
@@ -174,11 +176,12 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
                 pageParameters.set(WebConstants.PARAM_ID, entity.getId());
             }
 
-            BootstrapBookmarkablePageLink<T> editPageLink =
+            editItemPageLink =
                     new BootstrapBookmarkablePageLink<>("edit", editPageClass, pageParameters, Buttons.Type.Info);
-            editPageLink.setIconType(FontAwesomeIconType.edit).setSize(Size.Small)
+            editItemPageLink.setIconType(FontAwesomeIconType.edit).setSize(Size.Small)
                     .setLabel(new StringResourceModel("edit", AbstractListPage.this, null));
-            add(editPageLink);
+            add(editItemPageLink);
+
 
             add(getPrintButton(pageParameters));
 

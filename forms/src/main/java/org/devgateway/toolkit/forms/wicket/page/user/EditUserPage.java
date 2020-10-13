@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.devgateway.toolkit.forms.wicket.page.user;
 
-import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
