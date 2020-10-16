@@ -11,13 +11,14 @@
  *******************************************************************************/
 package org.devgateway.toolkit.forms.util;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
+
 import org.apache.wicket.markup.Markup;
 import org.apache.wicket.markup.MarkupCache;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.cache.Cache;
+import javax.cache.CacheManager;
 import java.util.Collection;
 
 /**
@@ -30,6 +31,10 @@ import java.util.Collection;
  */
 @Component
 public class MarkupCacheService {
+
+    @Autowired
+    private CacheManager cm;
+
     /**
      * start-key used to identify the reports markup
      */
@@ -61,12 +66,11 @@ public class MarkupCacheService {
      */
     public void addPentahoReportToCache(final String outputType, final String reportName, final String parameters,
                                         final byte[] buffer) {
-        final CacheManager cm = CacheManager.getInstance();
 
         // get the reports cache "reportsCache", declared in ehcache.xml
-        final Cache cache = cm.getCache("reportsCache");
+        final Cache<String, byte[]> cache = cm.getCache("reportsCache", String.class, byte[].class);
 
-        cache.put(new Element(createCacheKey(outputType, reportName, parameters), buffer));
+        cache.put(createCacheKey(outputType, reportName, parameters), buffer);
     }
 
     /**
@@ -78,15 +82,14 @@ public class MarkupCacheService {
      * @return
      */
     public byte[] getPentahoReportFromCache(final String outputType, final String reportName, final String parameters) {
-        final CacheManager cm = CacheManager.getInstance();
 
         // get the reports cache "reportsCache", declared in ehcache.xml
-        final Cache cache = cm.getCache("reportsCache");
+        final Cache<String, byte[]> cache = cm.getCache("reportsCache", String.class, byte[].class);
 
         final String key = createCacheKey(outputType, reportName, parameters);
 
-        if (cache.isKeyInCache(key)) {
-            return (byte[]) cache.get(key).getObjectValue();
+        if (cache.containsKey(key)) {
+            return cache.get(key);
         }
 
         return null;
@@ -96,10 +99,9 @@ public class MarkupCacheService {
      * Remove from cache all reports content
      */
     public void clearPentahoReportsCache() {
-        final CacheManager cm = CacheManager.getInstance();
 
         // get the reports cache "reportsCache", declared in ehcache.xml
-        final Cache cache = cm.getCache("reportsCache");
+        final Cache<Object, Object> cache = cm.getCache("reportsCache");
 
         if (cache != null) {
             cache.removeAll();
@@ -110,16 +112,15 @@ public class MarkupCacheService {
      * Remove from cache all APIs/Services content.
      */
     public void clearAllCaches() {
-        final CacheManager cm = CacheManager.getInstance();
 
         // get the reports cache "reportsApiCache", declared in ehcache.xml
-        final Cache cache = cm.getCache("reportsApiCache");
+        final Cache<Object, Object> cache = cm.getCache("reportsApiCache");
         if (cache != null) {
             cache.removeAll();
         }
 
         // get the reports cache "excelExportCache", declared in ehcache.xml
-        final Cache excelExportCache = cm.getCache("excelExportCache");
+        final Cache<Object, Object> excelExportCache = cm.getCache("excelExportCache");
         if (excelExportCache != null) {
             excelExportCache.removeAll();
         }
