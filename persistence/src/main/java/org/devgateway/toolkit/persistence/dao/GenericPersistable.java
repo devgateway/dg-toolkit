@@ -22,11 +22,20 @@ import java.io.Serializable;
 import nl.dries.wicket.hibernate.dozer.proxy.Proxied;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Version;
+
 /**
  * @author mpostelnicu
  *
  */
+@MappedSuperclass
 public class GenericPersistable extends AbstractPersistable<Long> implements Serializable {
+
+    @Version
+    @Column(name = "optlock")
+    private Integer version;
 
     /**
      * Custom serialization for id is needed since Spring Data JPA 2.x AbstractPersistable no longer implements
@@ -47,5 +56,9 @@ public class GenericPersistable extends AbstractPersistable<Long> implements Ser
         }
 
         in.defaultReadObject();
+    }
+
+    public Integer getVersion() {
+        return version;
     }
 }
