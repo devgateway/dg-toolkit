@@ -38,27 +38,6 @@ import org.devgateway.toolkit.forms.util.MarkupCacheService;
 import org.devgateway.toolkit.forms.wicket.page.BasePage;
 import org.devgateway.toolkit.forms.wicket.styles.BlockUiReportsJavaScript;
 import org.devgateway.toolkit.forms.wicket.styles.ReportsStyles;
-import org.devgateway.toolkit.reporting.ReportUtil;
-import org.pentaho.reporting.engine.classic.core.MasterReport;
-import org.pentaho.reporting.engine.classic.core.ReportProcessingException;
-import org.pentaho.reporting.engine.classic.core.layout.output.AbstractReportProcessor;
-import org.pentaho.reporting.engine.classic.core.modules.output.pageable.base.PageableReportProcessor;
-import org.pentaho.reporting.engine.classic.core.modules.output.pageable.pdf.PdfOutputProcessor;
-import org.pentaho.reporting.engine.classic.core.modules.output.table.base.FlowReportProcessor;
-import org.pentaho.reporting.engine.classic.core.modules.output.table.base.StreamReportProcessor;
-import org.pentaho.reporting.engine.classic.core.modules.output.table.html.AllItemsHtmlPrinter;
-import org.pentaho.reporting.engine.classic.core.modules.output.table.html.HtmlOutputProcessor;
-import org.pentaho.reporting.engine.classic.core.modules.output.table.html.HtmlPrinter;
-import org.pentaho.reporting.engine.classic.core.modules.output.table.html.StreamHtmlOutputProcessor;
-import org.pentaho.reporting.engine.classic.core.modules.output.table.rtf.FlowRTFOutputProcessor;
-import org.pentaho.reporting.engine.classic.core.modules.output.table.xls.FlowExcelOutputProcessor;
-import org.pentaho.reporting.libraries.repository.ContentIOException;
-import org.pentaho.reporting.libraries.repository.ContentLocation;
-import org.pentaho.reporting.libraries.repository.DefaultNameGenerator;
-import org.pentaho.reporting.libraries.repository.file.FileRepository;
-import org.pentaho.reporting.libraries.resourceloader.Resource;
-import org.pentaho.reporting.libraries.resourceloader.ResourceException;
-import org.pentaho.reporting.libraries.resourceloader.ResourceManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -154,33 +133,33 @@ public abstract class AbstractReportPage extends BasePage {
 
                 @Override
                 public void write(final OutputStream output) throws IOException {
-                    try {
-                        if (canRenderReport()) {
-                            // first try to fetch the report from cache,
-                            // otherwise create the report and cache it
-                            byte[] reportContent = markupCacheService.getPentahoReportFromCache(outputType.name(),
-                                    FilenameUtils.getName(AbstractReportPage.this.reportResourceName).replace(".prpt",
-                                            ""),
-                                    getPageParameters().toString());
-                            if (reportContent == null) {
-                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                generateReport(outputType, baos);
-                                reportContent = baos.toByteArray();
-
-                                if (caching) {
-                                    markupCacheService
-                                            .addPentahoReportToCache(outputType.name(),
-                                                    FilenameUtils.getName(AbstractReportPage.this.reportResourceName)
-                                                            .replace(".prpt", ""),
-                                                    getPageParameters().toString(), reportContent);
-                                }
-                            }
-
-                            output.write(reportContent);
-                        }
-                    } catch (IllegalArgumentException | ReportProcessingException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        if (canRenderReport()) {
+//                            // first try to fetch the report from cache,
+//                            // otherwise create the report and cache it
+//                            byte[] reportContent = markupCacheService.getPentahoReportFromCache(outputType.name(),
+//                                    FilenameUtils.getName(AbstractReportPage.this.reportResourceName).replace(".prpt",
+//                                            ""),
+//                                    getPageParameters().toString());
+//                            if (reportContent == null) {
+//                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                                generateReport(outputType, baos);
+//                                reportContent = baos.toByteArray();
+//
+//                                if (caching) {
+//                                    markupCacheService
+//                                            .addPentahoReportToCache(outputType.name(),
+//                                                    FilenameUtils.getName(AbstractReportPage.this.reportResourceName)
+//                                                            .replace(".prpt", ""),
+//                                                    getPageParameters().toString(), reportContent);
+//                                }
+//                            }
+//
+//                            output.write(reportContent);
+//                        }
+//                    } catch (IllegalArgumentException | ReportProcessingException e) {
+//                        e.printStackTrace();
+//                    }
                 }
             };
 
@@ -219,20 +198,21 @@ public abstract class AbstractReportPage extends BasePage {
          */
         @Override
         public IResourceStream getMarkupResourceStream(final MarkupContainer container, final Class<?> containerClass) {
-            StringBuilder panelMarkup = new StringBuilder();
-            panelMarkup.append("<wicket:panel wicket:id='panel'>");
-            ByteArrayOutputStream htmlStreamData = new ByteArrayOutputStream();
-            try {
-                if (canRenderReport()) {
-                    generateReport(OutputType.HTML, htmlStreamData);
-                }
-            } catch (IllegalArgumentException | ReportProcessingException e) {
-                e.printStackTrace();
-            }
-            String content = new String(htmlStreamData.toByteArray());
-            panelMarkup.append(content);
-            panelMarkup.append("</wicket:panel>");
-            return new StringResourceStream(panelMarkup.toString());
+//            StringBuilder panelMarkup = new StringBuilder();
+//            panelMarkup.append("<wicket:panel wicket:id='panel'>");
+//            ByteArrayOutputStream htmlStreamData = new ByteArrayOutputStream();
+//            try {
+//                if (canRenderReport()) {
+//                    generateReport(OutputType.HTML, htmlStreamData);
+//                }
+//            } catch (IllegalArgumentException | ReportProcessingException e) {
+//                e.printStackTrace();
+//            }
+//            String content = new String(htmlStreamData.toByteArray());
+//            panelMarkup.append(content);
+//            panelMarkup.append("</wicket:panel>");
+//            return new StringResourceStream(panelMarkup.toString());
+            return null;
         }
 
         @Override
@@ -307,22 +287,22 @@ public abstract class AbstractReportPage extends BasePage {
      *
      * @return the report definition used by thus report generator
      */
-    public MasterReport getReportDefinition() {
-        try {
-            // Using the classloader, get the URL to the reportDefinition file
-            final ClassLoader classloader = this.getClass().getClassLoader();
-            final URL reportDefinitionURL = classloader.getResource(reportResourceName);
-
-            // Parse the report file
-            final ResourceManager resourceManager = new ResourceManager();
-            final Resource directly = resourceManager.createDirectly(reportDefinitionURL, MasterReport.class);
-
-            return (MasterReport) directly.getResource();
-        } catch (ResourceException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+//    public MasterReport getReportDefinition() {
+//        try {
+//            // Using the classloader, get the URL to the reportDefinition file
+//            final ClassLoader classloader = this.getClass().getClassLoader();
+//            final URL reportDefinitionURL = classloader.getResource(reportResourceName);
+//
+//            // Parse the report file
+//            final ResourceManager resourceManager = new ResourceManager();
+//            final Resource directly = resourceManager.createDirectly(reportDefinitionURL, MasterReport.class);
+//
+//            return (MasterReport) directly.getResource();
+//        } catch (ResourceException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
     /**
      * Returns the set of parameters that will be passed to the report
@@ -352,111 +332,112 @@ public abstract class AbstractReportPage extends BasePage {
      *             indicates an error generating the report
      */
 
-    public void generateReport(final OutputType outputType, final OutputStream outputStream)
-            throws IllegalArgumentException, ReportProcessingException {
-        if (outputStream == null) {
-            throw new IllegalArgumentException("The output stream was not specified");
-        }
-
-        // Get the report and data factory
-        final MasterReport report = getReportDefinition();
-
-        // Add any parameters to the report
-        final Map<String, Object> reportParameters = getReportParameters();
-        if (reportParameters == null) {
-            return;
-        }
-
-        for (String key : reportParameters.keySet()) {
-            report.getParameterValues().put(key, reportParameters.get(key));
-        }
-
-        // Prepare to generate the report
-        AbstractReportProcessor reportProcessor = null;
-        try {
-            // Greate the report processor for the specified output type
-            switch (outputType) {
-                case PDF:
-                    final PdfOutputProcessor targetPdf = new PdfOutputProcessor(report.getConfiguration(),
-                            outputStream, report.getResourceManager());
-                    reportProcessor = new PageableReportProcessor(report, targetPdf);
-                    reportProcessor.processReport();
-                    break;
-
-                case EXCEL:
-                    final FlowExcelOutputProcessor targetExcel = new FlowExcelOutputProcessor(report.getConfiguration(),
-                            outputStream, report.getResourceManager());
-                    reportProcessor = new FlowReportProcessor(report, targetExcel);
-                    reportProcessor.processReport();
-                    break;
-
-                case RTF:
-                    final FlowRTFOutputProcessor targetRtf = new FlowRTFOutputProcessor(report.getConfiguration(),
-                            outputStream, report.getResourceManager());
-                    reportProcessor = new FlowReportProcessor(report, targetRtf);
-                    reportProcessor.processReport();
-                    break;
-
-                case HTML:
-                    ContentLocation targetRoot = null;
-                    File tempDir = null;
-                    try {
-
-                        // we manually make the folder to drop all exported html
-                        // files into
-                        tempDir = ReportUtil.createTemporaryDirectory("tmpreport");
-                        targetRoot = new FileRepository(tempDir).getRoot();
-                    } catch (ContentIOException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    // we create a folder content resource for the entire tmpdir.
-                    // This dir will only hold the fields for this export
-                    FolderContentResource fcr = new FolderContentResource(tempDir);
-
-                    // we always have an authenticated web app
-                    AuthenticatedWebApplication authApp = (AuthenticatedWebApplication) getApplication();
-
-                    // we add the folder resource as a shared resource
-                    authApp.getSharedResources().add(tempDir.getName(), fcr);
-                    SharedResourceReference folderResourceReference = new SharedResourceReference(tempDir.getName());
-                    authApp.mountResource(tempDir.getName(), folderResourceReference);
-
-                    final HtmlOutputProcessor outputProcessor =
-                            new StreamHtmlOutputProcessor(report.getConfiguration());
-                    final HtmlPrinter printer = new AllItemsHtmlPrinter(report.getResourceManager());
-                    printer.setContentWriter(targetRoot, new DefaultNameGenerator(targetRoot, "index", "html"));
-
-                    printer.setDataWriter(targetRoot, new DefaultNameGenerator(targetRoot, "content")); //$NON-NLS-1$
-
-                    // we use a special URL Rewriter that knows how to speak Wicket
-                    // :-)
-                    printer.setUrlRewriter(new WicketResourceURLRewriter(folderResourceReference));
-                    outputProcessor.setPrinter(printer);
-                    reportProcessor = new StreamReportProcessor(report, outputProcessor);
-                    reportProcessor.processReport();
-
-                    // we plug the html file stream into the output stream
-                    FileInputStream indexFileStream =
-                            new FileInputStream(tempDir.getAbsolutePath() + File.separator + "index.html");
-                    IOUtils.copy(indexFileStream, outputStream);
-                    indexFileStream.close();
-
-                    break;
-
-                default:
-                    throw new RuntimeException("Unknown output type provided!");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (reportProcessor != null) {
-                reportProcessor.close();
-            }
-        }
-    }
+//    public void generateReport(final OutputType outputType, final OutputStream outputStream)
+//            throws IllegalArgumentException, ReportProcessingException {
+//        if (outputStream == null) {
+//            throw new IllegalArgumentException("The output stream was not specified");
+//        }
+//
+//        // Get the report and data factory
+//        final MasterReport report = getReportDefinition();
+//
+//        // Add any parameters to the report
+//        final Map<String, Object> reportParameters = getReportParameters();
+//        if (reportParameters == null) {
+//            return;
+//        }
+//
+//        for (String key : reportParameters.keySet()) {
+//            report.getParameterValues().put(key, reportParameters.get(key));
+//        }
+//
+//        // Prepare to generate the report
+//        AbstractReportProcessor reportProcessor = null;
+//        try {
+//            // Greate the report processor for the specified output type
+//            switch (outputType) {
+//                case PDF:
+//                    final PdfOutputProcessor targetPdf = new PdfOutputProcessor(report.getConfiguration(),
+//                            outputStream, report.getResourceManager());
+//                    reportProcessor = new PageableReportProcessor(report, targetPdf);
+//                    reportProcessor.processReport();
+//                    break;
+//
+//                case EXCEL:
+//                    final FlowExcelOutputProcessor targetExcel = new FlowExcelOutputProcessor(
+//                    report.getConfiguration(),
+//                            outputStream, report.getResourceManager());
+//                    reportProcessor = new FlowReportProcessor(report, targetExcel);
+//                    reportProcessor.processReport();
+//                    break;
+//
+//                case RTF:
+//                    final FlowRTFOutputProcessor targetRtf = new FlowRTFOutputProcessor(report.getConfiguration(),
+//                            outputStream, report.getResourceManager());
+//                    reportProcessor = new FlowReportProcessor(report, targetRtf);
+//                    reportProcessor.processReport();
+//                    break;
+//
+//                case HTML:
+//                    ContentLocation targetRoot = null;
+//                    File tempDir = null;
+//                    try {
+//
+//                        // we manually make the folder to drop all exported html
+//                        // files into
+//                        tempDir =  null; //ReportUtil.createTemporaryDirectory("tmpreport");
+//                        targetRoot = new FileRepository(tempDir).getRoot();
+//                    } catch (ContentIOException e) {
+//                        e.printStackTrace();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    // we create a folder content resource for the entire tmpdir.
+//                    // This dir will only hold the fields for this export
+//                    FolderContentResource fcr = new FolderContentResource(tempDir);
+//
+//                    // we always have an authenticated web app
+//                    AuthenticatedWebApplication authApp = (AuthenticatedWebApplication) getApplication();
+//
+//                    // we add the folder resource as a shared resource
+//                    authApp.getSharedResources().add(tempDir.getName(), fcr);
+//                    SharedResourceReference folderResourceReference = new SharedResourceReference(tempDir.getName());
+//                    authApp.mountResource(tempDir.getName(), folderResourceReference);
+//
+//                    final HtmlOutputProcessor outputProcessor =
+//                            new StreamHtmlOutputProcessor(report.getConfiguration());
+//                    final HtmlPrinter printer = new AllItemsHtmlPrinter(report.getResourceManager());
+//                    printer.setContentWriter(targetRoot, new DefaultNameGenerator(targetRoot, "index", "html"));
+//
+//                    printer.setDataWriter(targetRoot, new DefaultNameGenerator(targetRoot, "content")); //$NON-NLS-1$
+//
+//                    // we use a special URL Rewriter that knows how to speak Wicket
+//                    // :-)
+//                    printer.setUrlRewriter(new WicketResourceURLRewriter(folderResourceReference));
+//                    outputProcessor.setPrinter(printer);
+//                    reportProcessor = new StreamReportProcessor(report, outputProcessor);
+//                    reportProcessor.processReport();
+//
+//                    // we plug the html file stream into the output stream
+//                    FileInputStream indexFileStream =
+//                            new FileInputStream(tempDir.getAbsolutePath() + File.separator + "index.html");
+//                    IOUtils.copy(indexFileStream, outputStream);
+//                    indexFileStream.close();
+//
+//                    break;
+//
+//                default:
+//                    throw new RuntimeException("Unknown output type provided!");
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (reportProcessor != null) {
+//                reportProcessor.close();
+//            }
+//        }
+//    }
 
     @Override
     public void renderHead(final IHeaderResponse response) {

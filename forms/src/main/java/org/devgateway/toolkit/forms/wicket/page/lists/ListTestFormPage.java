@@ -25,9 +25,9 @@ import org.devgateway.toolkit.persistence.service.RoleService;
 import org.devgateway.toolkit.persistence.service.TestFormService;
 import org.wicketstuff.annotation.mount.MountPath;
 
-@AuthorizeInstantiation(SecurityConstants.Roles.ROLE_ADMIN)
+@AuthorizeInstantiation(SecurityConstants.Roles.ROLE_USER)
 @MountPath(value = "/listTestForm")
-public class ListTestFormPage extends AbstractListPage<TestForm> {
+public class ListTestFormPage extends AbstractListStatusEntityPage<TestForm> {
     private static final long serialVersionUID = -324298525712620234L;
 
     @SpringBean
