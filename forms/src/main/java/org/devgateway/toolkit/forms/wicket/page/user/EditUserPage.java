@@ -217,7 +217,11 @@ public class EditUserPage extends AbstractEditPage<Person> {
                 }
 
                 super.onSubmit(target);
-                setResponsePage(EditUserPage.this.getResponsePage());
+            }
+
+            @Override
+            protected Class<? extends Page> getResponsePage() {
+                return EditUserPage.this.getResponsePage();
             }
         };
     }
