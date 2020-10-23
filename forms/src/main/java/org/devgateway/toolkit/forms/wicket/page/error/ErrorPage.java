@@ -1,6 +1,7 @@
 package org.devgateway.toolkit.forms.wicket.page.error;
 
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.AbstractLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.component.IRequestablePage;
@@ -21,7 +22,13 @@ public class ErrorPage extends BasePage {
 
         add(new Label("error", new StringResourceModel("error")));
 
-        Link<String> link = new Link<String>("link") {
+        AbstractLink link = getLink();
+        link.add(new Label("linkMessage", new StringResourceModel("linkMessage")));
+        add(link);
+    }
+
+    protected AbstractLink getLink() {
+        return new Link<String>("link") {
             private static final long serialVersionUID = -4332229952335036068L;
 
             @Override
@@ -29,8 +36,6 @@ public class ErrorPage extends BasePage {
                 setResponsePage(getResponsePage());
             }
         };
-        link.add(new Label("linkMessage", new StringResourceModel("linkMessage")));
-        add(link);
     }
 
     protected Class<? extends IRequestablePage> getResponsePage() {
