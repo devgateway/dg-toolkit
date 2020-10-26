@@ -50,6 +50,7 @@ body {
     width: 100%;
     border-width: 1px;
     border-style: solid;
+    z-index: 1030;
 }
 
 .navbar-brand {
