@@ -15,21 +15,22 @@ import org.devgateway.toolkit.persistence.dao.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 /**
  * Service to send emails to users to validate email addresses or reset
  * passwords
- * 
+ *
  * @author mpostelnicu
  *
  */
 @Component
 public class SendEmailService {
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
-    private JavaMailSenderImpl javaMailSenderImpl;
+    private JavaMailSender javaMailSender;
 
     private SimpleMailMessage templateMessage;
 
@@ -37,7 +38,7 @@ public class SendEmailService {
      * Send a reset password email. This is UNSAFE because passwords are sent in
      * clear text. Nevertheless some customers will ask for these emails to be
      * sent, so ...
-     * 
+     *
      * @param person
      * @param newPassword
      */
@@ -52,7 +53,7 @@ public class SendEmailService {
                 + "At login, you will be prompted to change your password to one of your choice.\n\n" + "Thank you,\n"
                 + "DG Team");
         try {
-            javaMailSenderImpl.send(msg);
+            javaMailSender.send(msg);
         } catch (MailException e) {
             e.printStackTrace();
         }
