@@ -19,6 +19,8 @@ public class AdminSettings extends AbstractAuditableEntity {
     private static final long serialVersionUID = -1051140524022133178L;
     private Boolean rebootServer = false;
 
+    private Integer autosaveTime;
+
     @Override
     public AbstractAuditableEntity getParent() {
         return null;
@@ -30,5 +32,13 @@ public class AdminSettings extends AbstractAuditableEntity {
 
     public void setRebootServer(final Boolean rebootServer) {
         this.rebootServer = rebootServer;
+    }
+
+    public Integer getAutosaveTime() {
+        return autosaveTime;
+    }
+
+    public void setAutosaveTime(Integer autosaveTime) {
+        this.autosaveTime = autosaveTime;
     }
 }
