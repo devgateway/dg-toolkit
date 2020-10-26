@@ -3,6 +3,7 @@ package org.devgateway.toolkit.persistence.dao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.OptimisticLock;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.CascadeType;
@@ -26,6 +27,7 @@ public abstract class AbstractStatusAuditableEntity extends AbstractAuditableEnt
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OrderColumn(name = "index")
     @JsonIgnore
+    @OptimisticLock(excluded = true)
     protected List<StatusChangedComment> statusComments = new ArrayList<>();
 
     @Transient
