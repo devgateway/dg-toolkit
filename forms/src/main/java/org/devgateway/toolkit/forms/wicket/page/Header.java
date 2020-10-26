@@ -62,7 +62,7 @@ public class Header extends Panel {
             add(new WebMarkupContainer("rebootAlert"));
             return;
         }
-        rebootSince = as.getRebootAlertSince();
+        rebootSince = as.isRebootServer() ? as.getRebootAlertSince() : null;
 
         IModel<String> rebootDurationModel = new IModel<String>() {
             private static final long serialVersionUID = -8601598474017148336L;
@@ -84,9 +84,16 @@ public class Header extends Panel {
             }
         };
 
-        Label rebootAlert = new Label("rebootAlert", new StringResourceModel("rebootAlert", rebootDurationModel));
+        Label rebootAlert = new Label("rebootAlert", new StringResourceModel("rebootAlert", rebootDurationModel)) {
+            private static final long serialVersionUID = -3562806753180165059L;
+
+            @Override
+            protected void onConfigure() {
+                super.onConfigure();
+                setVisible(rebootSince != null);
+            }
+        };
         rebootAlert.setOutputMarkupId(true).setOutputMarkupPlaceholderTag(true);
-        rebootAlert.setVisible(as.isRebootServer());
         add(rebootAlert);
         MetaDataRoleAuthorizationStrategy.authorize(rebootAlert, Component.RENDER, SecurityConstants.Roles.ROLE_USER);
 
@@ -96,8 +103,7 @@ public class Header extends Panel {
             @Override
             protected void onTimer(final AjaxRequestTarget target) {
                 AdminSettings as = adminSettingsService.get();
-                rebootSince = as.getRebootAlertSince();
-                rebootAlert.setVisible(as.isRebootServer());
+                rebootSince = as.isRebootServer() ? as.getRebootAlertSince() : null;
                 target.add(rebootAlert);
             }
         });
