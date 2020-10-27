@@ -12,12 +12,12 @@
 package org.devgateway.toolkit.forms.wicket.page.edit;
 
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
-import de.agilecoders.wicket.core.markup.html.bootstrap.common.NotificationMessage;
 import de.agilecoders.wicket.core.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.core.markup.html.bootstrap.form.BootstrapForm;
 import de.agilecoders.wicket.core.util.Attributes;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.ladda.LaddaAjaxButton;
 import nl.dries.wicket.hibernate.dozer.DozerModel;
+import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
@@ -30,7 +30,6 @@ import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.apache.wicket.util.time.Duration;
 import org.apache.wicket.util.visit.IVisit;
 import org.apache.wicket.util.visit.IVisitor;
 import org.apache.wicket.validation.ValidationError;
@@ -51,6 +50,7 @@ import org.devgateway.toolkit.reporting.spring.util.ReportsCacheService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
 import javax.persistence.EntityManager;
 import java.io.Serializable;
@@ -116,6 +116,8 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
 
     protected TextContentModal deleteFailedModal;
 
+    protected TextContentModal saveFailedModal;
+
     @SpringBean
     private EntityManager entityManager;
 
@@ -178,6 +180,7 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
     protected TextContentModal createDeleteFailedModal() {
         final TextContentModal modal = new TextContentModal("deleteFailedModal",
                 new ResourceModel("delete_error_message"));
+        modal.header(new ResourceModel("error"));
         final LaddaAjaxButton deleteButton = new LaddaAjaxButton("button", Buttons.Type.Info) {
             @Override
             protected void onSubmit(final AjaxRequestTarget target) {
@@ -187,6 +190,30 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
         deleteButton.setDefaultFormProcessing(false);
         deleteButton.setLabel(Model.of("OK"));
         modal.addButton(deleteButton);
+
+        modal.add(new AjaxEventBehavior("hidden.bs.modal") {
+            @Override
+            protected void onEvent(final AjaxRequestTarget target) {
+                setResponsePage(listPageClass);
+            }
+        });
+
+        return modal;
+    }
+
+    protected TextContentModal createSaveFailedModal() {
+        final TextContentModal modal = new TextContentModal("saveFailedModal",
+                new ResourceModel("optimistic_lock_error_message"));
+        modal.header(new ResourceModel("error"));
+        final LaddaAjaxButton okButton = new LaddaAjaxButton("button", Buttons.Type.Info) {
+            @Override
+            protected void onSubmit(final AjaxRequestTarget target) {
+                setResponsePage(listPageClass);
+            }
+        };
+        okButton.setDefaultFormProcessing(false);
+        okButton.setLabel(Model.of("OK"));
+        modal.addButton(okButton);
 
         modal.add(new AjaxEventBehavior("hidden.bs.modal") {
             @Override
@@ -277,6 +304,9 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
             deleteFailedModal = createDeleteFailedModal();
             add(deleteFailedModal);
 
+            saveFailedModal = createSaveFailedModal();
+            add(saveFailedModal);
+
             // don't display the delete button if we just create a new entity
             if (entityId == null) {
                 deleteButton.setVisibilityAllowed(false);
@@ -298,7 +328,7 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
     }
 
     /**
-     * Generic funcionality for the save page button, this can be extended
+     * Generic functionality for the save page button, this can be extended
      * further by subclasses
      *
      * @author mpostelnicu
@@ -316,32 +346,36 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
 
         @Override
         protected void onSubmit(final AjaxRequestTarget target) {
-            // save the object and go back to the list page
-            T saveable = editForm.getModelObject();
+            try {
+                // save the object and go back to the list page
+                T saveable = editForm.getModelObject();
 
-            // saves the entity and flushes the changes
-            jpaService.saveAndFlush(saveable);
+                // saves the entity and flushes the changes
+                jpaService.saveAndFlush(saveable);
 
-            // clears session and detaches all entities that are currently
-            // attached
-            entityManager.clear();
+                // clears session and detaches all entities that are currently
+                // attached
+                entityManager.clear();
 
-            // we flush the mondrian/wicket/reports cache to ensure it gets rebuilt
-            flushReportingCaches();
+                // we flush the mondrian/wicket/reports cache to ensure it gets rebuilt
+                flushReportingCaches();
 
-            // only redirect if redirect is true
-            if (redirectToSelf) {
-                // we need to close the blockUI if it's opened and enable all
-                // the buttons
-                target.appendJavaScript("$.unblockUI();");
-                target.appendJavaScript("$('#" + editForm.getMarkupId() + " button').prop('disabled', false);");
-            } else if (redirect) {
-                setResponsePage(getResponsePage(), getParameterPage());
+                // only redirect if redirect is true
+                if (redirectToSelf) {
+                    // we need to close the blockUI if it's opened and enable all
+                    // the buttons
+                    target.appendJavaScript("$.unblockUI();");
+                    target.appendJavaScript("$('#" + editForm.getMarkupId() + " button').prop('disabled', false);");
+                } else if (redirect) {
+                    setResponsePage(getResponsePage(), getParameterPage());
+                }
+
+                // redirect is set back to true, which is the default behavior
+                redirect = true;
+                redirectToSelf = false;
+            } catch (ObjectOptimisticLockingFailureException e) {
+                saveFailedModal.show(target);
             }
-
-            // redirect is set back to true, which is the default behavior
-            redirect = true;
-            redirectToSelf = false;
         }
 
         /**
@@ -349,7 +383,7 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
          *
          * @return
          */
-        protected Class<? extends BasePage> getResponsePage() {
+        protected Class<? extends Page> getResponsePage() {
             return listPageClass;
         }
 
