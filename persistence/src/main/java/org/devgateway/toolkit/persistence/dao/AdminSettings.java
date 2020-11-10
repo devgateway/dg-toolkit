@@ -5,7 +5,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.Entity;
-import java.io.Serializable;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 /**
  * @author idobre
@@ -15,12 +16,15 @@ import java.io.Serializable;
 @Audited
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class AdminSettings extends AbstractAuditableEntity {
-
     private static final long serialVersionUID = -1051140524022133178L;
+
+    public static final Duration REBOOT_ALERT_DURATION = Duration.ofMinutes(10L);
+
     private Boolean rebootServer = false;
 
-    private Integer autosaveTime;
+    private LocalDateTime rebootAlertSince;
 
+    private Integer autosaveTime;
     @Override
     public AbstractAuditableEntity getParent() {
         return null;
@@ -32,6 +36,18 @@ public class AdminSettings extends AbstractAuditableEntity {
 
     public void setRebootServer(final Boolean rebootServer) {
         this.rebootServer = rebootServer;
+    }
+
+    public boolean isRebootServer() {
+        return Boolean.TRUE.equals(getRebootServer());
+    }
+
+    public LocalDateTime getRebootAlertSince() {
+        return rebootAlertSince;
+    }
+
+    public void setRebootAlertSince(final LocalDateTime rebootAlertSince) {
+        this.rebootAlertSince = rebootAlertSince;
     }
 
     public Integer getAutosaveTime() {

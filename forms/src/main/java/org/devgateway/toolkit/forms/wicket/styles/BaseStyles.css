@@ -39,7 +39,18 @@ body {
      * @see: bootstrap::navbar.less
      */
     min-height: 50px;
-    margin-bottom: 20px;
+    margin-bottom: 32px;
+}
+
+.rebootAlert {
+    position: fixed;
+    top: 50px;
+    padding: 6px;
+    text-align: center;
+    width: 100%;
+    border-width: 1px;
+    border-style: solid;
+    z-index: 1029;
 }
 
 .navbar-brand {
