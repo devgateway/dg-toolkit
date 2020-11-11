@@ -33,6 +33,7 @@ import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.markup.head.MetaDataHeaderItem;
 import org.apache.wicket.markup.head.filter.HeaderResponseContainer;
 import org.apache.wicket.markup.html.GenericWebPage;
 import org.apache.wicket.markup.html.TransparentWebMarkupContainer;
@@ -46,6 +47,7 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebSession;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
+import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.resource.JQueryResourceReference;
 import org.apache.wicket.util.string.StringValue;
 import org.devgateway.toolkit.forms.WebConstants;
@@ -92,24 +94,6 @@ public abstract class BasePage extends GenericWebPage<Void> {
      */
     public Boolean fluidContainer() {
         return false;
-    }
-
-    public static class HALRedirectPage extends RedirectPage {
-        private static final long serialVersionUID = -750983217518258464L;
-
-        public HALRedirectPage() {
-            super(WebApplication.get().getServletContext().getContextPath() + "/api/browser/");
-        }
-
-    }
-
-    public static class JminixRedirectPage extends RedirectPage {
-        private static final long serialVersionUID = -750983217518258464L;
-
-        public JminixRedirectPage() {
-            super(WebApplication.get().getServletContext().getContextPath() + "/jminix/");
-        }
-
     }
 
     public static class UIRedirectPage extends RedirectPage {
@@ -213,6 +197,16 @@ public abstract class BasePage extends GenericWebPage<Void> {
         return languageDropDown;
     }
 
+    protected MetaDataHeaderItem getFavicon() {
+        PackageResourceReference faviconRef =
+                new PackageResourceReference(BaseStyles.class, "assets/img/icons/toolkit-favicon.svg");
+        MetaDataHeaderItem icon = MetaDataHeaderItem.forLinkTag("icon",
+                urlFor(faviconRef, null).toString());
+        icon.addTagAttribute("type", "image/svg+xml");
+        return icon;
+
+    }
+
     protected NavbarButton<LogoutPage> newLogoutMenu() {
         // logout menu
         final NavbarButton<LogoutPage> logoutMenu =
@@ -288,24 +282,6 @@ public abstract class BasePage extends GenericWebPage<Void> {
                         new StringResourceModel("navbar.springendpoints", this, null))
                         .setIconType(FontAwesomeIconType.anchor));
 
-                list.add(new MenuBookmarkablePageLink<JminixRedirectPage>(JminixRedirectPage.class, null,
-                        new StringResourceModel("navbar.jminix", this, null)).setIconType(FontAwesomeIconType.bug));
-
-                final MenuBookmarkablePageLink<HALRedirectPage> halBrowserLink =
-                        new MenuBookmarkablePageLink<HALRedirectPage>(HALRedirectPage.class, null,
-                                new StringResourceModel("navbar.halbrowser", this, null)) {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            protected void onComponentTag(final ComponentTag tag) {
-                                super.onComponentTag(tag);
-                                tag.put("target", "_blank");
-                            }
-                        };
-                halBrowserLink.setIconType(FontAwesomeIconType.rss).setEnabled(true);
-
-                list.add(halBrowserLink);
-
                 final MenuBookmarkablePageLink<UIRedirectPage> uiBrowserLink =
                         new MenuBookmarkablePageLink<UIRedirectPage>(
                                 UIRedirectPage.class, null, new StringResourceModel("navbar.ui", this, null)) {
@@ -331,7 +307,7 @@ public abstract class BasePage extends GenericWebPage<Void> {
         };
 
         adminMenu.setIconType(FontAwesomeIconType.cog);
-        MetaDataRoleAuthorizationStrategy.authorize(adminMenu, Component.RENDER, SecurityConstants.Roles.ROLE_ADMIN);
+        MetaDataRoleAuthorizationStrategy.authorize(adminMenu, Component.RENDER, SecurityConstants.Roles.ROLE_USER);
 
         return adminMenu;
     }
@@ -352,6 +328,8 @@ public abstract class BasePage extends GenericWebPage<Void> {
          * @see org.devgateway.toolkit.forms.wicket.styles.BaseStyles
          */
         navbar.setPosition(Navbar.Position.TOP);
+        navbar.setBrandImage(new PackageResourceReference(BaseStyles.class, "assets/img/toolkit-logo-0048.png"),
+                new StringResourceModel("brandImageAltText", this, null));
         navbar.setInverted(true);
 
         navbar.addComponents(NavbarComponents.transform(Navbar.ComponentPosition.RIGHT, newHomeMenu(), newAdminMenu(),
@@ -366,10 +344,13 @@ public abstract class BasePage extends GenericWebPage<Void> {
     public void renderHead(final IHeaderResponse response) {
         super.renderHead(response);
 
+        //favicon
+        response.render(getFavicon());
+
         // Load Styles.
-        response.render(CssHeaderItem.forReference(BaseStyles.INSTANCE));
         response.render(CssHeaderItem.forReference(BootstrapCssReference.instance()));
         response.render(CssHeaderItem.forReference(FontAwesomeCssReference.instance()));
+        response.render(CssHeaderItem.forReference(BaseStyles.INSTANCE));
 
         // Load Scripts.
         response.render(RespondJavaScriptReference.headerItem());

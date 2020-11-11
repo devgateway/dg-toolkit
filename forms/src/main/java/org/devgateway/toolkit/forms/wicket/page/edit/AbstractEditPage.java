@@ -46,7 +46,7 @@ import org.devgateway.toolkit.forms.wicket.components.form.SummernoteBootstrapFo
 import org.devgateway.toolkit.forms.wicket.page.BasePage;
 import org.devgateway.toolkit.persistence.dao.GenericPersistable;
 import org.devgateway.toolkit.persistence.service.BaseJpaService;
-import org.devgateway.toolkit.reporting.spring.util.ReportsCacheService;
+import org.devgateway.toolkit.web.util.SettingsUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -121,8 +121,11 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
     @SpringBean
     private EntityManager entityManager;
 
-    @SpringBean(required = false)
-    private ReportsCacheService reportsCacheService;
+    @SpringBean
+    protected SettingsUtils settingsUtils;
+
+//    @SpringBean(required = false)
+//    private ReportsCacheService reportsCacheService;
 
     @SpringBean(required = false)
     private MarkupCacheService markupCacheService;
@@ -136,9 +139,9 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
     }
 
     public void flushReportingCaches() {
-        if (reportsCacheService != null) {
-            reportsCacheService.flushCache();
-        }
+//        if (reportsCacheService != null) {
+//            reportsCacheService.flushCache();
+//        }
 
         if (markupCacheService != null) {
             markupCacheService.flushMarkupCache();
@@ -223,6 +226,9 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
         });
 
         return modal;
+    }
+
+    protected void afterSaveEntity(final T saveable) {
     }
 
     /**
@@ -350,6 +356,8 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
                 // save the object and go back to the list page
                 T saveable = editForm.getModelObject();
 
+                beforeSaveEntity(saveable);
+
                 // saves the entity and flushes the changes
                 jpaService.saveAndFlush(saveable);
 
@@ -359,6 +367,8 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
 
                 // we flush the mondrian/wicket/reports cache to ensure it gets rebuilt
                 flushReportingCaches();
+
+                afterSaveEntity(saveable);
 
                 // only redirect if redirect is true
                 if (redirectToSelf) {
@@ -477,7 +487,7 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
      *
      * @return
      */
-    public SaveEditPageButton getSaveEditPageButton() {
+    protected SaveEditPageButton getSaveEditPageButton() {
         return new SaveEditPageButton("save", new StringResourceModel("saveButton", this, null));
     }
 
@@ -571,5 +581,10 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
         if (model != null) {
             editForm.setCompoundPropertyModel(model);
         }
+        
+        afterLoad(model);
+    }
+
+    protected void afterLoad(final IModel<T> model) {
     }
 }

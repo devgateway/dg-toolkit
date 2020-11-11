@@ -60,6 +60,30 @@
         <sqlFile path="Person_roles.sql" />
     </changeSet>
 
+    <changeSet id="dgtkit-#291" author="mpostelnicu">
+        <preConditions onFail="CONTINUE">
+            <columnExists tableName="test_form" columnName="status"/>
+            <sqlCheck expectedResult="true">select count(*) > 0 from test_form</sqlCheck>
+        </preConditions>
+
+        <update tableName="test_form">
+            <column name="status" value="DRAFT"/>
+            <where>status is null</where>
+        </update>
+    </changeSet>
+
+    <changeSet id="dgtkit-#291-autosave" author="mpostelnicu">
+        <preConditions onFail="CONTINUE">
+            <columnExists tableName="admin_settings" columnName="autosave_time"/>
+            <sqlCheck expectedResult="true">select autosave_time is null from admin_settings</sqlCheck>
+        </preConditions>
+
+        <update tableName="admin_settings">
+            <column name="autosave_time" value="10"/>
+            <where>autosave_time is null</where>
+        </update>
+    </changeSet>
+
     <changeSet id="#325-optlock" author="mpostelnicu">
         <preConditions onFail="CONTINUE">
             <columnExists tableName="ADMIN_SETTINGS" columnName="optlock"/>
