@@ -3,6 +3,7 @@ package org.devgateway.toolkit.persistence.service;
 import org.devgateway.toolkit.persistence.dao.TestForm;
 import org.devgateway.toolkit.persistence.repository.TestFormRepository;
 import org.devgateway.toolkit.persistence.repository.norepository.BaseJpaRepository;
+import org.devgateway.toolkit.persistence.repository.norepository.UniquePropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,11 @@ public class TestFormServiceImpl extends BaseJpaServiceImpl<TestForm> implements
 
     @Override
     protected BaseJpaRepository<TestForm, Long> repository() {
+        return testFormRepository;
+    }
+
+    @Override
+    public UniquePropertyRepository<TestForm, Long> uniquePropertyRepository() {
         return testFormRepository;
     }
 
