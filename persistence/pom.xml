@@ -22,9 +22,8 @@
         <ehcache.version>2.10.6</ehcache.version>
         <dozer.hibernate.model.version>0.3.8</dozer.hibernate.model.version>
         <commons.lang3.version>3.2.1</commons.lang3.version>
-        <guava.version>28.1-jre</guava.version>
-        <commons-beanutils.version>1.9.3</commons-beanutils.version>
-        <hibernate-validator.version>6.1.0.Final</hibernate-validator.version>
+        <guava.version>30.0-jre</guava.version>
+        <commons-beanutils.version>1.9.4</commons-beanutils.version>
     </properties>
 
     <parent>
@@ -166,12 +165,6 @@
         <!--<artifactId>javax.el-api</artifactId>-->
         <!--<version>3.0.1-b06</version>-->
         <!--</dependency>-->
-
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate-validator.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>org.liquibase</groupId>

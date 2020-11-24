@@ -23,7 +23,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <liquibase.version>3.8.3</liquibase.version>
+        <liquibase.version>3.8.9</liquibase.version>
         <spring.boot.version>2.1.11.RELEASE</spring.boot.version>
         <derby.version>10.14.2.0</derby.version>
         <poi.version>4.0.1</poi.version>
@@ -38,7 +38,7 @@
         <module>persistence</module>
         <module>web</module>
         <module>ui</module>
-        <module>reporting</module>
+<!--        <module>reporting</module>-->
         <module>forms</module>
         <module>persistence-mongodb</module>
     </modules>
