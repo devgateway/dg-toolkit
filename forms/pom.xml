@@ -61,6 +61,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.wicketstuff</groupId>
+            <artifactId>wicketstuff-editable-grid</artifactId>
+            <version>${wicket.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.devgateway.toolkit</groupId>
             <artifactId>persistence-mongodb</artifactId>
             <version>0.0.1-SNAPSHOT</version>
