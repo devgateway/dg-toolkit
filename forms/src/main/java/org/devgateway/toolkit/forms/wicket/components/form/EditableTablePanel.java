@@ -3,6 +3,7 @@ package org.devgateway.toolkit.forms.wicket.components.form;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.markup.html.list.LoopItem;
@@ -10,6 +11,7 @@ import org.apache.wicket.markup.html.navigation.paging.IPageable;
 import org.apache.wicket.markup.html.navigation.paging.IPagingLabelProvider;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.validation.IValidator;
@@ -18,12 +20,15 @@ import org.devgateway.toolkit.forms.wicket.components.PageableTablePanel;
 import org.devgateway.toolkit.forms.wicket.components.table.AbstractBootstrapPagingNavigationWithError;
 import org.devgateway.toolkit.forms.wicket.components.table.AjaxBootstrapNavigationToolbar;
 import org.devgateway.toolkit.forms.wicket.components.table.AjaxFallbackBootstrapDataTable;
+import org.devgateway.toolkit.forms.wicket.components.table.CustomUpdatableToolbar;
+import org.devgateway.toolkit.forms.wicket.components.table.CustomUpdatableToolbar.CellDef;
 import org.devgateway.toolkit.forms.wicket.components.table.EditableInputColumn;
 import org.devgateway.toolkit.forms.wicket.components.table.PagingNavigationFactory;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +60,8 @@ public class EditableTablePanel<T extends Serializable, PARENT extends Serializa
     protected boolean usePagingWithErrors = true;
     private LoopItem currentPaginatorLoopItem;
 
+    protected CustomUpdatableToolbar customUpdatableToolbar;
+
     public EditableTablePanel(final String id, final IModel<PARENT> parentModel) {
         super(id, parentModel);
     }
@@ -66,6 +73,16 @@ public class EditableTablePanel<T extends Serializable, PARENT extends Serializa
             navToolbar.withPagingNavFactory(new PagingNavigationFactory(EditableTablePagination.class, this));
         }
         return dataTable;
+    }
+
+    @Override
+    protected void onInitialize() {
+        super.onInitialize();
+
+        customUpdatableToolbar = getBottomToolbar(dataTable);
+        if (customUpdatableToolbar != null) {
+            dataTable.addBottomToolbar(customUpdatableToolbar);
+        }
     }
 
     public String getRowIdProperty() {
@@ -143,7 +160,22 @@ public class EditableTablePanel<T extends Serializable, PARENT extends Serializa
                 target.add(computedCol);
             });
         }
+        if (customUpdatableToolbar != null) {
+            customUpdatableToolbar.onUpdate(target);
+        }
         onUpdate(target);
+    }
+
+    protected CustomUpdatableToolbar getBottomToolbar(final DataTable dataTable) {
+        return new CustomUpdatableToolbar(dataTable, getToolbarModel(), getToolbarDef());
+    }
+
+    protected List<CellDef> getToolbarDef() {
+        return Collections.emptyList();
+    }
+
+    protected IModel<?> getToolbarModel() {
+        return Model.of();
     }
 
     private class AjaxInputColumn extends EditableInputColumn<T> {
