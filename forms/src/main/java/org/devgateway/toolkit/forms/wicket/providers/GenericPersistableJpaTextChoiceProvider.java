@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author mpostelnicu
@@ -54,6 +56,8 @@ public class GenericPersistableJpaTextChoiceProvider<T extends GenericPersistabl
 
     private final TextSearchableService<T> textSearchableService;
 
+    private Set<Long> excludedIds;
+
     public GenericPersistableJpaTextChoiceProvider(final TextSearchableService<T> textSearchableService) {
         this.textSearchableService = textSearchableService;
     }
@@ -70,6 +74,14 @@ public class GenericPersistableJpaTextChoiceProvider<T extends GenericPersistabl
                                                    final IModel<Collection<T>> restrictedToItemsModel) {
         this(textSearchableService);
         this.restrictedToItemsModel = restrictedToItemsModel;
+    }
+
+    public Set<Long> getExcludedIds() {
+        return excludedIds;
+    }
+
+    public void setExcludedIds(final Set<Long> excludedIds) {
+        this.excludedIds = excludedIds;
     }
 
     @Override
@@ -112,9 +124,16 @@ public class GenericPersistableJpaTextChoiceProvider<T extends GenericPersistabl
                 response.addAll(newElementsList);
             } else {
                 response.setHasMore(itemsByTerm.hasNext());
-                response.addAll(itemsByTerm.getContent());
+                response.addAll(filterByRestrictions(itemsByTerm.getContent()));
             }
         }
+    }
+
+    private List<T> filterByRestrictions(final List<T> elements) {
+        if (excludedIds != null && !excludedIds.isEmpty()) {
+            return elements.stream().filter(e -> !excludedIds.contains(e.getId())).collect(Collectors.toList());
+        }
+        return elements;
     }
 
     private Page<T> getItemsByTerm(final String term, final int page) {
