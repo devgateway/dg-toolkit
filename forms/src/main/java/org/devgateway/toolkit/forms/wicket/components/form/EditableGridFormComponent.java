@@ -20,17 +20,17 @@ import org.devgateway.toolkit.persistence.dao.AbstractAuditableEntity;
 import java.util.List;
 
 /**
- * @author mpostelnicu
  * @param <T>
  * @param <PARENT>
+ * @author mpostelnicu
  */
-public abstract class EditableGridFormComponent<T extends AbstractAuditableEntity, PARENT extends AbstractAuditableEntity>
+public abstract class EditableGridFormComponent<T extends AbstractAuditableEntity,
+        PARENT extends AbstractAuditableEntity>
         extends GenericBootstrapFormComponent<List<T>,
         EditableGridFormComponentWrapper<T>> {
 
     private final Class<T> clazz;
     private final long pageSize;
-
 
     public EditableGridFormComponent(String id, Class<T> clazz, long pageSize) {
         super(id);
@@ -90,12 +90,11 @@ public abstract class EditableGridFormComponent<T extends AbstractAuditableEntit
     }
 
 
-
     public abstract void onAdd(AjaxRequestTarget target, T newRow);
 
     @Override
     protected EditableGridFormComponentWrapper<T> inputField(String id, IModel<List<T>> model) {
-        EditableGridFormComponentWrapper<T> field = new EditableGridFormComponentWrapper<T>(id, initFieldModel()){
+        return new EditableGridFormComponentWrapper<T>(id, initFieldModel()) {
             @Override
             public void onAdd(AjaxRequestTarget target, T newRow) {
                 EditableGridFormComponent.this.onAdd(target, newRow);
@@ -126,6 +125,5 @@ public abstract class EditableGridFormComponent<T extends AbstractAuditableEntit
                 super.onError(target);
             }
         };
-        return field;
     }
 }

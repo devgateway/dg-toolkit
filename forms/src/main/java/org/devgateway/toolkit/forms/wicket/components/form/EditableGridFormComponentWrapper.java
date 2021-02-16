@@ -21,7 +21,9 @@ public class EditableGridFormComponentWrapper<T extends Serializable> extends Fo
     private Class<T> clazz;
     private long pageSize;
     private List<IColumn<T, String>> columns = new ArrayList<>();
-    private List<T> intialList;
+    private List<T> wrappedList;
+    private DgEditableGrid<T, String> editableGrid;
+    private Boolean displayAddFeature = true;
 
     public EditableGridFormComponentWrapper(String id, IModel<List<T>> model) {
         super(id, model);
@@ -29,20 +31,36 @@ public class EditableGridFormComponentWrapper<T extends Serializable> extends Fo
         setRenderBodyOnly(true);
     }
 
+    public List<T> getWrappedList() {
+        return wrappedList;
+    }
+
+    public void setDisplayAddFeature(Boolean displayAddFeature) {
+        this.displayAddFeature = displayAddFeature;
+    }
+
+    public Boolean getDisplayAddFeature() {
+        return displayAddFeature;
+    }
+
     @Override
     protected void onInitialize() {
-        intialList = getModelObject();
+        wrappedList = getModelObject();
         createEditableGrid();
         super.onInitialize();
     }
 
     @Override
     public void convertInput() {
-        setConvertedInput(intialList);
+        setConvertedInput(wrappedList);
+    }
+
+    public DgEditableGrid<T, String> getEditableGrid() {
+        return editableGrid;
     }
 
     protected void createEditableGrid() {
-        DgEditableGrid<T, String> editableGrid = new DgEditableGrid<T, String>("grid", columns,
+        editableGrid = new DgEditableGrid<T, String>("grid", columns,
                 new EditableListDataProvider<T, String>(new LoadableDetachableModel<List<T>>() {
                     @Override
                     protected List<T> load() {
@@ -53,7 +71,7 @@ public class EditableGridFormComponentWrapper<T extends Serializable> extends Fo
                     public IModel<T> model(T object) {
                         return new CompoundPropertyModel<>(super.model(object));
                     }
-                }, pageSize, clazz) {
+                }, pageSize, clazz, displayAddFeature) {
 
             @Override
             protected void onError(AjaxRequestTarget target) {
