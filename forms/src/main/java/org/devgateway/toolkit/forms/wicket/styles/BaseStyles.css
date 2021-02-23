@@ -54,6 +54,10 @@ body {
     z-index: 1029;
 }
 
+.navbar-brand {
+    padding: 0px;
+}
+
 .mainContainer {
     /*
      * The main page content should have some height.
@@ -97,6 +101,7 @@ body {
 .autosave {
     display: block;
     margin-bottom: 12px;
+    color: #ADADAD;
 }
 
 hr.edit-separator {

@@ -24,6 +24,7 @@ public class AdminSettings extends AbstractAuditableEntity {
 
     private LocalDateTime rebootAlertSince;
 
+    private Integer autosaveTime;
     @Override
     public AbstractAuditableEntity getParent() {
         return null;
@@ -47,5 +48,13 @@ public class AdminSettings extends AbstractAuditableEntity {
 
     public void setRebootAlertSince(final LocalDateTime rebootAlertSince) {
         this.rebootAlertSince = rebootAlertSince;
+    }
+
+    public Integer getAutosaveTime() {
+        return autosaveTime;
+    }
+
+    public void setAutosaveTime(Integer autosaveTime) {
+        this.autosaveTime = autosaveTime;
     }
 }
