@@ -28,6 +28,9 @@ import org.devgateway.toolkit.persistence.dao.Labelable;
 import org.devgateway.toolkit.persistence.service.TextSearchableService;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 /**
  * @author idobre
@@ -48,6 +51,21 @@ public final class ComponentUtil {
         return RequestCycle.get().getRequest().getRequestParameters().getParameterValue(WebConstants.PARAM_VIEW_MODE)
                 .toBoolean(false);
     }
+
+    /**
+     * Returns true if the {@link WebConstants#PARAM_PRINT} is used as a parameter
+     *
+     * @return
+     */
+    public static boolean isPrintMode() {
+        return RequestCycle.get().getRequest().getRequestParameters().getParameterValue(WebConstants.PARAM_PRINT)
+                .toBoolean(false);
+    }
+
+    public static Date getDateFromLocalDate(final LocalDate localDate) {
+        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    }
+
 
     public static void enableDisableEvent(final Component c, final IEvent<?> event) {
         if (event.getPayload() instanceof EditingDisabledEvent) {

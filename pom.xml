@@ -1,11 +1,11 @@
 <!--
     Copyright (c) 2015 Development Gateway, Inc and others.
-   
+
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the MIT License (MIT)
     which accompanies this distribution, and is available at
     https://opensource.org/licenses/MIT
-   
+
     Contributors:
     Development Gateway - initial API and implementation
  -->
@@ -23,8 +23,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <liquibase.version>3.8.3</liquibase.version>
-        <spring.boot.version>2.1.11.RELEASE</spring.boot.version>
+        <liquibase.version>3.8.9</liquibase.version>
+        <spring.boot.version>2.2.11.RELEASE</spring.boot.version>
         <derby.version>10.14.2.0</derby.version>
         <poi.version>4.0.1</poi.version>
         <docker.image.prefix>devgateway/toolkit</docker.image.prefix>
@@ -32,6 +32,7 @@
         <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+        <javassist.version>3.27.0-GA</javassist.version>
     </properties>
 
     <modules>
@@ -77,6 +78,11 @@
 
     <repositories>
         <repository>
+            <id>jcenter-snapshots</id>
+            <name>jcenter</name>
+            <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
+        </repository>
+        <repository>
             <id>devgateway-open-source</id>
             <name>devgateway-open-source</name>
             <url>https://artifactory.dgdev.org/artifactory/devgateway-open-source/</url>
@@ -99,6 +105,11 @@
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
             <version>${derby.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>${javassist.version}</version>
         </dependency>
     </dependencies>
 

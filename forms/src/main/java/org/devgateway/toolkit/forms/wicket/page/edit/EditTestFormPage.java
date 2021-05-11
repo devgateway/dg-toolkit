@@ -49,7 +49,7 @@ import org.wicketstuff.annotation.mount.MountPath;
 
 @AuthorizeInstantiation(SecurityConstants.Roles.ROLE_USER)
 @MountPath("/editTestForm")
-public class EditTestFormPage extends AbstractEditPage<TestForm> {
+public class EditTestFormPage extends AbstractEditStatusEntityPage<TestForm> {
 
     private static final long serialVersionUID = 1L;
 

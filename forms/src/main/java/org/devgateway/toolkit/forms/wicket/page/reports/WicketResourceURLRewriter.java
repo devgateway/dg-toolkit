@@ -25,9 +25,9 @@ import org.devgateway.toolkit.forms.util.FolderContentResource;
  *         {@link SharedResourceReference} to {@link FolderContentResource}
  */
 public class WicketResourceURLRewriter {
-    // implements URLRewriter {
+        //implements URLRewriter
 
-    private SharedResourceReference folderResourceReference;
+    private final SharedResourceReference folderResourceReference;
 
     /*
      * (non-Javadoc)
@@ -42,13 +42,11 @@ public class WicketResourceURLRewriter {
         this.folderResourceReference = folderResourceReference;
     }
 
-    /*
-    @Override
-    public String rewrite(final ContentEntity sourceDocument, final ContentEntity dataEntity)
-            throws URLRewriteException {
-        PageParameters parameters = new PageParameters();
-        parameters.add(FolderContentResource.PARAM_FILE_NAME, dataEntity.getName());
-        return RequestCycle.get().urlFor(folderResourceReference, parameters).toString();
-    }
-    */
+//    @Override
+//    public String rewrite(final ContentEntity sourceDocument, final ContentEntity dataEntity)
+//            throws URLRewriteException {
+//        PageParameters parameters = new PageParameters();
+//        parameters.add(FolderContentResource.PARAM_FILE_NAME, dataEntity.getName());
+//        return RequestCycle.get().urlFor(folderResourceReference, parameters).toString();
+//    }
 }
