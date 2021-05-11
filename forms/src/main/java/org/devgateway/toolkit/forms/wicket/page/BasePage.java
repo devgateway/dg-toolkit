@@ -21,11 +21,11 @@ import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.Navbar;
 import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.NavbarButton;
 import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.NavbarComponents;
 import de.agilecoders.wicket.core.markup.html.bootstrap.navbar.NavbarDropDownButton;
-import de.agilecoders.wicket.core.markup.html.references.RespondJavaScriptReference;
+import de.agilecoders.wicket.core.markup.html.bootstrap.utilities.BackgroundColorBehavior;
 import de.agilecoders.wicket.core.markup.html.themes.bootstrap.BootstrapCssReference;
 import de.agilecoders.wicket.core.util.CssClassNames;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesomeCssReference;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesomeIconType;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesome5CssReference;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesome5IconType;
 import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.authroles.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
@@ -63,6 +63,7 @@ import org.devgateway.toolkit.persistence.dao.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -73,6 +74,7 @@ import java.util.Locale;
  * @author miha
  */
 public abstract class BasePage extends GenericWebPage<Void> {
+    @Serial
     private static final long serialVersionUID = -4179591658828697452L;
 
     protected static final Logger logger = LoggerFactory.getLogger(BasePage.class);
@@ -97,6 +99,7 @@ public abstract class BasePage extends GenericWebPage<Void> {
     }
 
     public static class UIRedirectPage extends RedirectPage {
+        @Serial
         private static final long serialVersionUID = -750983217518258464L;
 
         public UIRedirectPage() {
@@ -177,6 +180,7 @@ public abstract class BasePage extends GenericWebPage<Void> {
         final NavbarDropDownButton languageDropDown =
                 new NavbarDropDownButton(new StringResourceModel("navbar.lang", this, null)) {
 
+                    @Serial
                     private static final long serialVersionUID = 319842753824102674L;
 
                     @Override
@@ -193,7 +197,7 @@ public abstract class BasePage extends GenericWebPage<Void> {
                         return list;
                     }
                 };
-        languageDropDown.setIconType(FontAwesomeIconType.flag);
+        languageDropDown.setIconType(FontAwesome5IconType.flag_s);
         return languageDropDown;
     }
 
@@ -211,7 +215,7 @@ public abstract class BasePage extends GenericWebPage<Void> {
         // logout menu
         final NavbarButton<LogoutPage> logoutMenu =
                 new NavbarButton<LogoutPage>(LogoutPage.class, new StringResourceModel("navbar.logout", this, null));
-        logoutMenu.setIconType(FontAwesomeIconType.sign_out);
+        logoutMenu.setIconType(FontAwesome5IconType.sign_out_alt_s);
         MetaDataRoleAuthorizationStrategy.authorize(logoutMenu, Component.RENDER, SecurityConstants.Roles.ROLE_USER);
 
         return logoutMenu;
@@ -229,7 +233,7 @@ public abstract class BasePage extends GenericWebPage<Void> {
 
         final NavbarButton<EditUserPage> accountMenu =
                 new NavbarButton<>(EditUserPage.class, pageParametersForAccountPage, account);
-        accountMenu.setIconType(FontAwesomeIconType.user);
+        accountMenu.setIconType(FontAwesome5IconType.user_s);
         MetaDataRoleAuthorizationStrategy.authorize(accountMenu, Component.RENDER, SecurityConstants.Roles.ROLE_USER);
         return accountMenu;
     }
@@ -237,7 +241,7 @@ public abstract class BasePage extends GenericWebPage<Void> {
     protected NavbarButton<Homepage> newHomeMenu() {
         // home
         NavbarButton<Homepage> homeMenu = new NavbarButton<>(Homepage.class, Model.of("Home"));
-        homeMenu.setIconType(FontAwesomeIconType.home);
+        homeMenu.setIconType(FontAwesome5IconType.home_s);
         MetaDataRoleAuthorizationStrategy.authorize(homeMenu, Component.RENDER, SecurityConstants.Roles.ROLE_USER);
         return homeMenu;
     }
@@ -246,6 +250,7 @@ public abstract class BasePage extends GenericWebPage<Void> {
 
         // admin menu
         NavbarDropDownButton adminMenu = new NavbarDropDownButton(new StringResourceModel("navbar.admin", this, null)) {
+            @Serial
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -253,38 +258,39 @@ public abstract class BasePage extends GenericWebPage<Void> {
                 final List<AbstractLink> list = new ArrayList<>();
                 list.add(new MenuBookmarkablePageLink<ListTestFormPage>(ListUserPage.class, null,
                         new StringResourceModel("navbar.users", this, null))
-                        .setIconType(FontAwesomeIconType.users));
+                        .setIconType(FontAwesome5IconType.users_s));
 
                 list.add(new MenuBookmarkablePageLink<ListGroupPage>(ListGroupPage.class, null,
-                        new StringResourceModel("navbar.groups", this, null)).setIconType(FontAwesomeIconType.tags));
+                        new StringResourceModel("navbar.groups", this, null)).setIconType(FontAwesome5IconType.tags_s));
 
                 list.add(new MenuBookmarkablePageLink<ListTestFormPage>(ListTestFormPage.class, null,
                         new StringResourceModel("navbar.testcomponents", this, null))
-                        .setIconType(FontAwesomeIconType.android));
+                        .setIconType(FontAwesome5IconType.android));
 
                 list.add(new MenuDivider());
 
                 final BootstrapBookmarkablePageLink swagger = new MenuBookmarkablePageLink<Void>(SwaggerPage.class,
                         new StringResourceModel("navbar.swagger", BasePage.this, null))
-                        .setIconType(FontAwesomeIconType.code);
+                        .setIconType(FontAwesome5IconType.code_s);
                 MetaDataRoleAuthorizationStrategy.authorize(swagger, Component.RENDER,
                         SecurityConstants.Roles.ROLE_ADMIN);
                 list.add(swagger);
 
                 final BootstrapBookmarkablePageLink javamelody = new MenuBookmarkablePageLink<Void>(
                         JavamelodyPage.class, new StringResourceModel("navbar.javamelody",
-                        BasePage.this, null)).setIconType(FontAwesomeIconType.eye);
+                        BasePage.this, null)).setIconType(FontAwesome5IconType.eye_s);
                 MetaDataRoleAuthorizationStrategy.authorize(javamelody, Component.RENDER,
                         SecurityConstants.Roles.ROLE_ADMIN);
                 list.add(javamelody);
 
                 list.add(new MenuBookmarkablePageLink<SpringEndpointsPage>(SpringEndpointsPage.class, null,
                         new StringResourceModel("navbar.springendpoints", this, null))
-                        .setIconType(FontAwesomeIconType.anchor));
+                        .setIconType(FontAwesome5IconType.anchor_s));
 
                 final MenuBookmarkablePageLink<UIRedirectPage> uiBrowserLink =
                         new MenuBookmarkablePageLink<UIRedirectPage>(
                                 UIRedirectPage.class, null, new StringResourceModel("navbar.ui", this, null)) {
+                            @Serial
                             private static final long serialVersionUID = 1L;
 
                             @Override
@@ -293,20 +299,20 @@ public abstract class BasePage extends GenericWebPage<Void> {
                                 tag.put("target", "_blank");
                             }
                         };
-                uiBrowserLink.setIconType(FontAwesomeIconType.rocket).setEnabled(true);
+                uiBrowserLink.setIconType(FontAwesome5IconType.rocket_s).setEnabled(true);
                 list.add(uiBrowserLink);
 
                 list.add(new MenuDivider());
 
                 list.add(new MenuBookmarkablePageLink<Void>(EditAdminSettingsPage.class,
                         new StringResourceModel("navbar.adminSettings", BasePage.this, null))
-                        .setIconType(FontAwesomeIconType.briefcase));
+                        .setIconType(FontAwesome5IconType.briefcase_s));
 
                 return list;
             }
         };
 
-        adminMenu.setIconType(FontAwesomeIconType.cog);
+        adminMenu.setIconType(FontAwesome5IconType.cog_s);
         MetaDataRoleAuthorizationStrategy.authorize(adminMenu, Component.RENDER, SecurityConstants.Roles.ROLE_USER);
 
         return adminMenu;
@@ -331,6 +337,7 @@ public abstract class BasePage extends GenericWebPage<Void> {
         navbar.setBrandImage(new PackageResourceReference(BaseStyles.class, "assets/img/toolkit-logo-0048.png"),
                 new StringResourceModel("brandImageAltText", this, null));
         navbar.setInverted(true);
+        navbar.setBackgroundColor(BackgroundColorBehavior.Color.Dark);
 
         navbar.addComponents(NavbarComponents.transform(Navbar.ComponentPosition.RIGHT, newHomeMenu(), newAdminMenu(),
                 newAccountMenu(), newLogoutMenu()));
@@ -349,12 +356,11 @@ public abstract class BasePage extends GenericWebPage<Void> {
 
         // Load Styles.
         response.render(CssHeaderItem.forReference(BootstrapCssReference.instance()));
-        response.render(CssHeaderItem.forReference(FontAwesomeCssReference.instance()));
+        response.render(CssHeaderItem.forReference(FontAwesome5CssReference.instance()));
         response.render(CssHeaderItem.forReference(BaseStyles.INSTANCE));
 
         // Load Scripts.
-        response.render(RespondJavaScriptReference.headerItem());
-        response.render(JavaScriptHeaderItem.forReference(JQueryResourceReference.getV2()));
+        response.render(JavaScriptHeaderItem.forReference(JQueryResourceReference.getV3()));
 
         response.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(BaseStyles.class,
                 "assets/js/fileupload.js")));

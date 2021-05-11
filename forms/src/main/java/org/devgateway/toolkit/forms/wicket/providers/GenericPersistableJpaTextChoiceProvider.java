@@ -28,6 +28,7 @@ import org.wicketstuff.select2.ChoiceProvider;
 import org.wicketstuff.select2.Response;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -98,11 +99,10 @@ public class GenericPersistableJpaTextChoiceProvider<T extends GenericPersistabl
                 // the new element should extend Category so that we can attache
                 // a 'label' to it
                 try {
-                    newObject = clazz.newInstance();
+                    newObject = clazz.getDeclaredConstructor().newInstance();
                     newObject.setLabel(term);
-                } catch (InstantiationException e) {
-                    logger.error("Error creating a new Item", e);
-                } catch (IllegalAccessException e) {
+                } catch (InstantiationException | IllegalAccessException | NoSuchMethodException
+                        | InvocationTargetException e) {
                     logger.error("Error creating a new Item", e);
                 }
 

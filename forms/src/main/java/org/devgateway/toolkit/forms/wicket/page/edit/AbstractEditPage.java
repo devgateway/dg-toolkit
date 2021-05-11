@@ -15,7 +15,7 @@ import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.core.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.core.markup.html.bootstrap.form.BootstrapForm;
 import de.agilecoders.wicket.core.util.Attributes;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.ladda.LaddaAjaxButton;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.spinner.SpinnerAjaxButton;
 import nl.dries.wicket.hibernate.dozer.DozerModel;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxEventBehavior;
@@ -53,6 +53,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
 import javax.persistence.EntityManager;
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -163,7 +164,10 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
                 Model.of("DELETE is an irreversible operation. Are you sure?"));
         modal.addCloseButton();
 
-        final LaddaAjaxButton deleteButton = new LaddaAjaxButton("button", Buttons.Type.Danger) {
+        final SpinnerAjaxButton deleteButton = new SpinnerAjaxButton("button", Buttons.Type.Danger) {
+            @Serial
+            private static final long serialVersionUID = 4167519861741213598L;
+
             @Override
             protected void onSubmit(final AjaxRequestTarget target) {
                 super.onSubmit(target);
@@ -184,7 +188,10 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
         final TextContentModal modal = new TextContentModal("deleteFailedModal",
                 new ResourceModel("delete_error_message"));
         modal.header(new ResourceModel("error"));
-        final LaddaAjaxButton deleteButton = new LaddaAjaxButton("button", Buttons.Type.Info) {
+        final SpinnerAjaxButton deleteButton = new SpinnerAjaxButton("button", Buttons.Type.Info) {
+            @Serial
+            private static final long serialVersionUID = -3042033179053530499L;
+
             @Override
             protected void onSubmit(final AjaxRequestTarget target) {
                 setResponsePage(listPageClass);
@@ -195,6 +202,9 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
         modal.addButton(deleteButton);
 
         modal.add(new AjaxEventBehavior("hidden.bs.modal") {
+            @Serial
+            private static final long serialVersionUID = -3158951048272870291L;
+
             @Override
             protected void onEvent(final AjaxRequestTarget target) {
                 setResponsePage(listPageClass);
@@ -208,7 +218,10 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
         final TextContentModal modal = new TextContentModal("saveFailedModal",
                 new ResourceModel("optimistic_lock_error_message"));
         modal.header(new ResourceModel("error"));
-        final LaddaAjaxButton okButton = new LaddaAjaxButton("button", Buttons.Type.Info) {
+        final SpinnerAjaxButton okButton = new SpinnerAjaxButton("button", Buttons.Type.Info) {
+            @Serial
+            private static final long serialVersionUID = 4136663676222727251L;
+
             @Override
             protected void onSubmit(final AjaxRequestTarget target) {
                 setResponsePage(listPageClass);
@@ -219,6 +232,9 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
         modal.addButton(okButton);
 
         modal.add(new AjaxEventBehavior("hidden.bs.modal") {
+            @Serial
+            private static final long serialVersionUID = -471014535514168917L;
+
             @Override
             protected void onEvent(final AjaxRequestTarget target) {
                 setResponsePage(listPageClass);
@@ -581,7 +597,7 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
         if (model != null) {
             editForm.setCompoundPropertyModel(model);
         }
-        
+
         afterLoad(model);
     }
 

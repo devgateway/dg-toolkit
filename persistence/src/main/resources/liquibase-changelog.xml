@@ -11,7 +11,7 @@
 -->
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
     <changeSet id="add-default-group" author="mpostelnicu">
         <validCheckSum>8:7abae053c67b929de53498ce1748868c</validCheckSum>
@@ -75,6 +75,7 @@
     <changeSet id="dgtkit-#291-autosave" author="mpostelnicu">
         <preConditions onFail="CONTINUE">
             <columnExists tableName="admin_settings" columnName="autosave_time"/>
+            <sqlCheck expectedResult="true">select count(*) > 0 from admin_settings</sqlCheck>
             <sqlCheck expectedResult="true">select autosave_time is null from admin_settings</sqlCheck>
         </preConditions>
 

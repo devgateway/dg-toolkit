@@ -10,13 +10,13 @@
  * Development Gateway - initial API and implementation
  *******************************************************************************/
 /**
- * 
+ *
  */
 package org.devgateway.toolkit.forms.wicket.components.form;
 
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesomeIconType;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.ladda.LaddaAjaxButton;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesome5IconType;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.spinner.SpinnerAjaxButton;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxCallListener;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
@@ -29,9 +29,9 @@ import org.devgateway.toolkit.forms.wicket.events.EditingDisabledEvent;
 
 /**
  * @author mpostelnicu
- * 
+ *
  */
-public abstract class BootstrapDeleteButton extends LaddaAjaxButton {
+public abstract class BootstrapDeleteButton extends SpinnerAjaxButton {
 
     private static final long serialVersionUID = 8306451874943978003L;
 
@@ -55,7 +55,7 @@ public abstract class BootstrapDeleteButton extends LaddaAjaxButton {
         super.onInitialize();
         add(new AttributeAppender("onclick", new Model<String>("window.onbeforeunload = null;"), " "));
         setDefaultFormProcessing(false);
-        setIconType(FontAwesomeIconType.trash_o);
+        setIconType(FontAwesome5IconType.trash_s);
 
         if (ComponentUtil.isViewMode()) {
             setVisibilityAllowed(false);

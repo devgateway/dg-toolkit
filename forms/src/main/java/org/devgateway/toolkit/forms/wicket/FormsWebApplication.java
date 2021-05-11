@@ -13,7 +13,6 @@ package org.devgateway.toolkit.forms.wicket;
 
 import com.google.javascript.jscomp.CompilationLevel;
 import de.agilecoders.wicket.core.Bootstrap;
-import de.agilecoders.wicket.core.markup.html.RenderJavaScriptToFooterHeaderResponseDecorator;
 import de.agilecoders.wicket.core.request.resource.caching.version.Adler32ResourceVersion;
 import de.agilecoders.wicket.core.settings.BootstrapSettings;
 import de.agilecoders.wicket.core.settings.IBootstrapSettings;
@@ -32,14 +31,13 @@ import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxNewWindowNotifyingBehavior;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
-import org.apache.wicket.devutils.diskstore.DebugDiskDataStore;
+import org.apache.wicket.markup.head.filter.JavaScriptFilteredIntoFooterHeaderResponse;
 import org.apache.wicket.markup.html.IPackageResourceGuard;
 import org.apache.wicket.markup.html.SecurePackageResourceGuard;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.request.resource.caching.FilenameWithVersionResourceCachingStrategy;
-import org.apache.wicket.request.resource.caching.NoOpResourceCachingStrategy;
 import org.apache.wicket.request.resource.caching.version.CachingResourceVersion;
 import org.apache.wicket.settings.RequestCycleSettings.RenderStrategy;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -152,7 +150,8 @@ public class FormsWebApplication extends AuthenticatedWebApplication {
      */
     private void optimizeForWebPerformance() {
         // add javascript files at the bottom of the page
-        setHeaderResponseDecorator(new RenderJavaScriptToFooterHeaderResponseDecorator("scripts-bucket"));
+        getHeaderResponseDecorators().add(response ->
+                new JavaScriptFilteredIntoFooterHeaderResponse(response, "scripts-bucket"));
 
         // This is only enabled for deployment configuration
         // -Dwicket.configuration=deployment
@@ -228,12 +227,18 @@ public class FormsWebApplication extends AuthenticatedWebApplication {
         // watch this using the URL
         // http://.../wicket/internal/debug/diskDataStore
         if (usesDevelopmentConfig()) {
-            DebugDiskDataStore.register(this);
+            // DebugDiskDataStore.register(this);
+            getDebugSettings().setDevelopmentUtilitiesEnabled(true);
         }
 
         SessionFinderHolder.setSessionFinder(sessionFinderService);
 
         useCustomizedSelect2Version();
+
+        // https://github.com/devgateway/dg-toolkit/issues/361
+        // TODO make Wicket usage CSP compliant (temporarily disabled)
+        // https://ci.apache.org/projects/wicket/guide/9.x/single.html#_content_security_policy_csp
+        getCspSettings().blocking().disabled();
     }
 
     /**
