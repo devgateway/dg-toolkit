@@ -96,6 +96,11 @@
             <name>bintray</name>
             <url>https://dl.bintray.com/devgateway/dozer-hibernate-model</url>
         </repository>
+        <repository>
+            <id>devgateway-open-source</id>
+            <name>devgateway-open-source</name>
+            <url>https://artifactory.dgdev.org/artifactory/devgateway-open-source/</url>
+        </repository>
     </repositories>
 
     <pluginRepositories>
