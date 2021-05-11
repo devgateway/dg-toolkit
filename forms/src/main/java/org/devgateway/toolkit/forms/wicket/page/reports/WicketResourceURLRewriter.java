@@ -10,7 +10,7 @@
  * Development Gateway - initial API and implementation
  *******************************************************************************/
 /**
- * 
+ *
  */
 package org.devgateway.toolkit.forms.wicket.page.reports;
 
@@ -18,22 +18,20 @@ import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.SharedResourceReference;
 import org.devgateway.toolkit.forms.util.FolderContentResource;
-import org.pentaho.reporting.engine.classic.core.modules.output.table.html.URLRewriteException;
-import org.pentaho.reporting.engine.classic.core.modules.output.table.html.URLRewriter;
-import org.pentaho.reporting.libraries.repository.ContentEntity;
 
-/**
+/*
  * @author mpostelnicu This {@link URLRewriter} will translate local folder
  *         resources into wicket encoded resources using the
  *         {@link SharedResourceReference} to {@link FolderContentResource}
  */
-public class WicketResourceURLRewriter implements URLRewriter {
+public class WicketResourceURLRewriter {
+    // implements URLRewriter {
 
     private SharedResourceReference folderResourceReference;
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.pentaho.reporting.engine.classic.core.modules.output.table.html.
      * URLRewriter
      * #rewrite(org.pentaho.reporting.libraries.repository.ContentEntity,
@@ -44,6 +42,7 @@ public class WicketResourceURLRewriter implements URLRewriter {
         this.folderResourceReference = folderResourceReference;
     }
 
+    /*
     @Override
     public String rewrite(final ContentEntity sourceDocument, final ContentEntity dataEntity)
             throws URLRewriteException {
@@ -51,4 +50,5 @@ public class WicketResourceURLRewriter implements URLRewriter {
         parameters.add(FolderContentResource.PARAM_FILE_NAME, dataEntity.getName());
         return RequestCycle.get().urlFor(folderResourceReference, parameters).toString();
     }
+    */
 }

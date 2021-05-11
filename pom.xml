@@ -38,7 +38,7 @@
         <module>persistence</module>
         <module>web</module>
         <module>ui</module>
-        <module>reporting</module>
+<!--        <module>reporting</module>-->
         <module>forms</module>
         <module>persistence-mongodb</module>
     </modules>

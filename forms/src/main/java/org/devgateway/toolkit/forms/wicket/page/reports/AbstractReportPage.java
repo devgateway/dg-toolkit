@@ -38,29 +38,7 @@ import org.devgateway.toolkit.forms.util.MarkupCacheService;
 import org.devgateway.toolkit.forms.wicket.page.BasePage;
 import org.devgateway.toolkit.forms.wicket.styles.BlockUiReportsJavaScript;
 import org.devgateway.toolkit.forms.wicket.styles.ReportsStyles;
-import org.devgateway.toolkit.reporting.ReportUtil;
-import org.pentaho.reporting.engine.classic.core.MasterReport;
-import org.pentaho.reporting.engine.classic.core.ReportProcessingException;
-import org.pentaho.reporting.engine.classic.core.layout.output.AbstractReportProcessor;
-import org.pentaho.reporting.engine.classic.core.modules.output.pageable.base.PageableReportProcessor;
-import org.pentaho.reporting.engine.classic.core.modules.output.pageable.pdf.PdfOutputProcessor;
-import org.pentaho.reporting.engine.classic.core.modules.output.table.base.FlowReportProcessor;
-import org.pentaho.reporting.engine.classic.core.modules.output.table.base.StreamReportProcessor;
-import org.pentaho.reporting.engine.classic.core.modules.output.table.html.AllItemsHtmlPrinter;
-import org.pentaho.reporting.engine.classic.core.modules.output.table.html.HtmlOutputProcessor;
-import org.pentaho.reporting.engine.classic.core.modules.output.table.html.HtmlPrinter;
-import org.pentaho.reporting.engine.classic.core.modules.output.table.html.StreamHtmlOutputProcessor;
-import org.pentaho.reporting.engine.classic.core.modules.output.table.rtf.FlowRTFOutputProcessor;
-import org.pentaho.reporting.engine.classic.core.modules.output.table.xls.FlowExcelOutputProcessor;
-import org.pentaho.reporting.libraries.repository.ContentIOException;
-import org.pentaho.reporting.libraries.repository.ContentLocation;
-import org.pentaho.reporting.libraries.repository.DefaultNameGenerator;
-import org.pentaho.reporting.libraries.repository.file.FileRepository;
-import org.pentaho.reporting.libraries.resourceloader.Resource;
-import org.pentaho.reporting.libraries.resourceloader.ResourceException;
-import org.pentaho.reporting.libraries.resourceloader.ResourceManager;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -96,7 +74,7 @@ public abstract class AbstractReportPage extends BasePage {
     @SpringBean
     protected MarkupCacheService markupCacheService;
 
-    /**
+    /*
      * A special Wicket panel that displays the stream coming from Pentaho's
      * {@link AbstractReportProcessor}
      */
@@ -154,6 +132,7 @@ public abstract class AbstractReportPage extends BasePage {
 
                 @Override
                 public void write(final OutputStream output) throws IOException {
+                    /*
                     try {
                         if (canRenderReport()) {
                             // first try to fetch the report from cache,
@@ -181,6 +160,7 @@ public abstract class AbstractReportPage extends BasePage {
                     } catch (IllegalArgumentException | ReportProcessingException e) {
                         e.printStackTrace();
                     }
+                    */
                 }
             };
 
@@ -219,6 +199,7 @@ public abstract class AbstractReportPage extends BasePage {
          */
         @Override
         public IResourceStream getMarkupResourceStream(final MarkupContainer container, final Class<?> containerClass) {
+            /*
             StringBuilder panelMarkup = new StringBuilder();
             panelMarkup.append("<wicket:panel wicket:id='panel'>");
             ByteArrayOutputStream htmlStreamData = new ByteArrayOutputStream();
@@ -233,6 +214,8 @@ public abstract class AbstractReportPage extends BasePage {
             panelMarkup.append(content);
             panelMarkup.append("</wicket:panel>");
             return new StringResourceStream(panelMarkup.toString());
+            */
+            return null;
         }
 
         @Override
@@ -307,6 +290,7 @@ public abstract class AbstractReportPage extends BasePage {
      *
      * @return the report definition used by thus report generator
      */
+    /*
     public MasterReport getReportDefinition() {
         try {
             // Using the classloader, get the URL to the reportDefinition file
@@ -323,6 +307,7 @@ public abstract class AbstractReportPage extends BasePage {
         }
         return null;
     }
+    */
 
     /**
      * Returns the set of parameters that will be passed to the report
@@ -335,7 +320,7 @@ public abstract class AbstractReportPage extends BasePage {
      */
     public abstract Map<String, Object> getReportParameters();
 
-    /**
+    /*
      * Generates the report in the specified <code>outputType</code> and writes
      * it into the specified <code>outputStream</code>.
      *
@@ -352,6 +337,7 @@ public abstract class AbstractReportPage extends BasePage {
      *             indicates an error generating the report
      */
 
+    /*
     public void generateReport(final OutputType outputType, final OutputStream outputStream)
             throws IllegalArgumentException, ReportProcessingException {
         if (outputStream == null) {
@@ -457,6 +443,7 @@ public abstract class AbstractReportPage extends BasePage {
             }
         }
     }
+    */
 
     @Override
     public void renderHead(final IHeaderResponse response) {
