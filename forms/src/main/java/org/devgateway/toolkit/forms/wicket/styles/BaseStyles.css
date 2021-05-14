@@ -201,5 +201,19 @@ hr.edit-separator {
     font-weight: bold !important;
 }
 
+/*  Pageable table
+-------------------------------------------------- */
+
+.with-error {
+    color: #a94442;
+}
+.pagination > li.with-error > a {
+    color: #a94442;
+}
+.pagination > li.active.with-error > a {
+    background-color: #eeb9b8;
+    border-color: #a94442;
+}
+
 /*
 -------------------------------------------------- */
