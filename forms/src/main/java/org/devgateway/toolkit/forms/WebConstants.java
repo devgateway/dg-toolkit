@@ -27,6 +27,7 @@ public final class WebConstants {
 
     public static final int PAGE_SIZE = 10;
     public static final int SELECT_PAGE_SIZE = 25;
+    public static final int PAGE_SIZE_NO_LIMIT = 999999;
 
     public static final String PARAM_VIEW_MODE = "viewMode";
 

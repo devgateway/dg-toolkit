@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     Copyright (c) 2015 Development Gateway, Inc and others.
-   
+
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the MIT License (MIT)
     which accompanies this distribution, and is available at
     https://opensource.org/licenses/MIT
-   
+
     Contributors:
     Development Gateway - initial API and implementation
  -->
@@ -30,15 +30,15 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <wicket.version>8.6.1</wicket.version>
-        <wicketstuff.version>8.6.0</wicketstuff.version>
-        <wicket.bootstrap.version>2.0.10</wicket.bootstrap.version>
+        <wicket.version>8.10.0</wicket.version>
+        <wicketstuff.version>8.10.0</wicketstuff.version>
+        <wicket.bootstrap.version>2.0.11</wicket.bootstrap.version>
         <zt.zip.version>1.13</zt.zip.version>
-        <wicket.webjars.version>2.0.15</wicket.webjars.version>
-        <closure.compiler.version>v20190528</closure.compiler.version>
+        <wicket.webjars.version>2.0.19</wicket.webjars.version>
+        <closure.compiler.version>v20200406</closure.compiler.version>
         <cglib.version>3.1</cglib.version>
         <yuicompressor.version>2.4.8</yuicompressor.version>
-        <javamelody.version>1.80.0</javamelody.version>
+        <javamelody.version>1.86.0</javamelody.version>
     </properties>
 
     <dependencies>
@@ -46,6 +46,12 @@
             <groupId>org.devgateway.toolkit</groupId>
             <artifactId>persistence</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -66,21 +72,21 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-        <!--<dependency>
-            <groupId>org.devgateway.toolkit</groupId>
-            <artifactId>reporting</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>bcprov-jdk14</artifactId>
-                    <groupId>bouncycastle</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>bcprov-jdk14</artifactId>
-                    <groupId>org.bouncycastle</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.devgateway.toolkit</groupId>-->
+<!--            <artifactId>reporting</artifactId>-->
+<!--            <version>0.0.1-SNAPSHOT</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>bcprov-jdk14</artifactId>-->
+<!--                    <groupId>bouncycastle</groupId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>bcprov-jdk14</artifactId>-->
+<!--                    <groupId>org.bouncycastle</groupId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.devgateway.toolkit</groupId>
@@ -122,17 +128,6 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-integration</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>xercesImpl</artifactId>
-                    <groupId>xerces</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <exclusions>
                 <exclusion>
@@ -150,11 +145,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-rest-hal-browser</artifactId>
         </dependency>
 
         <dependency>
@@ -229,6 +219,12 @@
             <groupId>de.agilecoders.wicket</groupId>
             <artifactId>wicket-bootstrap-extensions</artifactId>
             <version>${wicket.bootstrap.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>momentjs</artifactId>
+                    <groupId>org.webjars</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -292,6 +288,7 @@
                     <include>**/*.css</include>
                     <include>**/*.js</include>
                     <include>**/*.png</include>
+                    <include>**/*.svg</include>
                     <include>**/*.gif</include>
                     <include>**/*.html</include>
                     <include>**/*.properties</include>
