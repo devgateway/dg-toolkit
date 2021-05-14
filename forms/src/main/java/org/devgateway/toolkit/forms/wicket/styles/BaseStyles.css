@@ -4,11 +4,6 @@
  */
 
 html {
-    /*
-     * Always show page scroll-bar to prevent side-movement when hovering over items that are extending their height and
-     * suddenly the content doesn't fit above the fold.
-     */
-    overflow-y: scroll;
     position: relative;
     min-height: 100%;
 }
@@ -16,6 +11,12 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 50px !important;
+
+    /*
+     * Always show page scroll-bar to prevent side-movement when hovering over items that are extending their height and
+     * suddenly the content doesn't fit above the fold.
+     */
+    overflow-y: scroll;
 }
 
 .mainHeader.with-navbar-default .navbar-default {
@@ -198,6 +199,20 @@ hr.edit-separator {
     color: #2e6da4;
     font-size: 12pt;
     font-weight: bold !important;
+}
+
+/*  Pageable table
+-------------------------------------------------- */
+
+.with-error {
+    color: #a94442;
+}
+.pagination > li.with-error > a {
+    color: #a94442;
+}
+.pagination > li.active.with-error > a {
+    background-color: #eeb9b8;
+    border-color: #a94442;
 }
 
 /*

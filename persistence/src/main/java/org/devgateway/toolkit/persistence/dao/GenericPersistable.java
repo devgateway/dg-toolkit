@@ -34,7 +34,7 @@ import javax.persistence.Version;
 public class GenericPersistable extends AbstractPersistable<Long> implements Serializable {
 
     @Version
-    @Column(name = "optlock")
+    @Column(name = "optlock", columnDefinition = "integer default 0")
     private Integer version;
 
     /**

@@ -47,16 +47,20 @@ public class BootstrapPagingNavigation extends AjaxPagingNavigation {
 
             @Override
             public String getObject() {
-                if (pageable.getCurrentPage() == pageIndex) {
-                    return "active";
-                } else {
-                    return "";
-                }
+                return getCssClass(pageIndex);
             }
         }));
 
         // Do not mask disabled link by em tag.
         // ((AbstractLink)
         // loopItem.get("pageLink")).setBeforeDisabledLink("").setAfterDisabledLink("");
+    }
+
+    protected String getCssClass(final long pageIndex) {
+        if (pageable.getCurrentPage() == pageIndex) {
+            return "active";
+        } else {
+            return "";
+        }
     }
 }

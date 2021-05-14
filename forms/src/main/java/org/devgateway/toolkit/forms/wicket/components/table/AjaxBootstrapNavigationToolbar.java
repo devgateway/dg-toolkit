@@ -28,15 +28,22 @@ import org.apache.wicket.model.IModel;
 public class AjaxBootstrapNavigationToolbar extends AbstractToolbar {
     private static final long serialVersionUID = 230663553625059960L;
 
+    private PagingNavigationFactory navigationFactory;
+
     public AjaxBootstrapNavigationToolbar(final DataTable<?, ?> table) {
         super(table);
+
+    }
+    @Override
+    protected void onInitialize() {
+        super.onInitialize();
 
         final WebMarkupContainer span = new WebMarkupContainer("span");
         this.add(span);
         span.add(AttributeModifier.replace("colspan",
-                (IModel<String>) () -> String.valueOf(table.getColumns().size())));
+                (IModel<String>) () -> String.valueOf(getTable().getColumns().size())));
 
-        span.add(new Component[]{this.newPagingNavigator("navigator", table)});
+        span.add(new Component[]{this.newPagingNavigator("navigator", getTable())});
     }
 
     protected PagingNavigator newPagingNavigator(final String navigatorId, final DataTable<?, ?> table) {
@@ -47,12 +54,17 @@ public class AjaxBootstrapNavigationToolbar extends AbstractToolbar {
             protected void onAjaxEvent(final AjaxRequestTarget target) {
                 target.add(table);
             }
-        };
+        }.withPagingNavFactory(navigationFactory);
     }
 
     @Override
     protected void onConfigure() {
         super.onConfigure();
         this.setVisible(this.getTable().getPageCount() > 1L);
+    }
+
+    public AjaxBootstrapNavigationToolbar withPagingNavFactory(final PagingNavigationFactory navigationFactory) {
+        this.navigationFactory = navigationFactory;
+        return this;
     }
 }
