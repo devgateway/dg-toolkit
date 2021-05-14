@@ -581,7 +581,7 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
         if (model != null) {
             editForm.setCompoundPropertyModel(model);
         }
-        
+
         afterLoad(model);
     }
 

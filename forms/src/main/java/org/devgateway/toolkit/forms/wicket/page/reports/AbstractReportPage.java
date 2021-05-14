@@ -39,7 +39,6 @@ import org.devgateway.toolkit.forms.wicket.page.BasePage;
 import org.devgateway.toolkit.forms.wicket.styles.BlockUiReportsJavaScript;
 import org.devgateway.toolkit.forms.wicket.styles.ReportsStyles;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -75,7 +74,7 @@ public abstract class AbstractReportPage extends BasePage {
     @SpringBean
     protected MarkupCacheService markupCacheService;
 
-    /**
+    /*
      * A special Wicket panel that displays the stream coming from Pentaho's
      * {@link AbstractReportProcessor}
      */
@@ -315,7 +314,7 @@ public abstract class AbstractReportPage extends BasePage {
      */
     public abstract Map<String, Object> getReportParameters();
 
-    /**
+    /*
      * Generates the report in the specified <code>outputType</code> and writes
      * it into the specified <code>outputStream</code>.
      *
