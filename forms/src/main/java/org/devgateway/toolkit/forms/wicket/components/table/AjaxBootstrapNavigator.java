@@ -12,11 +12,13 @@
 package org.devgateway.toolkit.forms.wicket.components.table;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.navigation.paging.AjaxPagingNavigator;
 import org.apache.wicket.markup.html.link.AbstractLink;
 import org.apache.wicket.markup.html.navigation.paging.IPageable;
 import org.apache.wicket.markup.html.navigation.paging.IPagingLabelProvider;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigation;
+import org.devgateway.toolkit.forms.WebConstants;
 
 /**
  * @author idobre
@@ -32,6 +34,8 @@ public class AjaxBootstrapNavigator extends AjaxPagingNavigator {
     private Component next;
     private Component prev;
     private Component last;
+
+    private PagingNavigationFactory navigationFactory;
 
     public AjaxBootstrapNavigator(final String id, final IPageable pageable) {
         this(id, pageable, null);
@@ -73,8 +77,21 @@ public class AjaxBootstrapNavigator extends AjaxPagingNavigator {
     }
 
     @Override
+    protected void onConfigure() {
+        super.onConfigure();
+        setVisibilityAllowed(getPageable().getPageCount() > 1L);
+    }
+
+    @Override
     protected PagingNavigation newNavigation(final String id, final IPageable pageable,
                                              final IPagingLabelProvider labelProvider) {
+        if (navigationFactory != null) {
+            try {
+                navigationFactory.newNavigation(id, pageable, labelProvider);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         return new BootstrapPagingNavigation(id, pageable, labelProvider);
     }
 
@@ -89,5 +106,10 @@ public class AjaxBootstrapNavigator extends AjaxPagingNavigator {
     protected AbstractLink newPagingNavigationLink(final String id, final IPageable pageable, final int pageNumber) {
         final AbstractLink link = super.newPagingNavigationLink(id, pageable, pageNumber);
         return link;
+    }
+
+    public AjaxBootstrapNavigator withPagingNavFactory(final PagingNavigationFactory navigationFactory) {
+        this.navigationFactory = navigationFactory;
+        return this;
     }
 }

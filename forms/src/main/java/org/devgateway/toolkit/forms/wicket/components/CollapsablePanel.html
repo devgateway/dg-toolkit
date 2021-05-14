@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<body>
+<wicket:panel>
+<div class="panel panel-default">
+    <div wicket:id="header" data-toggle="collapse" href="#bodyId" class="panel-heading"
+         aria-expanded="true" aria-controls="bodyId">
+        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+        <span wicket:id="headerLabel"></span>
+    </div>
+
+    <div wicket:id="body" class="panel-body collapse in" id="bodyId">
+        <wicket:child />
+    </div>
+</div>
+</wicket:panel>
+</body>
+</html>
