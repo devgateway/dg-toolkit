@@ -1,6 +1,7 @@
 package org.devgateway.toolkit.persistence.repository.norepository;
 
 import org.devgateway.toolkit.persistence.repository.CacheHibernateQueryResult;
+import org.devgateway.toolkit.persistence.repository.CacheableHibernateQueryResult;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,6 +17,7 @@ import java.util.Optional;
  * @author Octavian Ciubotaru
  */
 @NoRepositoryBean
+@CacheableHibernateQueryResult
 public interface CacheableQueryResultRepository<T, ID extends Serializable> extends BaseJpaRepository<T, ID> {
 
     @Override
