@@ -156,6 +156,12 @@
                         <artifactId>checkstyle</artifactId>
                         <version>8.42</version>
                     </dependency>
+                    <dependency>
+                        <groupId>org.devgateway.toolkit</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>1.1</version>
+                        <scope>compile</scope>
+                    </dependency>
                 </dependencies>
                 <executions>
                     <execution>
@@ -175,14 +181,6 @@
                     <failOnViolation>true</failOnViolation>
                     <violationSeverity>warning</violationSeverity>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.devgateway.toolkit</groupId>
-                        <artifactId>checkstyle</artifactId>
-                        <version>1.0</version>
-                        <scope>compile</scope>
-                    </dependency>
-                </dependencies>
             </plugin>
 
             <plugin>
