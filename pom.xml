@@ -42,6 +42,7 @@
 <!--        <module>reporting</module>-->
         <module>forms</module>
         <module>persistence-mongodb</module>
+        <module>checkstyle</module>
     </modules>
 
     <inceptionYear>2015</inceptionYear>
@@ -111,6 +112,19 @@
             <artifactId>javassist</artifactId>
             <version>${javassist.version}</version>
         </dependency>
+        <dependency>
+            <!-- run checkstyle `mvn clean install` once during project setup -->
+            <groupId>org.devgateway.toolkit</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.12</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -147,6 +161,14 @@
                     <failOnViolation>true</failOnViolation>
                     <violationSeverity>warning</violationSeverity>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.devgateway.toolkit</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>1.0</version>
+                        <scope>compile</scope>
+                    </dependency>
+                </dependencies>
             </plugin>
 
             <plugin>
