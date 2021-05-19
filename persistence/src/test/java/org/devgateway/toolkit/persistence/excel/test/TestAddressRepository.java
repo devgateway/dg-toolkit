@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +32,6 @@ public class TestAddressRepository implements BaseJpaRepository<TestAddress, Lon
     public boolean existsById(Long aLong) {
         return false;
     }
-
 
     @Override
     public List findAll() {
@@ -164,6 +162,4 @@ public class TestAddressRepository implements BaseJpaRepository<TestAddress, Lon
     public boolean exists(Example example) {
         return false;
     }
-
-
 }

@@ -75,11 +75,10 @@
     <changeSet id="dgtkit-#291-autosave" author="mpostelnicu">
         <preConditions onFail="CONTINUE">
             <columnExists tableName="admin_settings" columnName="autosave_time"/>
-            <sqlCheck expectedResult="true">select autosave_time is null from admin_settings</sqlCheck>
         </preConditions>
 
         <update tableName="admin_settings">
-            <column name="autosave_time" value="10"/>
+            <column name="autosave_time" valueNumeric="10"/>
             <where>autosave_time is null</where>
         </update>
     </changeSet>
