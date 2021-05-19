@@ -1,7 +1,7 @@
 package org.devgateway.toolkit.persistence.repository;
 
 import org.devgateway.toolkit.persistence.dao.AdminSettings;
-import org.devgateway.toolkit.persistence.repository.norepository.BaseJpaRepository;
+import org.devgateway.toolkit.persistence.repository.norepository.CacheableQueryResultRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 6/22/16
  */
 @Transactional
-public interface AdminSettingsRepository extends BaseJpaRepository<AdminSettings, Long> {
+@CacheableHibernateQueryResult
+public interface AdminSettingsRepository extends CacheableQueryResultRepository<AdminSettings, Long> {
 
 }
