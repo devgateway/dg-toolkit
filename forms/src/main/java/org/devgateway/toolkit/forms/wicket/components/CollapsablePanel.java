@@ -46,5 +46,5 @@ public abstract class CollapsablePanel extends Panel {
         onInitializeBody(body);
     }
 
-    protected abstract void onInitializeBody(final WebMarkupContainer body);
+    protected abstract void onInitializeBody(WebMarkupContainer body);
 }

@@ -6,13 +6,13 @@
 </head>
 <body>
 <wicket:extend>
-    <div class="panel panel-danger">
-        <div class="panel-heading">
+    <div class="card border-danger">
+        <div class="card-header text-white bg-danger">
             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
             <span wicket:id="systemTitle">[[System Settings]]</span>
         </div>
-        <div class="panel-body">
-            <div wicket:id="rebootServer"></div>
+        <div class="card-body">
+            <div wicket:id="rebootServer" class="col-md-6"></div>
             <div wicket:id="autosaveTime" class="col-md-6"></div>
         </div>
 
