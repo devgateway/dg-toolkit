@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,19 +16,20 @@ import java.util.Optional;
  *
  * Mock for {@link BaseJpaRepository} interface.
  */
-public class TestAddressRepository implements BaseJpaRepository {
+public class TestAddressRepository implements BaseJpaRepository<TestAddress, Long> {
+
     @Override
-    public Optional findById(Object o) {
+    public Optional<TestAddress> findById(Long aLong) {
         return Optional.of(new TestAddress("Street 1", "Romania"));
     }
 
     @Override
-    public Object save(Object entity) {
+    public <S extends TestAddress> S save(S entity) {
         return null;
     }
 
     @Override
-    public boolean existsById(Object o) {
+    public boolean existsById(Long aLong) {
         return false;
     }
 
@@ -59,12 +59,12 @@ public class TestAddressRepository implements BaseJpaRepository {
     }
 
     @Override
-    public void deleteById(Object o) {
+    public void deleteById(Long aLong) {
 
     }
 
     @Override
-    public void delete(Object entity) {
+    public void delete(TestAddress entity) {
 
     }
 
@@ -94,7 +94,7 @@ public class TestAddressRepository implements BaseJpaRepository {
     }
 
     @Override
-    public Object getOne(Object o) {
+    public TestAddress getOne(Long aLong) {
         return null;
     }
 
@@ -109,7 +109,7 @@ public class TestAddressRepository implements BaseJpaRepository {
     }
 
     @Override
-    public Object saveAndFlush(Object entity) {
+    public <S extends TestAddress> S saveAndFlush(S entity) {
         return null;
     }
 
@@ -161,10 +161,5 @@ public class TestAddressRepository implements BaseJpaRepository {
     @Override
     public boolean exists(Example example) {
         return false;
-    }
-
-    @Override
-    public Optional findById(Serializable serializable) {
-        return Optional.empty();
     }
 }

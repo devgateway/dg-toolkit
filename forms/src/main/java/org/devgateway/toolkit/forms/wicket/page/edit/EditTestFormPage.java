@@ -17,7 +17,9 @@ package org.devgateway.toolkit.forms.wicket.page.edit;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.util.lang.Objects;
 import org.devgateway.toolkit.forms.security.SecurityConstants;
+import org.devgateway.toolkit.forms.validators.UniquePropertyValidator;
 import org.devgateway.toolkit.forms.wicket.components.form.CheckBoxBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.CheckBoxPickerBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.CheckBoxToggleBootstrapFormComponent;
@@ -77,6 +79,8 @@ public class EditTestFormPage extends AbstractEditStatusEntityPage<TestForm> {
         TextFieldBootstrapFormComponent<String> textField = new TextFieldBootstrapFormComponent<>("textField");
         editForm.add(textField);
         textField.required();
+        textField.getField().add(new UniquePropertyValidator<>(testFormService, Objects.defaultIfNull(entityId, -1L),
+                "textField", this));
         textField.enableRevisionsView();
 
 

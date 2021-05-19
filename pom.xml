@@ -1,11 +1,11 @@
 <!--
     Copyright (c) 2015 Development Gateway, Inc and others.
-   
+
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the MIT License (MIT)
     which accompanies this distribution, and is available at
     https://opensource.org/licenses/MIT
-   
+
     Contributors:
     Development Gateway - initial API and implementation
  -->
@@ -24,7 +24,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <liquibase.version>3.8.9</liquibase.version>
-        <spring.boot.version>2.2.6.RELEASE</spring.boot.version>
+        <spring.boot.version>2.2.11.RELEASE</spring.boot.version>
         <derby.version>10.14.2.0</derby.version>
         <poi.version>4.0.1</poi.version>
         <docker.image.prefix>devgateway/toolkit</docker.image.prefix>
@@ -83,37 +83,17 @@
             <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
         </repository>
         <repository>
-            <id>jcenter</id>
-            <url>https://jcenter.bintray.com/</url>
-        </repository>
-        <repository>
-            <id>DGToolkit</id>
-            <name>DGToolkit</name>
-            <url>http://artifactory.ampdev.net/artifactory/dg-toolkit/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>bintray-devgateway-dozer-hibernate-model</id>
-            <name>bintray</name>
-            <url>https://dl.bintray.com/devgateway/dozer-hibernate-model</url>
+            <id>devgateway-open-source</id>
+            <name>devgateway-open-source</name>
+            <url>https://artifactory.dgdev.org/artifactory/devgateway-open-source/</url>
         </repository>
     </repositories>
 
     <pluginRepositories>
         <pluginRepository>
-            <id>jcenter</id>
-            <name>jcenter</name>
-            <url>https://jcenter.bintray.com</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>DGToolkit</id>
-            <name>DGToolkit</name>
-            <url>http://artifactory.ampdev.net/artifactory/dg-toolkit/</url>
+            <id>devgateway-open-source</id>
+            <name>devgateway-open-source</name>
+            <url>https://artifactory.dgdev.org/artifactory/devgateway-open-source/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
@@ -130,11 +110,6 @@
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>${javassist.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.plugin</groupId>
-            <artifactId>spring-plugin-core</artifactId>
-            <version>2.0.0.RELEASE</version>
         </dependency>
     </dependencies>
 
@@ -158,20 +133,20 @@
                     <execution>
                         <id>validate</id>
                         <phase>validate</phase>
-                        <configuration>
-                            <configLocation>checkstyle.xml</configLocation>
-                            <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
-                            <encoding>UTF-8</encoding>
-                            <consoleOutput>true</consoleOutput>
-                            <failsOnError>false</failsOnError>
-                            <failOnViolation>true</failOnViolation>
-                            <violationSeverity>warning</violationSeverity>
-                        </configuration>
                         <goals>
                             <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                    <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
+                    <encoding>UTF-8</encoding>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>false</failsOnError>
+                    <failOnViolation>true</failOnViolation>
+                    <violationSeverity>warning</violationSeverity>
+                </configuration>
             </plugin>
 
             <plugin>

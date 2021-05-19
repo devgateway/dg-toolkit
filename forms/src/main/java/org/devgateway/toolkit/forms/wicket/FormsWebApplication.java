@@ -44,11 +44,13 @@ import org.apache.wicket.request.resource.caching.version.CachingResourceVersion
 import org.apache.wicket.settings.RequestCycleSettings.RenderStrategy;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.util.file.Folder;
+import org.devgateway.toolkit.forms.serializer.SpringDevToolsSerializer;
 import org.devgateway.toolkit.forms.service.SessionFinderService;
 import org.devgateway.toolkit.forms.wicket.components.form.SummernoteJpaStorageService;
 import org.devgateway.toolkit.forms.wicket.converters.NonNumericFilteredBigDecimalConverter;
 import org.devgateway.toolkit.forms.wicket.page.BasePage;
 import org.devgateway.toolkit.forms.wicket.page.Homepage;
+import org.devgateway.toolkit.forms.wicket.page.error.AccessDeniedPage;
 import org.devgateway.toolkit.forms.wicket.page.user.LoginPage;
 import org.devgateway.toolkit.forms.wicket.styles.BaseStyles;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -157,9 +159,6 @@ public class FormsWebApplication extends AuthenticatedWebApplication {
         // -Dwicket.configuration=deployment
         // The default is Development, so this code is not used
         if (usesDeploymentConfig()) {
-            getResourceSettings().setCachingStrategy(new FilenameWithVersionResourceCachingStrategy("-v-",
-                    new CachingResourceVersion(new Adler32ResourceVersion())
-            ));
             getResourceSettings().setJavaScriptCompressor(
                     new GoogleClosureJavaScriptCompressor(CompilationLevel.SIMPLE_OPTIMIZATIONS));
             getResourceSettings().setCssCompressor(new YuiCssCompressor());
@@ -168,9 +167,10 @@ public class FormsWebApplication extends AuthenticatedWebApplication {
             getMarkupSettings().setStripComments(true);
             getMarkupSettings().setCompressWhitespace(true);
             getMarkupSettings().setStripWicketTags(true);
-        } else {
-            getResourceSettings().setCachingStrategy(new NoOpResourceCachingStrategy());
         }
+
+        getResourceSettings().setCachingStrategy(new FilenameWithVersionResourceCachingStrategy("-v-",
+                new CachingResourceVersion(new Adler32ResourceVersion())));
 
         getRequestCycleSettings().setRenderStrategy(RenderStrategy.ONE_PASS_RENDER);
         // be sure that we have added Dozer Listener
@@ -209,6 +209,8 @@ public class FormsWebApplication extends AuthenticatedWebApplication {
             guard.addPattern("+*.woff2");
         }
 
+        getFrameworkSettings().setSerializer(new SpringDevToolsSerializer());
+
         // this ensures that spring DI works for wicket components and pages
         // see @SpringBean annotation
         getComponentInstantiationListeners().add(new SpringComponentInjector(this, applicationContext));
@@ -218,7 +220,7 @@ public class FormsWebApplication extends AuthenticatedWebApplication {
         new AnnotatedMountScanner().scanPackage(BASE_PACKAGE_FOR_PAGES).mount(this);
 
         getApplicationSettings().setUploadProgressUpdatesEnabled(true);
-        getApplicationSettings().setAccessDeniedPage(Homepage.class);
+        getApplicationSettings().setAccessDeniedPage(AccessDeniedPage.class);
 
         configureBootstrap();
         configureSummernote();
