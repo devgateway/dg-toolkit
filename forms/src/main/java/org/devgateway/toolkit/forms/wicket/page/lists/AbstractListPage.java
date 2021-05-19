@@ -14,8 +14,8 @@ package org.devgateway.toolkit.forms.wicket.page.lists;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.BootstrapBookmarkablePageLink;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons.Size;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesomeIconType;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.ladda.LaddaAjaxButton;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesome5IconType;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.spinner.SpinnerAjaxButton;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
@@ -57,6 +57,7 @@ import org.springframework.data.domain.Sort;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -150,7 +151,7 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
         pageParameters.set(WebConstants.PARAM_ID, null);
 
         editPageLink = new BootstrapBookmarkablePageLink<T>("new", editPageClass, pageParameters, Buttons.Type.Success);
-        editPageLink.setIconType(FontAwesomeIconType.plus_circle).setSize(Size.Large)
+        editPageLink.setIconType(FontAwesome5IconType.plus_circle_s).setSize(Size.Large)
                 .setLabel(new StringResourceModel("new", AbstractListPage.this, null));
 
         add(editPageLink);
@@ -178,7 +179,7 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
 
             editItemPageLink =
                     new BootstrapBookmarkablePageLink<>("edit", editPageClass, pageParameters, Buttons.Type.Info);
-            editItemPageLink.setIconType(FontAwesomeIconType.edit).setSize(Size.Small)
+            editItemPageLink.setIconType(FontAwesome5IconType.edit_s).setSize(Size.Small)
                     .setLabel(new StringResourceModel("edit", AbstractListPage.this, null));
             add(editItemPageLink);
 
@@ -191,7 +192,7 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
 
             BootstrapBookmarkablePageLink<Void> revisionsPageLink = new BootstrapBookmarkablePageLink<>("revisions",
                     RevisionsPage.class, revisionsPageParameters, Buttons.Type.Info);
-            revisionsPageLink.setIconType(FontAwesomeIconType.clock_o).setSize(Size.Small)
+            revisionsPageLink.setIconType(FontAwesome5IconType.clock_r).setSize(Size.Small)
                     .setLabel(new StringResourceModel("revisions", AbstractListPage.this, null));
             add(revisionsPageLink);
 
@@ -225,6 +226,9 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
      * A wrapper form that is used to fire the excel download action
      */
     public class ExcelDownloadForm extends Form<Void> {
+        @Serial
+        private static final long serialVersionUID = -5313470286932341397L;
+
         public ExcelDownloadForm(final String id) {
             super(id);
         }
@@ -234,6 +238,9 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
             super.onInitialize();
 
             final AJAXDownload download = new AJAXDownload() {
+                @Serial
+                private static final long serialVersionUID = -1161346950469448203L;
+
                 @Override
                 protected IRequestHandler getHandler() {
                     return new IRequestHandler() {
@@ -305,9 +312,12 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
             };
             add(download);
 
-            final LaddaAjaxButton excelButton = new LaddaAjaxButton("excelButton",
+            final SpinnerAjaxButton excelButton = new SpinnerAjaxButton("excelButton",
                     new Model<>("Excel Download"),
                     Buttons.Type.Warning) {
+                @Serial
+                private static final long serialVersionUID = 7747388964221786451L;
+
                 @Override
                 protected void onSubmit(final AjaxRequestTarget target) {
                     super.onSubmit(target);
@@ -316,7 +326,7 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
                     download.initiate(target);
                 }
             };
-            excelButton.setIconType(FontAwesomeIconType.file_excel_o);
+            excelButton.setIconType(FontAwesome5IconType.file_excel_r);
             add(excelButton);
         }
     }

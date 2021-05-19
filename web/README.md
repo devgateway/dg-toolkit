@@ -13,7 +13,11 @@ The web module is part of its larger dg-toolkit parent build, so you need to bui
 
 Because it gets packaged as a fat jar, starting it is piece of cake:
 
-`java -jar target/web-0.0.1-SNAPSHOT.jar`
+`java -jar target/web-0.0.1-SNAPSHOT.jar --illegal-access=warn`
+
+`--illegal-access=warn` is needed in JDK 16 until other dependencies are migrated.
+Use `--illegal-access=permit` to keep the logs clear from such warnings.
+See [#364](https://github.com/devgateway/dg-toolkit/issues/364).
 
 This will start everything, including an embedded Tomcat Web server and all the services attached it.
 

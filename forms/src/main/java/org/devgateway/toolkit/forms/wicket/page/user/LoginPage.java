@@ -28,7 +28,6 @@ import org.apache.wicket.request.flow.RedirectToUrlException;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.string.StringValue;
-import org.apache.wicket.util.time.Duration;
 import org.devgateway.toolkit.forms.WebConstants;
 import org.devgateway.toolkit.forms.security.SecurityUtil;
 import org.devgateway.toolkit.forms.wicket.SSAuthenticatedWebSession;
@@ -43,7 +42,9 @@ import org.springframework.security.web.savedrequest.SavedRequest;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serial;
 import java.io.Serializable;
+import java.time.Duration;
 
 /**
  * @author mpostelnicu
@@ -52,6 +53,8 @@ import java.io.Serializable;
 @MountPath("/login")
 public class LoginPage extends BasePage {
     private static final int HIDE_NOTIFICATION_SECONDS = 15;
+    @Serial
+    private static final long serialVersionUID = 7312422083615639200L;
 
     @SpringBean
     private PersonService personService;
@@ -80,6 +83,9 @@ public class LoginPage extends BasePage {
     }
 
     class LoginBean implements Serializable {
+        @Serial
+        private static final long serialVersionUID = -527953897399053935L;
+
         private String username;
 
         private String password;
@@ -124,7 +130,7 @@ public class LoginPage extends BasePage {
             retrieveReferrerFromSavedRequestIfPresent();
 
             final NotificationPanel notificationPanel = new NotificationPanel("loginFeedback");
-            notificationPanel.hideAfter(Duration.seconds(HIDE_NOTIFICATION_SECONDS));
+            notificationPanel.hideAfter(Duration.ofSeconds(HIDE_NOTIFICATION_SECONDS));
             notificationPanel.setOutputMarkupId(true);
             add(notificationPanel);
 

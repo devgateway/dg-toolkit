@@ -1,6 +1,6 @@
 # Wicket Forms
 
-This module encapsulates functionality to quickly build complex forms using Apache Wicket, Bootstrap 3, on top of JPA 2.0 entities.
+This module encapsulates functionality to quickly build complex forms using Apache Wicket 9, Bootstrap 5, on top of JPA 2.4 entities.
 
 It provides various types of pre-built form components, all with available validation, i18n, lists with entities, CRUD interface functionality.
 
@@ -59,9 +59,13 @@ This module is packaged as a fat jar. For testing purposes, the default configur
  You can run the forms module just as any module of dg-toolkit:
 
 
- `java -Dspring.profiles.active=dev -jar target/forms-0.0.1-SNAPSHOT.jar`
+ `java -Dspring.profiles.active=dev -jar target/forms-0.0.1-SNAPSHOT.jar --illegal-access=warn`
 
  This will start everything, including an embedded Tomcat Web server and all the services attached it.
+
+`--illegal-access=warn` is needed in JDK 16 until other dependencies are migrated.
+Use `--illegal-access=permit` to keep the logs clear from such warnings.
+See [#364](https://github.com/devgateway/dg-toolkit/issues/364).
 
 # Using Spring Boot Developer Tools
 

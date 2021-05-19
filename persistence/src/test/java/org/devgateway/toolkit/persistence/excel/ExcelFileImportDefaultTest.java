@@ -121,6 +121,16 @@ public class ExcelFileImportDefaultTest {
         }
 
         @Override
+        public <T> ObjectProvider<T> getBeanProvider(final Class<T> aClass, final boolean b) {
+            return null;
+        }
+
+        @Override
+        public <T> ObjectProvider<T> getBeanProvider(final ResolvableType resolvableType, final boolean b) {
+            return null;
+        }
+
+        @Override
         public String[] getBeanNamesForType(ResolvableType resolvableType) {
             return new String[0];
         }

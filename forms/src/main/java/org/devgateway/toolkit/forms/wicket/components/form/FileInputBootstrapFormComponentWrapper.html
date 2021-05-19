@@ -3,12 +3,12 @@
 <body>
 <wicket:panel>
     <!-- already uploaded file section -->
-    <div wicket:id="alreadyUploadedFiles" class="panel panel-info col-md-12">
-        <div class="panel-heading">
+    <div wicket:id="alreadyUploadedFiles" class="card border-info">
+        <div class="card-header text-white bg-info">
             <span wicket:id="uploadedFilesTitle"></span>
         </div>
 
-        <div class="panel-body">
+        <div class="card-body">
             <table class="table table-condensed table-hover">
                 <tbody>
                     <tr wicket:id="list">
@@ -26,12 +26,12 @@
     </div>
 
     <!-- pending files for upload section -->
-    <div wicket:id="pendingFiles" class="panel panel-info col-md-12">
-        <div class="panel-heading">
+    <div wicket:id="pendingFiles" class="card border-info">
+        <div class="card-header bg-info">
             <span wicket:id="pendingFilesTitle"></span>
         </div>
 
-        <div class="panel-body">
+        <div class="card-body">
             <table class="table table-condensed table-hover">
                 <tbody>
                     <tr wicket:id="list">
