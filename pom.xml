@@ -117,7 +117,7 @@
             <!-- run checkstyle `mvn clean install` once during project setup -->
             <groupId>org.devgateway.toolkit</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>1.0</version>
+            <version>1.1</version>
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
