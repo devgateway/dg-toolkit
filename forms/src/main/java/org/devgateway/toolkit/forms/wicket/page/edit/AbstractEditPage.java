@@ -125,9 +125,6 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
     @SpringBean
     protected SettingsUtils settingsUtils;
 
-//    @SpringBean(required = false)
-//    private ReportsCacheService reportsCacheService;
-
     @SpringBean(required = false)
     private MarkupCacheService markupCacheService;
 
@@ -140,9 +137,6 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
     }
 
     public void flushReportingCaches() {
-//        if (reportsCacheService != null) {
-//            reportsCacheService.flushCache();
-//        }
 
         if (markupCacheService != null) {
             markupCacheService.flushMarkupCache();

@@ -14,4 +14,8 @@
         <jcache:mbeans enable-management="true" enable-statistics="true"/>
     </ehcache:cache>
 
+    <ehcache:cache alias="default-update-timestamps-region" uses-template="template" />
+
+    <ehcache:cache alias="default-query-results-region" uses-template="template" />
+
 </ehcache:config>

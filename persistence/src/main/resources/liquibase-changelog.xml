@@ -80,7 +80,7 @@
         </preConditions>
 
         <update tableName="admin_settings">
-            <column name="autosave_time" value="10"/>
+            <column name="autosave_time" valueNumeric="10"/>
             <where>autosave_time is null</where>
         </update>
     </changeSet>
