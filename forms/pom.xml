@@ -220,6 +220,12 @@
             <groupId>de.agilecoders.wicket</groupId>
             <artifactId>wicket-bootstrap-extensions</artifactId>
             <version>${wicket.bootstrap.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>momentjs</artifactId>
+                    <groupId>org.webjars</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
