@@ -85,8 +85,26 @@ public abstract class BaseJpaServiceImpl<T extends GenericPersistable & Serializ
 
     @Override
     @Transactional
+    public <S extends T> List<S> saveAllAndFlush(final Iterable<S> iterable) {
+        return repository().saveAllAndFlush(iterable);
+    }
+
+    @Override
+    @Transactional
     public void delete(final T entity) {
         repository().delete(entity);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllInBatch(final Iterable<T> iterable) {
+        repository().deleteAllInBatch(iterable);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllByIdInBatch(final Iterable<Long> iterable) {
+        repository().deleteAllByIdInBatch(iterable);
     }
 
     protected abstract BaseJpaRepository<T, Long> repository();
