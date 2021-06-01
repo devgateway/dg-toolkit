@@ -59,13 +59,12 @@ This module is packaged as a fat jar. For testing purposes, the default configur
  You can run the forms module just as any module of dg-toolkit:
 
 
- `java -Dspring.profiles.active=dev -jar target/forms-0.0.1-SNAPSHOT.jar --illegal-access=warn`
+`java @argfile.txt -Dspring.profiles.active=dev -jar target/forms-0.0.1-SNAPSHOT.jar`
 
  This will start everything, including an embedded Tomcat Web server and all the services attached it.
 
-`--illegal-access=warn` is needed in JDK 16 until other dependencies are migrated.
-Use `--illegal-access=permit` to keep the logs clear from such warnings.
-See [#364](https://github.com/devgateway/dg-toolkit/issues/364).
+`@argfile.txt` stores additional VM arguments, in particular to grant reflective access to
+specific modules for other modules. Use `@$MODULE_DIR$/src/main/resources/argfile.txt` in IDE.
 
 # Using Spring Boot Developer Tools
 
