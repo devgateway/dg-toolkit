@@ -20,10 +20,10 @@ import de.agilecoders.wicket.extensions.markup.html.bootstrap.spinner.SpinnerAja
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxCallListener;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
-import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.event.IEvent;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.OnEventHeaderItem;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 import org.devgateway.toolkit.forms.wicket.components.ComponentUtil;
 import org.devgateway.toolkit.forms.wicket.events.EditingDisabledEvent;
 
@@ -53,13 +53,17 @@ public abstract class BootstrapDeleteButton extends SpinnerAjaxButton {
     @Override
     protected void onInitialize() {
         super.onInitialize();
-        add(new AttributeAppender("onclick", new Model<String>("window.onbeforeunload = null;"), " "));
         setDefaultFormProcessing(false);
         setIconType(FontAwesome5IconType.trash_s);
 
         if (ComponentUtil.isViewMode()) {
             setVisibilityAllowed(false);
         }
+    }
+
+    public void renderHead(IHeaderResponse response) {
+        super.renderHead(response);
+        response.render(OnEventHeaderItem.forComponent(this, "onclick", "window.onbeforeunload = null;"));
     }
 
     @Override
