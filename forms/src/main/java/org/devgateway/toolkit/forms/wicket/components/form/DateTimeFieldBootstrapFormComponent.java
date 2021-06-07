@@ -14,11 +14,11 @@
  */
 package org.devgateway.toolkit.forms.wicket.components.form;
 
+import de.agilecoders.wicket.core.markup.html.bootstrap.behavior.CssClassNameAppender;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.datetime.DatetimePicker;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.datetime.DatetimePickerConfig;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.datetime.DatetimePickerIconConfig;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesome5IconType;
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxLink;
 import org.apache.wicket.model.IModel;
@@ -83,7 +83,7 @@ public class DateTimeFieldBootstrapFormComponent extends GenericBootstrapFormCom
     protected void onInitialize() {
         super.onInitialize();
 
-        border.add(new AttributeModifier("style", "position:relative;"));
+        border.add(new CssClassNameAppender("position-relative"));
 
         IndicatingAjaxLink<String> clearDateLink = new IndicatingAjaxLink<String>("clearDate") {
             private static final long serialVersionUID = -1705495886974891511L;

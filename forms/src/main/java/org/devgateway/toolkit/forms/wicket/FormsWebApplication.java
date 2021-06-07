@@ -31,6 +31,7 @@ import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxNewWindowNotifyingBehavior;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
+import org.apache.wicket.csp.CSPDirective;
 import org.apache.wicket.markup.head.filter.JavaScriptFilteredIntoFooterHeaderResponse;
 import org.apache.wicket.markup.html.IPackageResourceGuard;
 import org.apache.wicket.markup.html.SecurePackageResourceGuard;
@@ -240,6 +241,13 @@ public class FormsWebApplication extends AuthenticatedWebApplication {
         // TODO make Wicket usage CSP compliant (temporarily disabled)
         // https://ci.apache.org/projects/wicket/guide/9.x/single.html#_content_security_policy_csp
         getCspSettings().blocking().disabled();
+        /*
+        // wicket-bootstrap-extension has to be CSP compliant to enable it
+        getCspSettings().blocking()
+                .strict()
+                // whitelist images rendered via data:
+                .add(CSPDirective.IMG_SRC, "data:");
+         */
     }
 
     /**

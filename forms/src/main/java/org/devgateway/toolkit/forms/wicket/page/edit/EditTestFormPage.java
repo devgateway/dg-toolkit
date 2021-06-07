@@ -31,6 +31,7 @@ import org.devgateway.toolkit.forms.wicket.components.form.ColorPickerBootstrapF
 import org.devgateway.toolkit.forms.wicket.components.form.DateFieldBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.DateTimeFieldBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.FileInputBootstrapFormComponent;
+import org.devgateway.toolkit.forms.wicket.components.form.PercentageFieldBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.Select2ChoiceBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.Select2MultiChoiceBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.SummernoteBootstrapFormComponent;
@@ -135,6 +136,10 @@ public class EditTestFormPage extends AbstractEditStatusEntityPage<TestForm> {
         DateTimeFieldBootstrapFormComponent dateTime = new DateTimeFieldBootstrapFormComponent("dateTime");
         dateTime.required();
         editForm.add(dateTime);
+
+        PercentageFieldBootstrapFormComponent percentage = new PercentageFieldBootstrapFormComponent("percentage");
+        percentage.required();
+        editForm.add(percentage);
 
         FileInputBootstrapFormComponent fileInput = new FileInputBootstrapFormComponent("fileInput");
         fileInput.required();
