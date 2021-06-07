@@ -19,12 +19,14 @@ public class AdminSettings extends AbstractAuditableEntity {
     private static final long serialVersionUID = -1051140524022133178L;
 
     public static final Duration REBOOT_ALERT_DURATION = Duration.ofMinutes(10L);
+    public static final int AUTOSAVE_TIME_DEFAULT = 10;
 
     private Boolean rebootServer = false;
 
     private LocalDateTime rebootAlertSince;
 
-    private Integer autosaveTime;
+    private Integer autosaveTime = AUTOSAVE_TIME_DEFAULT;
+
     @Override
     public AbstractAuditableEntity getParent() {
         return null;
