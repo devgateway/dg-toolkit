@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.core.mapping.RepositoryDetectionStrategy.RepositoryDetectionStrategies;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 /**
  * We only allow to expose repositories that are annotated
@@ -20,7 +21,8 @@ public class CustomRestMvcConfiguration {
         return new RepositoryRestConfigurer() {
 
             @Override
-            public void configureRepositoryRestConfiguration(final RepositoryRestConfiguration config) {
+            public void configureRepositoryRestConfiguration(final RepositoryRestConfiguration config,
+                    CorsRegistry cors) {
                 config.setRepositoryDetectionStrategy(RepositoryDetectionStrategies.ANNOTATED);
             }
         };

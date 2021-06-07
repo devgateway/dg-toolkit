@@ -27,6 +27,7 @@ import org.devgateway.toolkit.forms.security.SecurityConstants;
 import org.devgateway.toolkit.persistence.dao.AdminSettings;
 import org.devgateway.toolkit.persistence.service.AdminSettingsService;
 
+import java.io.Serial;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -36,6 +37,7 @@ import java.time.LocalDateTime;
  */
 
 public class Header extends Panel {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private static final Duration ONE_MIN = Duration.ofMinutes(1);
@@ -59,12 +61,13 @@ public class Header extends Panel {
     private void addRebootAlert() {
         AdminSettings as = adminSettingsService.get();
         if (as == null) {
-            add(new WebMarkupContainer("rebootAlert"));
+            add(new WebMarkupContainer("rebootAlert").setVisible(false));
             return;
         }
         rebootSince = as.isRebootServer() ? as.getRebootAlertSince() : null;
 
-        IModel<String> rebootDurationModel = new IModel<String>() {
+        IModel<String> rebootDurationModel = new IModel<>() {
+            @Serial
             private static final long serialVersionUID = -8601598474017148336L;
 
             @Override
@@ -85,6 +88,7 @@ public class Header extends Panel {
         };
 
         Label rebootAlert = new Label("rebootAlert", new StringResourceModel("rebootAlert", rebootDurationModel)) {
+            @Serial
             private static final long serialVersionUID = -3562806753180165059L;
 
             @Override
@@ -97,7 +101,8 @@ public class Header extends Panel {
         add(rebootAlert);
         MetaDataRoleAuthorizationStrategy.authorize(rebootAlert, Component.RENDER, SecurityConstants.Roles.ROLE_USER);
 
-        add(new AbstractAjaxTimerBehavior(org.apache.wicket.util.time.Duration.seconds(ALERT_UPDATE_INTERVAL_SECONDS)) {
+        add(new AbstractAjaxTimerBehavior(Duration.ofSeconds(ALERT_UPDATE_INTERVAL_SECONDS)) {
+            @Serial
             private static final long serialVersionUID = -1168209018766325709L;
 
             @Override
