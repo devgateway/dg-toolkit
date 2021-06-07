@@ -5,4 +5,6 @@ import org.devgateway.toolkit.persistence.dao.AdminSettings;
 public interface AdminSettingsService extends BaseJpaService<AdminSettings> {
 
     AdminSettings get();
+
+    Integer getAutosaveTime();
 }
