@@ -3,12 +3,11 @@
     xmlns:wicket="http://wicket.apache.org">
 <body>
     <wicket:panel>
-        <div wicket:id="enclosing-field-group" class="input-group"
-            style="display: block">
-            <span style="display: table-cell; white-space: nowrap;">
-                <span wicket:id="tooltipLabel"></span> <input
-                wicket:id="field" type="text" placeholder="%"></input> <label
-                wicket:id="label">[[label]]</label>
+        <div wicket:id="enclosing-field-group" class="input-group d-block">
+            <span class="d-table-cell text-nowrap">
+                <span wicket:id="tooltipLabel"></span>
+                    <input wicket:id="field" type="text" placeholder="%" class="d-inline-block"></input>
+                    <label wicket:id="label">[[label]]</label>
             </span>
             <wicket:child />
             <span wicket:id="viewModeField"></span>

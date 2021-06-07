@@ -2,6 +2,7 @@ package org.devgateway.toolkit.forms.wicket.components.form;
 
 import com.google.common.io.BaseEncoding;
 import de.agilecoders.wicket.core.markup.html.bootstrap.form.InputBehavior;
+import de.agilecoders.wicket.core.util.Attributes;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.editor.SummernoteConfig;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.editor.SummernoteEditorCssReference;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.editor.SummernoteEditorFormDataReference;
@@ -9,7 +10,7 @@ import de.agilecoders.wicket.extensions.markup.html.bootstrap.editor.SummernoteE
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.editor.SummernoteEditorOverlayCssReference;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.editor.SummernoteStorage;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.editor.SummernoteStoredImageResourceReference;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesomeCssReference;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesome5CssReference;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.references.SpinJsReference;
 import de.agilecoders.wicket.jquery.IKey;
 import org.apache.commons.fileupload.FileItem;
@@ -108,7 +109,7 @@ public class ToolkitSummernoteEditor extends FormComponent<String> {
     @Override
     protected void onComponentTag(final ComponentTag tag) {
         if (!isEnabledInHierarchy()) {
-            tag.put("style", "display:none;");
+            Attributes.addClass(tag, "d-none");
             if (tag.isOpenClose()) {
                 // always transform the tag to <div></div> so even labels defined as <span/> render
                 tag.setType(XmlTag.TagType.OPEN);
@@ -159,7 +160,7 @@ public class ToolkitSummernoteEditor extends FormComponent<String> {
             return;
         }
         response.render(CssHeaderItem.forReference(SummernoteEditorCssReference.instance()));
-        response.render(CssHeaderItem.forReference(FontAwesomeCssReference.instance()));
+        response.render(CssHeaderItem.forReference(FontAwesome5CssReference.instance()));
         response.render(CssHeaderItem.forReference(SummernoteEditorOverlayCssReference.instance()));
         response.render(JavaScriptHeaderItem.forReference(SummernoteEditorJavaScriptReference.instance()));
         response.render(JavaScriptHeaderItem.forReference(SummernoteEditorFormDataReference.instance()));
