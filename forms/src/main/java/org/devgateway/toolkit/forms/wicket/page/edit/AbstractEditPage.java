@@ -45,6 +45,7 @@ import org.devgateway.toolkit.forms.wicket.components.form.GenericBootstrapFormC
 import org.devgateway.toolkit.forms.wicket.components.form.SummernoteBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.page.BasePage;
 import org.devgateway.toolkit.persistence.dao.GenericPersistable;
+import org.devgateway.toolkit.persistence.service.AdminSettingsService;
 import org.devgateway.toolkit.persistence.service.BaseJpaService;
 import org.devgateway.toolkit.web.util.SettingsUtils;
 import org.slf4j.Logger;
@@ -63,6 +64,9 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
     private static final long serialVersionUID = -5928614890244382103L;
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractEditPage.class);
+
+    @SpringBean
+    protected AdminSettingsService adminSettingsService;
 
     /**
      * Factory method for the new instance of the entity being editing. This
@@ -120,9 +124,6 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
 
     @SpringBean
     private EntityManager entityManager;
-
-    @SpringBean
-    protected SettingsUtils settingsUtils;
 
     @SpringBean(required = false)
     private MarkupCacheService markupCacheService;

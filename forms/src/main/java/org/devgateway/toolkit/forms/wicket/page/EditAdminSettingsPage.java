@@ -59,7 +59,8 @@ public class EditAdminSettingsPage extends AbstractEditPage<AdminSettings> {
 
         autosaveTime = new TextFieldBootstrapFormComponent<>("autosaveTime");
         autosaveTime.integer().required();
-        autosaveTime.getField().add(RangeValidator.range(1, 60));
+        autosaveTime.getField().add(RangeValidator.range(0, 60));
+        autosaveTime.setShowTooltip(true);
         editForm.add(autosaveTime);
     }
 }
