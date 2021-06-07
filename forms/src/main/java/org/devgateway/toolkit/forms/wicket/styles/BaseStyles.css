@@ -128,6 +128,10 @@ hr.edit-separator {
   font-weight: bold;
 }
 
+.bootstrap-datetimepicker-widget .datepicker > div {
+    display: inherit;
+}
+
 /* List View Styles
 -------------------------------------------------- */
 .section-bordered {
@@ -215,5 +219,13 @@ hr.edit-separator {
     border-color: #a94442;
 }
 
+.navigation .navigator .pagination li a[disabled='disabled'] {
+    background-color: #e9ecef;
+    cursor: default;
+}
+
+.navigation .navigator .pagination li a[disabled='disabled']:hover {
+    color: #007bff;
+}
 /*
 -------------------------------------------------- */

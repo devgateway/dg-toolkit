@@ -17,6 +17,8 @@ package org.devgateway.toolkit.forms.wicket.components.form;
 import de.agilecoders.wicket.core.markup.html.bootstrap.behavior.CssClassNameAppender;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.datetime.DatetimePicker;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.datetime.DatetimePickerConfig;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.datetime.DatetimePickerIconConfig;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesome5IconType;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxLink;
 import org.apache.wicket.model.IModel;
@@ -59,12 +61,16 @@ public class DateTimeFieldBootstrapFormComponent extends GenericBootstrapFormCom
     @Override
     protected DatetimePicker inputField(final String id, final IModel<Date> model) {
         config = new DatetimePickerConfig().withFormat(DEFAULT_FORMAT);
+        config.with(
+                new DatetimePickerIconConfig()
+                        .useTimeIcon(FontAwesome5IconType.clock_r));
+
         return new DatetimePicker("field", initFieldModel(), config);
     }
 
     @Override
     public String getUpdateEvent() {
-        return "update";
+        return "change";
     }
 
     /*
