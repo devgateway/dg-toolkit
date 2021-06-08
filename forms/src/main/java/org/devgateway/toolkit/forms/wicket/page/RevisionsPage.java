@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static org.devgateway.toolkit.persistence.PersistenceConstants.ZONED_DATE_TIME_PATTER;
+
 /**
  * @author mpostelnicu
  */
@@ -85,7 +87,7 @@ public class RevisionsPage extends BasePage {
 
                 item.add(new Label("revisionNumber", new PropertyModel<Integer>(item.getModel(), "id")));
                 item.add(DateLabel.forDatePattern("revisionDate",
-                        new PropertyModel<Date>(item.getModel(), "revisionDate"), "yyyy/MM/dd @HH:mm:ss z"));
+                        new PropertyModel<>(item.getModel(), "revisionDate"), ZONED_DATE_TIME_PATTER));
             }
         });
     }
