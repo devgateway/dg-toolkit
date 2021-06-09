@@ -3,7 +3,7 @@ package org.devgateway.toolkit.checks;
 import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
-import com.puppycrawl.tools.checkstyle.utils.AnnotationUtility;
+import com.puppycrawl.tools.checkstyle.utils.AnnotationUtil;
 
 /**
  * Checks that the methods of all classes annotated with @CacheableHibernateQueryResult
@@ -24,14 +24,24 @@ public class CachableQueryAnnotationCheck extends AbstractCheck {
     }
 
     @Override
+    public int[] getAcceptableTokens() {
+        return new int[0];
+    }
+
+    @Override
+    public int[] getRequiredTokens() {
+        return new int[0];
+    }
+
+    @Override
     public void visitToken(DetailAST ast) {
-        if (AnnotationUtility.containsAnnotation(ast, "CacheableHibernateQueryResult")) {
+        if (AnnotationUtil.containsAnnotation(ast, "CacheableHibernateQueryResult")) {
             DetailAST objBlock = ast.findFirstToken(TokenTypes.OBJBLOCK);
             DetailAST methodDef = objBlock.findFirstToken(TokenTypes.METHOD_DEF);
             while (methodDef != null) {
                 if (methodDef.getType() == TokenTypes.METHOD_DEF) {
-                    if (!(AnnotationUtility.containsAnnotation(methodDef, "CacheHibernateQueryResult")
-                            || AnnotationUtility.containsAnnotation(methodDef, "NoCacheHibernateQueryResult"))) {
+                    if (!(AnnotationUtil.containsAnnotation(methodDef, "CacheHibernateQueryResult")
+                            || AnnotationUtil.containsAnnotation(methodDef, "NoCacheHibernateQueryResult"))) {
                         log(methodDef.getLineNo(), ERROR_MESSAGE);
                     }
                 }

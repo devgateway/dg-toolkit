@@ -8,5 +8,5 @@ import java.util.Locale;
  */
 public interface INumberFormatter {
 
-    NumberFormat get(final Locale locale);
+    NumberFormat get(Locale locale);
 }

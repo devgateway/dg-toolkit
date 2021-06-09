@@ -1,6 +1,6 @@
 # Wicket Forms
 
-This module encapsulates functionality to quickly build complex forms using Apache Wicket, Bootstrap 3, on top of JPA 2.0 entities.
+This module encapsulates functionality to quickly build complex forms using Apache Wicket 9, Bootstrap 5, on top of JPA 2.4 entities.
 
 It provides various types of pre-built form components, all with available validation, i18n, lists with entities, CRUD interface functionality.
 
@@ -59,9 +59,12 @@ This module is packaged as a fat jar. For testing purposes, the default configur
  You can run the forms module just as any module of dg-toolkit:
 
 
- `java -Dspring.profiles.active=dev -jar target/forms-0.0.1-SNAPSHOT.jar`
+`java @argfile.txt -Dspring.profiles.active=dev -jar target/forms-0.0.1-SNAPSHOT.jar`
 
  This will start everything, including an embedded Tomcat Web server and all the services attached it.
+
+`@argfile.txt` stores additional VM arguments, in particular to grant reflective access to
+specific modules for other modules. Use `@$MODULE_DIR$/src/main/resources/argfile.txt` in IDE.
 
 # Using Spring Boot Developer Tools
 
