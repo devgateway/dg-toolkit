@@ -39,7 +39,6 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.request.resource.caching.FilenameWithVersionResourceCachingStrategy;
-import org.apache.wicket.request.resource.caching.NoOpResourceCachingStrategy;
 import org.apache.wicket.request.resource.caching.version.CachingResourceVersion;
 import org.apache.wicket.settings.RequestCycleSettings.RenderStrategy;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -47,12 +46,16 @@ import org.apache.wicket.util.file.Folder;
 import org.devgateway.toolkit.forms.serializer.SpringDevToolsSerializer;
 import org.devgateway.toolkit.forms.service.SessionFinderService;
 import org.devgateway.toolkit.forms.wicket.components.form.SummernoteJpaStorageService;
+import org.devgateway.toolkit.forms.wicket.converters.FormattedDoubleConverter;
+import org.devgateway.toolkit.forms.wicket.converters.LocalDateFormatter;
 import org.devgateway.toolkit.forms.wicket.converters.NonNumericFilteredBigDecimalConverter;
+import org.devgateway.toolkit.forms.wicket.converters.ZonedDateTimeFormatter;
 import org.devgateway.toolkit.forms.wicket.page.BasePage;
 import org.devgateway.toolkit.forms.wicket.page.Homepage;
 import org.devgateway.toolkit.forms.wicket.page.error.AccessDeniedPage;
 import org.devgateway.toolkit.forms.wicket.page.user.LoginPage;
 import org.devgateway.toolkit.forms.wicket.styles.BaseStyles;
+import org.devgateway.toolkit.persistence.converter.DefaultDecimalFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -64,6 +67,8 @@ import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 import org.wicketstuff.select2.ApplicationSettings;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 /**
  * The web application class also serves as spring boot starting point by using
@@ -89,6 +94,8 @@ public class FormsWebApplication extends AuthenticatedWebApplication {
     @Autowired
     private SummernoteJpaStorageService summernoteJpaStorageService;
 
+    private DefaultDecimalFormatter defaultDecimalFormatter = new DefaultDecimalFormatter();
+
     public static void main(final String[] args) {
         SpringApplication.run(FormsWebApplication.class, args);
     }
@@ -102,7 +109,10 @@ public class FormsWebApplication extends AuthenticatedWebApplication {
     @Override
     protected IConverterLocator newConverterLocator() {
         ConverterLocator locator = (ConverterLocator) super.newConverterLocator();
-        locator.set(BigDecimal.class, new NonNumericFilteredBigDecimalConverter());
+        locator.set(BigDecimal.class, new NonNumericFilteredBigDecimalConverter(defaultDecimalFormatter));
+        locator.set(Double.class, new FormattedDoubleConverter(defaultDecimalFormatter));
+        locator.set(LocalDate.class, new LocalDateFormatter());
+        locator.set(ZonedDateTime.class, new ZonedDateTimeFormatter());
         return locator;
     }
 

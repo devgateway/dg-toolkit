@@ -10,7 +10,7 @@
  * Development Gateway - initial API and implementation
  *******************************************************************************/
 /**
- * 
+ *
  */
 package org.devgateway.toolkit.forms.wicket.components.form;
 
@@ -23,14 +23,14 @@ import org.apache.wicket.model.IModel;
 
 import java.util.Date;
 
+import static org.devgateway.toolkit.persistence.PersistenceConstants.DATE_TIME_PATTERN;
+
 /**
  * @author mpostelnicu
- * 
+ *
  */
 public class DateTimeFieldBootstrapFormComponent extends GenericBootstrapFormComponent<Date, DatetimePicker> {
     private static final long serialVersionUID = 6829640010904041758L;
-
-    public static final String DEFAULT_FORMAT = "dd/MM/yyyy HH:mm:ss";
 
     private DatetimePickerConfig config;
 
@@ -58,7 +58,7 @@ public class DateTimeFieldBootstrapFormComponent extends GenericBootstrapFormCom
 
     @Override
     protected DatetimePicker inputField(final String id, final IModel<Date> model) {
-        config = new DatetimePickerConfig().withFormat(DEFAULT_FORMAT);
+        config = new DatetimePickerConfig().withFormat(DATE_TIME_PATTERN);
         return new DatetimePicker("field", initFieldModel(), config);
     }
 
@@ -69,7 +69,7 @@ public class DateTimeFieldBootstrapFormComponent extends GenericBootstrapFormCom
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.devgateway.toolkit.forms.wicket.components.form.
      * GenericBootstrapFormComponent#onConfigure()
      */
