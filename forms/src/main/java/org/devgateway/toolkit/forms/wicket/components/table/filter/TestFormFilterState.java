@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Octavian on 03.07.2016.
  */
-public class TestFormFilterState extends JpaFilterState<TestForm> {
+public class TestFormFilterState extends AbstractStatusFilterState<TestForm> {
 
     private static final long serialVersionUID = 8005371716983257722L;
     private String textField;
@@ -21,6 +21,8 @@ public class TestFormFilterState extends JpaFilterState<TestForm> {
     public Specification<TestForm> getSpecification() {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
+            addStatus(predicates, root, query, cb);
+
             if (StringUtils.isNotBlank(textField)) {
                 predicates.add(cb.like(root.get(TestForm_.textField), "%" + textField + "%"));
             }
