@@ -21,10 +21,11 @@ public class HTTPErrorController implements ErrorController {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         if (status != null) {
             int statusCode = Integer.parseInt(status.toString());
+            String contextPath = request.getContextPath();
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
-                response.sendRedirect("/error/not-found");
+                response.sendRedirect(contextPath + "/error/not-found");
             } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
-                response.sendRedirect("/error/access-denied");
+                response.sendRedirect(contextPath + "/error/access-denied");
             }
         }
     }
