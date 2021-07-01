@@ -117,6 +117,14 @@ hr.edit-separator {
     margin-bottom: 0px;
 }
 
+.form-check {
+    padding-left: 0;
+}
+
+.btn[disabled="disabled"] .btn {
+    cursor: default !important;
+}
+
 .sleep-mode .sleep-value {
     padding-top: 5px;
     font-weight: bold;
