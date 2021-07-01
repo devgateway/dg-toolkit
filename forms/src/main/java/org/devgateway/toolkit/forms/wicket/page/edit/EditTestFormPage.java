@@ -15,11 +15,15 @@
 package org.devgateway.toolkit.forms.wicket.page.edit;
 
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.lang.Objects;
 import org.devgateway.toolkit.forms.security.SecurityConstants;
 import org.devgateway.toolkit.forms.validators.UniquePropertyValidator;
+import org.devgateway.toolkit.forms.wicket.components.CollapsablePanel;
 import org.devgateway.toolkit.forms.wicket.components.form.CheckBoxBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.CheckBoxPickerBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.CheckBoxToggleBootstrapFormComponent;
@@ -27,6 +31,7 @@ import org.devgateway.toolkit.forms.wicket.components.form.ColorPickerBootstrapF
 import org.devgateway.toolkit.forms.wicket.components.form.DateFieldBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.DateTimeFieldBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.FileInputBootstrapFormComponent;
+import org.devgateway.toolkit.forms.wicket.components.form.PercentageFieldBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.Select2ChoiceBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.Select2MultiChoiceBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.SummernoteBootstrapFormComponent;
@@ -42,6 +47,8 @@ import org.devgateway.toolkit.persistence.service.RoleService;
 import org.devgateway.toolkit.persistence.service.TestFormService;
 import org.devgateway.toolkit.persistence.service.category.GroupService;
 import org.wicketstuff.annotation.mount.MountPath;
+
+import java.io.Serial;
 
 /**
  * @author mpostelnicu
@@ -130,6 +137,10 @@ public class EditTestFormPage extends AbstractEditStatusEntityPage<TestForm> {
         dateTime.required();
         editForm.add(dateTime);
 
+        PercentageFieldBootstrapFormComponent percentage = new PercentageFieldBootstrapFormComponent("percentage");
+        percentage.required();
+        editForm.add(percentage);
+
         FileInputBootstrapFormComponent fileInput = new FileInputBootstrapFormComponent("fileInput");
         fileInput.required();
         editForm.add(fileInput);
@@ -137,6 +148,24 @@ public class EditTestFormPage extends AbstractEditStatusEntityPage<TestForm> {
         ColorPickerBootstrapFormComponent colorPicker = new ColorPickerBootstrapFormComponent("colorPicker");
         colorPicker.required();
         editForm.add(colorPicker);
+
+        CollapsablePanel collapsable1 = new CollapsablePanelTest("collapsable-panel1", Model.of("Collapsable Panel 1"));
+        editForm.add(collapsable1);
+        CollapsablePanel collapsable2 = new CollapsablePanelTest("collapsable-panel2", Model.of("Collapsable Panel 2"));
+        editForm.add(collapsable2);
+    }
+
+    private static class CollapsablePanelTest extends CollapsablePanel {
+        @Serial
+        private static final long serialVersionUID = -858848352646588874L;
+
+        CollapsablePanelTest(final String id, final IModel<String> headerLabelModel) {
+            super(id, headerLabelModel);
+        }
+
+        @Override
+        protected void onInitializeBody(final WebMarkupContainer body) {
+        }
     }
 
 }

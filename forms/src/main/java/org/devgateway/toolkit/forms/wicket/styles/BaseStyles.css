@@ -29,7 +29,7 @@ body {
     border-radius: 0;
 }
 
-.mainHeader.with-navbar-fixed-top {
+.mainHeader.with-fixed-top {
     /*
      * The mainHeader doesn't have any height when the navbar is fixed, and other elements are behind it.
      *
@@ -40,12 +40,12 @@ body {
      * @see: bootstrap::navbar.less
      */
     min-height: 50px;
-    margin-bottom: 32px;
+    margin-bottom: 42px;
 }
 
 .rebootAlert {
     position: fixed;
-    top: 50px;
+    top: 60px;
     padding: 6px;
     text-align: center;
     width: 100%;
@@ -63,6 +63,7 @@ body {
      * The main page content should have some height.
      */
     min-height: 20em;
+    margin-bottom: 70px;
 }
 
 .mainFooter {
@@ -75,7 +76,7 @@ body {
     width: 100%;
     /* Set the fixed height of the footer here */
     height: 50px;
-    background-color: #222;
+    background-color: #343a40;
 }
 
 /* file upload
@@ -84,16 +85,10 @@ body {
     background: transparent url('./assets/img/ajax-loader.gif') no-repeat scroll center center content-box !important;
 }
 
-.revision-data-div {
-    width: 50em;
-    overflow-x: auto;
-    white-space: nowrap;
-}
-
 /* Edit Entity Styles
 -------------------------------------------------- */
 .revision-data-div {
-    width: 50em;
+    /* width: 50em; */
     overflow-x: auto;
     white-space: nowrap;
 }
@@ -139,6 +134,10 @@ hr.edit-separator {
 
 .sleep-label {
   font-weight: bold;
+}
+
+.bootstrap-datetimepicker-widget .datepicker > div {
+    display: inherit;
 }
 
 /* List View Styles
@@ -228,5 +227,13 @@ hr.edit-separator {
     border-color: #a94442;
 }
 
+.navigation .navigator .pagination li a[disabled='disabled'] {
+    background-color: #e9ecef;
+    cursor: default;
+}
+
+.navigation .navigator .pagination li a[disabled='disabled']:hover {
+    color: #007bff;
+}
 /*
 -------------------------------------------------- */
