@@ -140,9 +140,13 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
         add(filterForm);
 
         if (hasFilteredColumns()) {
-            GoAndClearFilter go = new BootstrapGoClearFilter("go", filterForm);
-            FilterToolbar filterToolbar = new GoFilterToolbar(dataTable, go, filterForm);
-            filterToolbar.setVisibilityAllowed(filterGoReset);
+            FilterToolbar filterToolbar = null;
+            if (filterGoReset) {
+                GoAndClearFilter go = new BootstrapGoClearFilter("go", filterForm);
+                filterToolbar = new GoFilterToolbar(dataTable, go, filterForm);
+            } else {
+                filterToolbar = new FilterToolbar(dataTable, filterForm);
+            }
             dataTable.addTopToolbar(filterToolbar);
         }
 
