@@ -19,7 +19,8 @@ import java.util.List;
  * @author idobre
  * @since 12/20/16
  */
-public class SelectFilteredBootstrapPropertyColumn<T, Y, S> extends ChoiceFilteredPropertyColumn<T, Y, S> {
+public class SelectFilteredBootstrapPropertyColumn<T, Y, S> extends ChoiceFilteredPropertyColumn<T, Y, S>
+    implements DataTableAware {
     private DataTable dataTable;
     private boolean disableFilter = false;
     private ChoiceProvider<Y> choiceProvider;
@@ -107,5 +108,15 @@ public class SelectFilteredBootstrapPropertyColumn<T, Y, S> extends ChoiceFilter
         if (choiceProvider != null) {
             choiceProvider.detach();
         }
+    }
+
+    @Override
+    public DataTable getDataTable() {
+        return dataTable;
+    }
+
+    @Override
+    public void setDataTable(DataTable dataTable) {
+        this.dataTable = dataTable;
     }
 }
