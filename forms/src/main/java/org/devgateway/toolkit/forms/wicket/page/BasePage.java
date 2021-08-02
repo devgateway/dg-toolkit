@@ -240,7 +240,8 @@ public abstract class BasePage extends GenericWebPage<Void> {
 
     protected NavbarButton<Homepage> newHomeMenu() {
         // home
-        NavbarButton<Homepage> homeMenu = new NavbarButton<>(Homepage.class, Model.of("Home"));
+        NavbarButton<Homepage> homeMenu = new NavbarButton<>(Homepage.class,
+                new StringResourceModel("navbar.home", this, null));
         homeMenu.setIconType(FontAwesome5IconType.home_s);
         MetaDataRoleAuthorizationStrategy.authorize(homeMenu, Component.RENDER, SecurityConstants.Roles.ROLE_USER);
         return homeMenu;
