@@ -10,18 +10,20 @@
  * Development Gateway - initial API and implementation
  *******************************************************************************/
 /**
- * 
+ *
  */
 package org.devgateway.toolkit.forms.wicket.converters;
 
 import org.apache.wicket.util.convert.converter.BigDecimalConverter;
+import org.devgateway.toolkit.persistence.converter.INumberFormatter;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.Locale;
 
 /**
  * @author mpostelnicu
- * 
+ *
  *         This is a {@link BigDecimalConverter} adapted to remove all
  *         non-decimal characters before it complains (throws exception) that
  *         the number is not a number. This will lead to all {@link BigDecimal}
@@ -36,6 +38,18 @@ import java.util.Locale;
 public class NonNumericFilteredBigDecimalConverter extends BigDecimalConverter {
 
     private static final long serialVersionUID = 1L;
+
+    private final INumberFormatter numberFormatter;
+
+    public NonNumericFilteredBigDecimalConverter(final INumberFormatter numberFormatter) {
+        super();
+        this.numberFormatter = numberFormatter;
+    }
+
+    @Override
+    protected NumberFormat newNumberFormat(final Locale locale) {
+        return numberFormatter.get(locale);
+    }
 
     @Override
     public BigDecimal convertToObject(final String value, final Locale locale) {
