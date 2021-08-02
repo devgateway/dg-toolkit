@@ -328,8 +328,9 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
     }
 
     private void addAutosaveLabel() {
+        Integer autosaveTime = adminSettingsService.getAutosaveTime();
         autoSaveLabel = new Label("autoSaveLabel",
-                new StringResourceModel("autoSaveLabelMessage", this).setParameters(settingsUtils.getAutosaveTime()));
+                new StringResourceModel("autoSaveLabelMessage", this).setParameters(autosaveTime));
         autoSaveLabel.setVisibilityAllowed(false);
         autoSaveLabel.setOutputMarkupPlaceholderTag(true);
         autoSaveLabel.setOutputMarkupId(true);
@@ -361,7 +362,7 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
 
     private void addAutosaveBehavior(final AjaxRequestTarget target) {
         // enable autosave
-        if (!ComponentUtil.isPrintMode()
+        if (!ComponentUtil.isPrintMode() && adminSettingsService.getAutosaveTime() > 0
                 && Strings.isEqual(editForm.getModelObject().getStatus(), DBConstants.Status.DRAFT)) {
             saveDraftContinueButton.add(getAutosaveBehavior());
             autoSaveLabel.setVisibilityAllowed(true);
@@ -373,7 +374,7 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
 
     private AbstractAjaxTimerBehavior getAutosaveBehavior() {
         final AbstractAjaxTimerBehavior ajaxTimerBehavior = new AbstractAjaxTimerBehavior(
-                Duration.ofMinutes(settingsUtils.getAutosaveTime())) {
+                Duration.ofMinutes(adminSettingsService.getAutosaveTime())) {
             @Serial
             private static final long serialVersionUID = -2804313213330350048L;
 

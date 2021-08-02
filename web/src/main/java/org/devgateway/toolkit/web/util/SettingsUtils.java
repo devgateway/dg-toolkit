@@ -20,8 +20,6 @@ import java.util.List;
 public class SettingsUtils {
     protected static Logger logger = LoggerFactory.getLogger(SettingsUtils.class);
 
-    public static final int AUTOSAVE_TIME_DEFAULT = 10;
-
     @Autowired
     private AdminSettingsService adminSettingsService;
 
@@ -32,14 +30,6 @@ public class SettingsUtils {
 
     public String getGoogleAnalyticsTrackingId() {
         return googleAnalyticsTrackingId;
-    }
-
-    public int getAutosaveTime() {
-        init();
-        if (ObjectUtils.isEmpty(setting.getAutosaveTime())) {
-            return AUTOSAVE_TIME_DEFAULT;
-        }
-        return setting.getAutosaveTime();
     }
 
     public boolean getRebootServer() {

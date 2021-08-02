@@ -58,4 +58,14 @@ public class AdminSettingsServiceImpl extends BaseJpaServiceImpl<AdminSettings> 
         return entries.isEmpty() ? null :  entries.get(0);
     }
 
+    private AdminSettings getOrDefault() {
+        List<AdminSettings> entries = repository().findAll();
+        return entries.isEmpty() ? new AdminSettings() :  entries.get(0);
+    }
+
+    @Override
+    public Integer getAutosaveTime() {
+        return getOrDefault().getAutosaveTime();
+    }
+
 }
