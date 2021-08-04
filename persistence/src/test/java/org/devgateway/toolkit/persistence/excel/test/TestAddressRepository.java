@@ -69,6 +69,11 @@ public class TestAddressRepository implements BaseJpaRepository<TestAddress, Lon
     }
 
     @Override
+    public void deleteAllById(final Iterable<? extends Long> iterable) {
+
+    }
+
+    @Override
     public void deleteAll(Iterable entities) {
 
     }
@@ -84,6 +89,7 @@ public class TestAddressRepository implements BaseJpaRepository<TestAddress, Lon
     }
 
     @Override
+    @Deprecated
     public void deleteInBatch(Iterable entities) {
 
     }
@@ -94,7 +100,13 @@ public class TestAddressRepository implements BaseJpaRepository<TestAddress, Lon
     }
 
     @Override
+    @Deprecated
     public TestAddress getOne(Long aLong) {
+        return null;
+    }
+
+    @Override
+    public TestAddress getById(final Long aLong) {
         return null;
     }
 
@@ -111,6 +123,21 @@ public class TestAddressRepository implements BaseJpaRepository<TestAddress, Lon
     @Override
     public <S extends TestAddress> S saveAndFlush(S entity) {
         return null;
+    }
+
+    @Override
+    public <S extends TestAddress> List<S> saveAllAndFlush(final Iterable<S> iterable) {
+        return null;
+    }
+
+    @Override
+    public void deleteAllInBatch(final Iterable<TestAddress> iterable) {
+
+    }
+
+    @Override
+    public void deleteAllByIdInBatch(final Iterable<Long> iterable) {
+
     }
 
     @Override

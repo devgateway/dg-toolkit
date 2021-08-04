@@ -14,8 +14,8 @@ package org.devgateway.toolkit.forms.wicket.page.edit;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.core.markup.html.bootstrap.dialog.TextContentModal;
 import de.agilecoders.wicket.core.markup.html.bootstrap.form.BootstrapCheckbox;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesomeIconType;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.ladda.LaddaAjaxButton;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesome5IconType;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.spinner.SpinnerAjaxButton;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AbstractAjaxTimerBehavior;
@@ -40,7 +40,6 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.string.Strings;
-import org.apache.wicket.util.time.Duration;
 import org.apache.wicket.util.visit.IVisit;
 import org.apache.wicket.util.visit.IVisitor;
 import org.devgateway.toolkit.forms.WebConstants;
@@ -63,12 +62,17 @@ import org.springframework.util.ObjectUtils;
 import org.wicketstuff.datetime.markup.html.basic.DateLabel;
 import org.wicketstuff.select2.Select2Choice;
 
+import java.io.Serial;
+import java.time.Duration;
+
 /**
  * @author mpostelnicu
  * Page used to make editing easy, extend to get easy access to one entity for editing
  */
 public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAuditableEntity>
         extends AbstractEditPage<T> implements DefaultValidatorRoleAssignable, ResourceLockable {
+    @Serial
+    private static final long serialVersionUID = 5702486691347563049L;
 
     protected Fragment entityButtonsFragment;
 
@@ -119,8 +123,11 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
     }
 
     public class ButtonContentModal extends TextContentModal {
+        @Serial
+        private static final long serialVersionUID = 6967786042174441176L;
+
         private final Buttons.Type buttonType;
-        private LaddaAjaxButton button;
+        private SpinnerAjaxButton button;
         private IModel<String> buttonModel;
         private ModalSaveEditPageButton modalSavePageButton;
 
@@ -140,7 +147,10 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
         @Override
         protected void onInitialize() {
             super.onInitialize();
-            button = new LaddaAjaxButton("button", buttonType) {
+            button = new SpinnerAjaxButton("button", buttonType) {
+                @Serial
+                private static final long serialVersionUID = -2751476147535562348L;
+
                 @Override
                 protected void onSubmit(AjaxRequestTarget target) {
                     modalSavePageButton.continueSubmit(target);
@@ -161,6 +171,9 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
     }
 
     public class ModalSaveEditPageButton extends SaveEditPageButton {
+        @Serial
+        private static final long serialVersionUID = 7028014047120120467L;
+
         private TextContentModal modal;
 
         public ModalSaveEditPageButton(String id, IModel<String> model, TextContentModal modal) {
@@ -361,7 +374,10 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
 
     private AbstractAjaxTimerBehavior getAutosaveBehavior() {
         final AbstractAjaxTimerBehavior ajaxTimerBehavior = new AbstractAjaxTimerBehavior(
-                Duration.minutes(adminSettingsService.getAutosaveTime())) {
+                Duration.ofMinutes(adminSettingsService.getAutosaveTime())) {
+            @Serial
+            private static final long serialVersionUID = -2804313213330350048L;
+
             @Override
             protected void onTimer(final AjaxRequestTarget target) {
                 // display block UI message until the page is reloaded
@@ -410,6 +426,9 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
     private CheckBoxYesNoToggleBootstrapFormComponent getVisibleStatusComments() {
         final CheckBoxYesNoToggleBootstrapFormComponent checkBoxBootstrapFormComponent =
                 new CheckBoxYesNoToggleBootstrapFormComponent("visibleStatusComments") {
+                    @Serial
+                    private static final long serialVersionUID = 6271319733136644507L;
+
                     @Override
                     protected void onUpdate(final AjaxRequestTarget target) {
                         statusCommentsWrapper.setVisibilityAllowed(editForm.getModelObject()
@@ -429,6 +448,8 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
     private TextAreaFieldBootstrapFormComponent<String> getNewStatusCommentField() {
         final TextAreaFieldBootstrapFormComponent<String> comment =
                 new OptionallyRequiredTextAreaFieldComponent<String>("newStatusComment") {
+                    @Serial
+                    private static final long serialVersionUID = -4452970959576898409L;
 
                     @Override
                     public void onEvent(final IEvent<?> event) {
@@ -441,6 +462,9 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
 
     private ListView<StatusChangedComment> getStatusCommentsListView() {
         final ListView<StatusChangedComment> statusComments = new ListView<StatusChangedComment>("statusComments") {
+            @Serial
+            private static final long serialVersionUID = -3361565344894981285L;
+
             @Override
             protected void populateItem(final ListItem<StatusChangedComment> item) {
                 item.setModel(new CompoundPropertyModel<>(item.getModel()));
@@ -481,6 +505,8 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
     protected SaveEditPageButton getSaveEditPageButton() {
         final SaveEditPageButton button = new SaveEditPageButton("save",
                 new StringResourceModel("saveButton", this, null)) {
+            @Serial
+            private static final long serialVersionUID = 1872620565822992788L;
 
             @Override
             protected String getOnClickScript() {
@@ -502,6 +528,9 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
     private SaveEditPageButton getSaveSubmitPageButton() {
         final SaveEditPageButton button = new SaveEditPageButton("saveSubmit",
                 new StringResourceModel("saveSubmit", this, null)) {
+            @Serial
+            private static final long serialVersionUID = -7497209617852151577L;
+
             @Override
             protected String getOnClickScript() {
                 return WebConstants.DISABLE_FORM_LEAVING_JS;
@@ -514,13 +543,16 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
             }
         };
 
-        button.setIconType(FontAwesomeIconType.send);
+        button.setIconType(FontAwesome5IconType.paper_plane_s);
         return button;
     }
 
     private SaveEditPageButton getSubmitAndNextPageButton() {
         final SaveEditPageButton button = new SaveEditPageButton("submitAndNext",
                 new StringResourceModel("submitAndNext", this, null)) {
+            @Serial
+            private static final long serialVersionUID = -501958575817424776L;
+
             @Override
             protected String getOnClickScript() {
                 return WebConstants.DISABLE_FORM_LEAVING_JS;
@@ -543,7 +575,7 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
             }
         };
 
-        button.setIconType(FontAwesomeIconType.tasks);
+        button.setIconType(FontAwesome5IconType.tasks_s);
         return button;
     }
 
@@ -565,6 +597,8 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
     private SaveEditPageButton getSaveDraftAndContinueButton() {
         final SaveEditPageButton button = new SaveEditPageButton("saveContinue",
                 new StringResourceModel("saveContinue", this, null)) {
+            @Serial
+            private static final long serialVersionUID = -5508166349495070978L;
 
             @Override
             protected String getOnClickScript() {
@@ -590,13 +624,15 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
             }
         };
 
-        button.setIconType(FontAwesomeIconType.tasks);
+        button.setIconType(FontAwesome5IconType.tasks_s);
         return button;
     }
 
     private SaveEditPageButton getSaveApprovePageButton() {
         final SaveEditPageButton saveEditPageButton = new SaveEditPageButton("approve",
                 new StringResourceModel("approve", this, null)) {
+            @Serial
+            private static final long serialVersionUID = -1139282071569973173L;
 
             @Override
             protected String getOnClickScript() {
@@ -609,13 +645,16 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
                 super.onSubmit(target);
             }
         };
-        saveEditPageButton.setIconType(FontAwesomeIconType.thumbs_up);
+        saveEditPageButton.setIconType(FontAwesome5IconType.thumbs_up_r);
         return saveEditPageButton;
     }
 
     protected SaveEditPageButton getRevertToDraftPageButton() {
         final SaveEditPageButton saveEditPageButton = new SaveEditPageButton("revertToDraft",
                 new StringResourceModel("revertToDraft", this, null)) {
+            @Serial
+            private static final long serialVersionUID = 2955353537413470803L;
+
             @Override
             protected String getOnClickScript() {
                 return WebConstants.DISABLE_FORM_LEAVING_JS;
@@ -631,7 +670,7 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
                 onAfterRevertToDraft(target);
             }
         };
-        saveEditPageButton.setIconType(FontAwesomeIconType.thumbs_down);
+        saveEditPageButton.setIconType(FontAwesome5IconType.thumbs_down_r);
         return saveEditPageButton;
     }
 

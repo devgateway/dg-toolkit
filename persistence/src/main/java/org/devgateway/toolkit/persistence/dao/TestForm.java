@@ -29,6 +29,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -75,6 +76,8 @@ public class TestForm extends AbstractStatusAuditableEntity {
     private Date date;
 
     private Date dateTime;
+
+    private BigDecimal percentage;
 
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @ManyToOne
@@ -159,6 +162,14 @@ public class TestForm extends AbstractStatusAuditableEntity {
 
     public void setDateTime(final Date dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public BigDecimal getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(final BigDecimal percentage) {
+        this.percentage = percentage;
     }
 
     public String getSummernote() {

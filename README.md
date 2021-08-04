@@ -29,7 +29,7 @@ SVG and raster version of the logo and favicon can be found in the [`docs/images
 
 # Building
 
-As prerequisites, we need Java 8 and Maven 3.3.x.
+As prerequisites, we need Java 16 and Maven 3.3.x.
 In order to build the project, invoke:
 
 ```
