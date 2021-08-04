@@ -13,7 +13,10 @@ The web module is part of its larger dg-toolkit parent build, so you need to bui
 
 Because it gets packaged as a fat jar, starting it is piece of cake:
 
-`java -jar target/web-0.0.1-SNAPSHOT.jar`
+`java @argfile.txt -jar target/web-0.0.1-SNAPSHOT.jar`
+
+`@argfile.txt` stores additional VM arguments, in particular to grant reflective access to
+specific modules for other modules.
 
 This will start everything, including an embedded Tomcat Web server and all the services attached it.
 

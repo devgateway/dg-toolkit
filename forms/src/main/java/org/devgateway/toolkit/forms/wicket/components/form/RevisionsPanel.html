@@ -2,18 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
 <body>
 <wicket:panel>
-    <div class="panel-group">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
+    <div class="card-group">
+        <div class="card">
+            <div class="card-header bg-light">
+                <h4 class="card-title">
                     <a wicket:id="revisionsPanelLink" data-toggle="collapse">
                         <span wicket:id="revisionsPanelLabel"></span>&nbsp;Revisions
                     </a>
                 </h4>
             </div>
-            <div wicket:id="revisionsCollapse" class="panel-collapse collapse">
+            <div wicket:id="revisionsCollapse" class="card-body collapse">
 
-                <table class="table table-hover">
+                <table class="table table-hover table-responsive">
                     <thead>
                     <tr>
                         <th>#</th>

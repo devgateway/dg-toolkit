@@ -10,22 +10,22 @@
  * Development Gateway - initial API and implementation
  *******************************************************************************/
 /**
- * 
+ *
  */
 package org.devgateway.toolkit.forms.wicket.components.form;
 
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesomeIconType;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.ladda.LaddaAjaxButton;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesome5IconType;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.spinner.SpinnerAjaxButton;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.model.IModel;
 import org.devgateway.toolkit.forms.wicket.components.ComponentUtil;
 
 /**
  * @author mpostelnicu
- * 
+ *
  */
-public abstract class BootstrapCancelButton extends LaddaAjaxButton {
+public abstract class BootstrapCancelButton extends SpinnerAjaxButton {
 
     private static final long serialVersionUID = -5748825183253028913L;
 
@@ -36,7 +36,7 @@ public abstract class BootstrapCancelButton extends LaddaAjaxButton {
     public BootstrapCancelButton(final String id, final IModel<String> model) {
         super(id, model, Buttons.Type.Default);
         setDefaultFormProcessing(false);
-        setIconType(FontAwesomeIconType.ban);
+        setIconType(FontAwesome5IconType.ban_s);
     }
 
     @Override
@@ -44,9 +44,9 @@ public abstract class BootstrapCancelButton extends LaddaAjaxButton {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see de.agilecoders.wicket.extensions.markup.html.bootstrap.ladda.
-     * LaddaAjaxButton#onInitialize()
+     *
+     * @see de.agilecoders.wicket.extensions.markup.html.bootstrap.spinner.
+     * SpinnerAjaxButton#onInitialize()
      */
     @Override
     protected void onInitialize() {

@@ -32,9 +32,7 @@ var blockUI = function (message) {
     blockUI('Please wait...');
 
     // block UI while page is loading
-    $(document).ready(function() {
-        $(window).load(function() {
-            $.unblockUI();
-        });
+    $(window).on("load", function() {
+        $.unblockUI();
     });
 })();
