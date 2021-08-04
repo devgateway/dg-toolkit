@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.devgateway.toolkit.forms.wicket.components.form;
 
+import static org.apache.commons.io.FilenameUtils.getExtension;
+
 import de.agilecoders.wicket.core.markup.html.bootstrap.common.NotificationPanel;
 import de.agilecoders.wicket.core.markup.html.bootstrap.components.TooltipBehavior;
 import de.agilecoders.wicket.core.markup.html.bootstrap.components.TooltipConfig;
@@ -43,15 +45,20 @@ import org.apache.wicket.request.resource.ContentDisposition;
 import org.apache.wicket.util.lang.Objects;
 import org.apache.wicket.util.resource.AbstractResourceStreamWriter;
 import org.devgateway.toolkit.forms.security.SecurityConstants;
+import org.devgateway.toolkit.forms.util.FileTypeUtil;
 import org.devgateway.toolkit.forms.wicket.components.ComponentUtil;
 import org.devgateway.toolkit.forms.wicket.components.util.CustomDownloadLink;
 import org.devgateway.toolkit.forms.wicket.events.EditingDisabledEvent;
 import org.devgateway.toolkit.forms.wicket.events.EditingEnabledEvent;
 import org.devgateway.toolkit.persistence.dao.FileContent;
 import org.devgateway.toolkit.persistence.dao.FileMetadata;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.ObjectUtils;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -67,6 +74,8 @@ import java.util.List;
 
 public class FileInputBootstrapFormComponentWrapper<T> extends FormComponentPanel<T> {
     private static final long serialVersionUID = 1L;
+
+    private final Logger logger = LoggerFactory.getLogger(FileInputBootstrapFormComponentWrapper.class);
 
     private Collection<FileMetadata> filesModel;
 
@@ -88,6 +97,11 @@ public class FileInputBootstrapFormComponentWrapper<T> extends FormComponentPane
     private Boolean disableDeleteButton = false;
 
     private boolean requireAtLeastOneItem = false;
+
+    /**
+     * File name extensions that are allowed to upload. Must be lowercase and without the dot. Ex: pdf
+     */
+    private List<String> allowedFileExtensions = new ArrayList<>();
 
     public FileInputBootstrapFormComponentWrapper(final String id, final IModel<T> model) {
         super(id, model);
@@ -402,6 +416,18 @@ public class FileInputBootstrapFormComponentWrapper<T> extends FormComponentPane
                                     FileInputBootstrapFormComponentWrapper.this, Model.of(maxFiles)).getString());
                         }
                         FileInputBootstrapFormComponentWrapper.this.invalid();
+                    } else if (!fileContentsAndExtensionsAreValid(fileUploads)) {
+                        String error = new StringResourceModel("fileContentsDoNotMatchExtension",
+                                FileInputBootstrapFormComponentWrapper.this, null).getString();
+                        FileInputBootstrapFormComponentWrapper.this.fatal(error);
+                        FileInputBootstrapFormComponentWrapper.this.invalid();
+                    } else if (!fileExtensionAreAllowed(fileUploads)) {
+                        String error = new StringResourceModel("fileTypeNotAllowed",
+                                FileInputBootstrapFormComponentWrapper.this, null)
+                                .setParameters(String.join(", ", allowedFileExtensions))
+                                .getString();
+                        FileInputBootstrapFormComponentWrapper.this.fatal(error);
+                        FileInputBootstrapFormComponentWrapper.this.invalid();
                     } else {
                         // convert the uploaded files to the internal structure
                         // and update the model
@@ -470,6 +496,30 @@ public class FileInputBootstrapFormComponentWrapper<T> extends FormComponentPane
         }
     }
 
+    private boolean fileExtensionAreAllowed(List<FileUpload> fileUploads) {
+        if (allowedFileExtensions.isEmpty()) {
+            return true;
+        }
+        return fileUploads.stream().allMatch(
+                u -> allowedFileExtensions.contains(getExtension(u.getClientFileName()).toLowerCase()));
+    }
+
+    private boolean fileContentsAndExtensionsAreValid(List<FileUpload> fileUploads) {
+        try {
+            for (FileUpload upload : fileUploads) {
+                String fileName = upload.getClientFileName();
+                InputStream inputStream = new ByteArrayInputStream(upload.getBytes());
+                if (!FileTypeUtil.extensionMatchesContents(fileName, inputStream)) {
+                    return false;
+                }
+            }
+            return true;
+        } catch (IOException e) {
+            logger.error("Failed to check if file contents match file name.", e);
+            return false;
+        }
+    }
+
     @Override
     public void onEvent(final IEvent<?> event) {
         ComponentUtil.enableDisableEvent(this, event);
@@ -517,5 +567,9 @@ public class FileInputBootstrapFormComponentWrapper<T> extends FormComponentPane
     @Override
     public boolean checkRequired() {
         return !requireAtLeastOneItem || !ObjectUtils.isEmpty(getModelObject());
+    }
+
+    public void setAllowedFileExtensions(List<String> allowedFileExtensions) {
+        this.allowedFileExtensions = allowedFileExtensions;
     }
 }
