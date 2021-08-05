@@ -20,6 +20,7 @@ import org.devgateway.toolkit.persistence.dao.FileMetadata;
 import org.devgateway.toolkit.persistence.dao.GenericPersistable;
 
 import javax.persistence.EntityManager;
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -77,6 +78,11 @@ public class FileInputBootstrapFormComponent extends GenericBootstrapFormCompone
 
     public FileInputBootstrapFormComponent maxFiles(final int maxFiles) {
         field.maxFiles(maxFiles);
+        return this;
+    }
+
+    public FileInputBootstrapFormComponent allowedFileExtensions(String... extensions) {
+        field.setAllowedFileExtensions(Arrays.asList(extensions));
         return this;
     }
 

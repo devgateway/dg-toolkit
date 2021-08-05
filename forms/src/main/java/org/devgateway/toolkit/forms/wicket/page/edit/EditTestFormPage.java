@@ -143,6 +143,7 @@ public class EditTestFormPage extends AbstractEditStatusEntityPage<TestForm> {
 
         FileInputBootstrapFormComponent fileInput = new FileInputBootstrapFormComponent("fileInput");
         fileInput.required();
+        fileInput.allowedFileExtensions("txt");
         editForm.add(fileInput);
 
         ColorPickerBootstrapFormComponent colorPicker = new ColorPickerBootstrapFormComponent("colorPicker");
