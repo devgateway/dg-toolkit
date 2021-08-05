@@ -42,6 +42,7 @@ import org.devgateway.toolkit.forms.exceptions.NullEditPageClassException;
 import org.devgateway.toolkit.forms.exceptions.NullJpaServiceException;
 import org.devgateway.toolkit.forms.wicket.components.form.AJAXDownload;
 import org.devgateway.toolkit.forms.wicket.components.table.AjaxFallbackBootstrapDataTable;
+import org.devgateway.toolkit.forms.wicket.components.table.DataTableAware;
 import org.devgateway.toolkit.forms.wicket.components.table.ResettingFilterForm;
 import org.devgateway.toolkit.forms.wicket.components.table.filter.JpaFilterState;
 import org.devgateway.toolkit.forms.wicket.page.BasePage;
@@ -140,10 +141,15 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
         add(filterForm);
 
         if (hasFilteredColumns()) {
-            GoAndClearFilter go = new BootstrapGoClearFilter("go", filterForm);
-            FilterToolbar filterToolbar = new GoFilterToolbar(dataTable, go, filterForm);
-            filterToolbar.setVisibilityAllowed(filterGoReset);
+            FilterToolbar filterToolbar = null;
+            if (filterGoReset) {
+                GoAndClearFilter go = new BootstrapGoClearFilter("go", filterForm);
+                filterToolbar = new GoFilterToolbar(dataTable, go, filterForm);
+            } else {
+                filterToolbar = new FilterToolbar(dataTable, filterForm);
+            }
             dataTable.addTopToolbar(filterToolbar);
+            setDataTableForFilteredColumns();
         }
 
         PageParameters pageParameters = new PageParameters();
@@ -215,6 +221,16 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
             }
         }
         return false;
+    }
+
+    private void setDataTableForFilteredColumns() {
+        for (IColumn<?, ?> column : columns) {
+            if (column instanceof IFilteredColumn && column instanceof DataTableAware) {
+                if (((DataTableAware) column).getDataTable() == null) {
+                    ((DataTableAware) column).setDataTable(dataTable);
+                }
+            }
+        }
     }
 
     public JpaFilterState<T> newFilterState() {

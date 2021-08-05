@@ -20,8 +20,9 @@ import java.util.List;
  *
  * A ChoiceFilteredPropertyColumn that uses Select2MultiChoiceBootstrapFormComponent as a filter.
  */
-public class SelectMultiFilteredBootstrapPropertyColumn<T, Y, S> extends ChoiceFilteredPropertyColumn<T, Y, S> {
-    private final DataTable dataTable;
+public class SelectMultiFilteredBootstrapPropertyColumn<T, Y, S> extends ChoiceFilteredPropertyColumn<T, Y, S>
+    implements DataTableAware {
+    private DataTable dataTable;
     private boolean disableFilter = false;
     private ChoiceProvider<Y> choiceProvider;
 
@@ -101,4 +102,16 @@ public class SelectMultiFilteredBootstrapPropertyColumn<T, Y, S> extends ChoiceF
             target.add(dataTable);
         }
     }
+
+
+    @Override
+    public DataTable getDataTable() {
+        return dataTable;
+    }
+
+    @Override
+    public void setDataTable(final DataTable dataTable) {
+        this.dataTable = dataTable;
+    }
+
 }

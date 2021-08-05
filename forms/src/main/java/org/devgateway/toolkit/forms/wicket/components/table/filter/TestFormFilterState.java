@@ -3,6 +3,7 @@ package org.devgateway.toolkit.forms.wicket.components.table.filter;
 import org.apache.commons.lang3.StringUtils;
 import org.devgateway.toolkit.persistence.dao.TestForm;
 import org.devgateway.toolkit.persistence.dao.TestForm_;
+import org.devgateway.toolkit.persistence.repository.SpecificationContext;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
@@ -21,6 +22,10 @@ public class TestFormFilterState extends JpaFilterState<TestForm> {
     public Specification<TestForm> getSpecification() {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
+            SpecificationContext<TestForm> sc = new SpecificationContext<>(root, query, cb);
+
+            addStatus(predicates, sc);
+
             if (StringUtils.isNotBlank(textField)) {
                 predicates.add(cb.like(root.get(TestForm_.textField), "%" + textField + "%"));
             }
