@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.devgateway.toolkit.persistence.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.envers.Audited;
 import org.springframework.data.domain.Auditable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -30,15 +31,19 @@ public abstract class AbstractAuditableEntity extends GenericPersistable
         implements Auditable<String, Long, ZonedDateTime> {
     private static final long serialVersionUID = 4031407178647451427L;
 
+    @JsonIgnore
     @Audited
     private String createdBy;
 
+    @JsonIgnore
     @Audited
     private ZonedDateTime createdDate;
 
+    @JsonIgnore
     @Audited
     private String lastModifiedBy;
 
+    @JsonIgnore
     @Audited
     private ZonedDateTime lastModifiedDate;
 
