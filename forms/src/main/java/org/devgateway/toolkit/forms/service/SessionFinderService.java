@@ -13,7 +13,7 @@ package org.devgateway.toolkit.forms.service;
 
 import nl.dries.wicket.hibernate.dozer.DozerModel;
 import nl.dries.wicket.hibernate.dozer.SessionFinder;
-import org.hibernate.Session;
+import org.hibernate.engine.spi.SessionImplementor;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -22,7 +22,7 @@ import javax.persistence.PersistenceContext;
 /**
  * Spring Service allowing access to hibernate session. This is needed by
  * {@link DozerModel}
- * 
+ *
  * @author mpostelnicu
  * @see DozerModel
  */
@@ -34,14 +34,14 @@ public class SessionFinderService implements SessionFinder {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * nl.dries.wicket.hibernate.dozer.SessionFinder#getHibernateSession(java
      * .lang.Class)
      */
     @Override
-    public Session getHibernateSession(final Class<?> clazz) {
-        return em.unwrap(Session.class);
+    public SessionImplementor getHibernateSession(final Class<?> clazz) {
+        return em.unwrap(SessionImplementor.class);
     }
 
 }

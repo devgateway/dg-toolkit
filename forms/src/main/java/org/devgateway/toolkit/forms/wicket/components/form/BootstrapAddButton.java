@@ -16,8 +16,8 @@ package org.devgateway.toolkit.forms.wicket.components.form;
 
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons;
 import de.agilecoders.wicket.core.markup.html.bootstrap.button.Buttons.Size;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesomeIconType;
-import de.agilecoders.wicket.extensions.markup.html.bootstrap.ladda.LaddaAjaxButton;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.icon.FontAwesome5IconType;
+import de.agilecoders.wicket.extensions.markup.html.bootstrap.spinner.SpinnerAjaxButton;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.event.IEvent;
 import org.apache.wicket.model.IModel;
@@ -27,7 +27,7 @@ import org.devgateway.toolkit.forms.wicket.components.ComponentUtil;
  * @author mpostelnicu
  *
  */
-public abstract class BootstrapAddButton extends LaddaAjaxButton {
+public abstract class BootstrapAddButton extends SpinnerAjaxButton {
 
     private static final long serialVersionUID = 8306451874943978003L;
 
@@ -37,9 +37,9 @@ public abstract class BootstrapAddButton extends LaddaAjaxButton {
      */
     public BootstrapAddButton(final String id, final IModel<String> model) {
         super(id, model, Buttons.Type.Info);
-        setIconType(FontAwesomeIconType.save);
+        setIconType(FontAwesome5IconType.save_r);
         setDefaultFormProcessing(false);
-        setIconType(FontAwesomeIconType.plus).setSize(Size.Medium).setLabel(model);
+        setIconType(FontAwesome5IconType.plus_s).setSize(Size.Medium).setLabel(model);
         setOutputMarkupPlaceholderTag(true);
     }
 
