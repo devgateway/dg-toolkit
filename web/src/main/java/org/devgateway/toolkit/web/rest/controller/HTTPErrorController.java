@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static org.devgateway.toolkit.web.WebConstants.FORMS_BASE_PATH;
+
 /**
  * @author Nadejda Mandrescu
  */
@@ -23,9 +25,9 @@ public class HTTPErrorController implements ErrorController {
             int statusCode = Integer.parseInt(status.toString());
             String contextPath = request.getContextPath();
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
-                response.sendRedirect(contextPath + "/error/not-found");
+                response.sendRedirect(contextPath + FORMS_BASE_PATH + "/error/not-found");
             } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
-                response.sendRedirect(contextPath + "/error/access-denied");
+                response.sendRedirect(contextPath + FORMS_BASE_PATH + "/error/access-denied");
             }
         }
     }

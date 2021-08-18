@@ -20,6 +20,10 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.SessionTrackingMode;
+import java.util.Collections;
+
+import static org.devgateway.toolkit.web.WebConstants.FORMS_BASE_PATH;
 
 /**
  * This class is the replacement of the web.xml. It registers the wicket filter
@@ -32,6 +36,7 @@ import javax.servlet.ServletException;
 public class WebInitializer implements ServletContextInitializer {
 
     private static final String PARAM_APP_BEAN = "applicationBean";
+    public static final String FORMS_PATH_PATTERN = FORMS_BASE_PATH + "/*";
 
     @Override
     public void onStartup(final ServletContext sc) throws ServletException {
@@ -50,8 +55,8 @@ public class WebInitializer implements ServletContextInitializer {
         filter.setInitParameter(PARAM_APP_BEAN, "formsWebApplication");
         // This line is the only surprise when comparing to the equivalent
         // web.xml. Without some initialization seems to be missing.
-        filter.setInitParameter(WicketFilter.FILTER_MAPPING_PARAM, "/*");
-        filter.addMappingForUrlPatterns(null, false, "/*");
+        filter.setInitParameter(WicketFilter.FILTER_MAPPING_PARAM, FORMS_PATH_PATTERN);
+        filter.addMappingForUrlPatterns(null, false, FORMS_PATH_PATTERN);
 
         // // Request Listener
         // sc.addListener(new RequestContextListener());
