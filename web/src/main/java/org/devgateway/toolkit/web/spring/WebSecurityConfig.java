@@ -36,6 +36,8 @@ import org.springframework.security.web.context.SecurityContextPersistenceFilter
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 
+import static org.devgateway.toolkit.web.WebConstants.FORMS_BASE_PATH;
+
 /**
  * @author mpostelnicu This configures the spring security for the Web project.
  * An
@@ -84,15 +86,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(final WebSecurity web) throws Exception {
-        web.httpFirewall(allowUrlEncodedSlashHttpFirewall()).ignoring().antMatchers(allowedApiEndpoints);
+        web.httpFirewall(allowUrlEncodedSlashHttpFirewall())
+                .ignoring().antMatchers(allowedApiEndpoints).and()
+                .ignoring().antMatchers(
+                        FORMS_BASE_PATH + "/login",
+                        FORMS_BASE_PATH + "/forgotPassword/**");
     }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.authorizeRequests().expressionHandler(webExpressionHandler()) // inject role hierarchy
-                .antMatchers("/monitoring/**")
-                .access("hasRole('ROLE_ADMIN')").anyRequest()
-                .authenticated().and().formLogin().loginPage("/login").permitAll().and()
+                .antMatchers(FORMS_BASE_PATH + "/monitoring/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers(FORMS_BASE_PATH + "/**").authenticated().and()
+                .formLogin().loginPage(FORMS_BASE_PATH + "/login").permitAll().and()
                 .requestCache().and().logout().permitAll().and()
                 .sessionManagement().and().csrf().disable();
         http.addFilter(securityContextPersistenceFilter());
