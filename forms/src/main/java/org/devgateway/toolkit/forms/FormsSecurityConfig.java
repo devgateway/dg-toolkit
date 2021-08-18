@@ -25,6 +25,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.rememberme.AbstractRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 
+import static org.devgateway.toolkit.web.WebConstants.FORMS_BASE_PATH;
+
 @Configuration
 @EnableWebSecurity
 @Order(1) // this ensures the forms security comes first
@@ -45,12 +47,18 @@ public class FormsSecurityConfig extends WebSecurityConfig {
     @Override
     public void configure(final WebSecurity web) throws Exception {
         super.configure(web);
-        web.ignoring().antMatchers("/img/**", "/css*/**", "/js*/**", "/assets*/**", "/wicket/resource/**/*.js",
-                "/wicket/resource/**/*.css", "/wicket/resource/**/*.png", "/wicket/resource/**/*.jpg",
-                "/wicket/resource/**/*.woff", "/wicket/resource/**/*.woff2", "/wicket/resource/**/*.ttf",
-                "/favicon.ico", "/wicket/resource/**/*.svg",
-                "/wicket/resource/**/*.gif", "/login/**", "/forgotPassword/**", "/resources/**",
+        web.ignoring().antMatchers("/img/**", "/css*/**", "/js*/**", "/assets*/**", "/favicon.ico", "/resources/**",
                 "/resources/public/**");
+        web.ignoring().antMatchers(
+                FORMS_BASE_PATH + "/wicket/resource/**/*.js",
+                FORMS_BASE_PATH + "/wicket/resource/**/*.css",
+                FORMS_BASE_PATH + "/wicket/resource/**/*.png",
+                FORMS_BASE_PATH + "/wicket/resource/**/*.jpg",
+                FORMS_BASE_PATH + "/wicket/resource/**/*.woff",
+                FORMS_BASE_PATH + "/wicket/resource/**/*.woff2",
+                FORMS_BASE_PATH + "/wicket/resource/**/*.ttf",
+                FORMS_BASE_PATH + "/wicket/resource/**/*.svg",
+                FORMS_BASE_PATH + "/wicket/resource/**/*.gif");
     }
 
     /**
