@@ -19,8 +19,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import nl.dries.wicket.hibernate.dozer.proxy.Proxied;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -36,7 +36,7 @@ import javax.persistence.Version;
 @JsonIgnoreProperties("new")
 public class GenericPersistable extends AbstractPersistable<Long> implements Serializable {
 
-    @JsonIgnore
+    @JsonView(JsonViews.Internal.class)
     @Version
     @Column(name = "optlock", columnDefinition = "integer default 0")
     private Integer version;
