@@ -50,6 +50,8 @@ import org.devgateway.toolkit.persistence.service.category.GroupService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.wicketstuff.annotation.mount.MountPath;
 
+import static org.devgateway.toolkit.forms.WebConstants.StringValidators.MAXIMUM_LENGTH_VALIDATOR_STD_DEFAULT_TEXT;
+
 @AuthorizeInstantiation(SecurityConstants.Roles.ROLE_USER)
 @MountPath(value = "/account")
 public class EditUserPage extends AbstractEditPage<Person> {
@@ -116,6 +118,7 @@ public class EditUserPage extends AbstractEditPage<Person> {
 
         username = ComponentUtil.addTextField(editForm, "username");
         username.required();
+        username.getField().add(MAXIMUM_LENGTH_VALIDATOR_STD_DEFAULT_TEXT);
         username.getField().add(new UsernamePatternValidator());
         StringValue idPerson = getPageParameters().get(WebConstants.PARAM_ID);
         if (!idPerson.isNull()) {
@@ -127,12 +130,15 @@ public class EditUserPage extends AbstractEditPage<Person> {
         MetaDataRoleAuthorizationStrategy.authorize(username, Component.ENABLE, SecurityConstants.Roles.ROLE_ADMIN);
 
         firstName = ComponentUtil.addTextField(editForm, "firstName");
+        firstName.getField().add(MAXIMUM_LENGTH_VALIDATOR_STD_DEFAULT_TEXT);
         firstName.required();
 
         lastName = ComponentUtil.addTextField(editForm, "lastName");
+        lastName.getField().add(MAXIMUM_LENGTH_VALIDATOR_STD_DEFAULT_TEXT);
         lastName.required();
 
         email = ComponentUtil.addTextField(editForm, "email");
+        email.getField().add(MAXIMUM_LENGTH_VALIDATOR_STD_DEFAULT_TEXT);
         email.required()
                 .getField().add(RfcCompliantEmailAddressValidator.getInstance());
         if (!idPerson.isNull()) {
@@ -142,6 +148,7 @@ public class EditUserPage extends AbstractEditPage<Person> {
         }
 
         title = ComponentUtil.addTextField(editForm, "title");
+        title.getField().add(MAXIMUM_LENGTH_VALIDATOR_STD_DEFAULT_TEXT);
 
         group = ComponentUtil.addSelect2ChoiceField(editForm, "group", groupService);
         group.required();
