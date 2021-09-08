@@ -7,6 +7,7 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.filter.ChoiceFilteredPropertyColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.filter.FilterForm;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.PropertyModel;
 import org.devgateway.toolkit.forms.wicket.components.form.Select2ChoiceBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.providers.GenericChoiceProvider;
 import org.wicketstuff.select2.ChoiceProvider;
@@ -25,25 +26,31 @@ public class SelectFilteredBootstrapPropertyColumn<T, Y, S> extends ChoiceFilter
     private boolean disableFilter = false;
     private ChoiceProvider<Y> choiceProvider;
 
+    private final String filterFormPropertyExpression;
+
     public SelectFilteredBootstrapPropertyColumn(final IModel<String> displayModel,
                                                  final S sortProperty,
                                                  final String propertyExpression,
+                                                 final String filterFormPropertyExpression,
                                                  final ChoiceProvider<Y> choiceProvider,
                                                  final DataTable dataTable) {
-        this(displayModel, sortProperty, propertyExpression, choiceProvider, dataTable, false);
+        this(displayModel, sortProperty, propertyExpression, filterFormPropertyExpression, choiceProvider, dataTable,
+                false);
     }
 
     public SelectFilteredBootstrapPropertyColumn(final IModel<String> displayModel,
                                                  final S sortProperty,
                                                  final String propertyExpression,
-                                                 final IModel<? extends List<? extends Y>> filterChoices,
-                                                 final DataTable dataTable) {
-        this(displayModel, sortProperty, propertyExpression, filterChoices, dataTable, false);
+                                                 final String filterFormPropertyExpression,
+                                                 final IModel<? extends List<? extends Y>> filterChoices) {
+        super(displayModel, sortProperty, propertyExpression, filterChoices);
+        this.filterFormPropertyExpression = filterFormPropertyExpression;
     }
 
     public SelectFilteredBootstrapPropertyColumn(final IModel<String> displayModel,
                                                  final S sortProperty,
                                                  final String propertyExpression,
+                                                 final String filterFormPropertyExpression,
                                                  final ChoiceProvider<Y> choiceProvider,
                                                  final DataTable dataTable,
                                                  final boolean disableFilter) {
@@ -51,16 +58,18 @@ public class SelectFilteredBootstrapPropertyColumn<T, Y, S> extends ChoiceFilter
         this.disableFilter = disableFilter;
         this.dataTable = dataTable;
         this.choiceProvider = choiceProvider;
+        this.filterFormPropertyExpression = filterFormPropertyExpression;
     }
 
-
     public SelectFilteredBootstrapPropertyColumn(final IModel<String> displayModel,
-                                                 final S sortProperty,
-                                                 final String propertyExpression,
-                                                 final IModel<? extends List<? extends Y>> filterChoices,
-                                                 final DataTable dataTable,
-                                                 final boolean disableFilter) {
+            final S sortProperty,
+            final String propertyExpression,
+            final String filterFormPropertyExpression,
+            final IModel<? extends List<? extends Y>> filterChoices,
+            final DataTable dataTable,
+            final boolean disableFilter) {
         super(displayModel, sortProperty, propertyExpression, filterChoices);
+        this.filterFormPropertyExpression = filterFormPropertyExpression;
         this.disableFilter = disableFilter;
         this.dataTable = dataTable;
     }
@@ -108,6 +117,11 @@ public class SelectFilteredBootstrapPropertyColumn<T, Y, S> extends ChoiceFilter
         if (choiceProvider != null) {
             choiceProvider.detach();
         }
+    }
+
+    @Override
+    protected IModel<Y> getFilterModel(FilterForm<?> form) {
+        return new PropertyModel<>(form.getDefaultModel(), filterFormPropertyExpression);
     }
 
     @Override
