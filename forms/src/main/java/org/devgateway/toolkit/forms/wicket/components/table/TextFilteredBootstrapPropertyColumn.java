@@ -16,6 +16,8 @@ public class TextFilteredBootstrapPropertyColumn<T, F, S> extends TextFilteredPr
 
     private static final long serialVersionUID = 7360465890668796668L;
 
+    private boolean asLong = false;
+
     public TextFilteredBootstrapPropertyColumn(final IModel<String> displayModel, final S sortProperty,
                                                final String propertyExpression) {
         super(displayModel, sortProperty, propertyExpression);
@@ -30,6 +32,14 @@ public class TextFilteredBootstrapPropertyColumn<T, F, S> extends TextFilteredPr
         final TextFieldBootstrapFormComponent<F> textField =
                 new TextFieldBootstrapFormComponent<>(componentId, getFilterModel(form));
         textField.hideLabel();
+        if (asLong) {
+            textField.asLong();
+        }
         return textField;
+    }
+
+    public TextFilteredBootstrapPropertyColumn<T, F, S> asLong() {
+        asLong = true;
+        return this;
     }
 }
