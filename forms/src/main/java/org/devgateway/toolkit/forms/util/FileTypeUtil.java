@@ -3,6 +3,7 @@ package org.devgateway.toolkit.forms.util;
 import org.apache.tika.detect.DefaultDetector;
 import org.apache.tika.io.TikaInputStream;
 import org.apache.tika.metadata.Metadata;
+import org.apache.tika.metadata.TikaCoreProperties;
 import org.apache.tika.mime.MediaType;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
@@ -32,6 +33,7 @@ public final class FileTypeUtil {
             throws IOException {
         try {
             Metadata metadata = new Metadata();
+            metadata.set(TikaCoreProperties.RESOURCE_NAME_KEY, fileName);
             DefaultDetector detector = new DefaultDetector();
 
             InputStream is = new BufferedInputStream(inputStream);
