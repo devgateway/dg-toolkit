@@ -1,6 +1,6 @@
 package org.devgateway.toolkit.forms.wicket.components;
 
-import org.apache.wicket.AttributeModifier;
+import de.agilecoders.wicket.core.markup.html.bootstrap.behavior.CssClassNameModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -11,7 +11,6 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.cycle.RequestCycle;
@@ -198,7 +197,7 @@ public abstract class ListViewSectionPanel<T extends AbstractAuditableEntity, PA
         // if we display a new element that was just added then we make the accordion enabled
         if (item.getModelObject().isNew()
                 && item.getIndex() == getModel().getObject().size() - 1) {
-            hideableContainer.add(new AttributeModifier("class", new Model<>("card-body panel-collapse collapse in")));
+            hideableContainer.add(new CssClassNameModifier("card-body panel-collapse collapse show"));
             showDetailsLink.setDefaultModel(new ResourceModel("hideDetailsLink"));
             expandedContainerIds.add(hideableContainer.getMarkupId());
 
