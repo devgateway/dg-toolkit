@@ -1,8 +1,11 @@
 package org.devgateway.toolkit.forms.wicket.components.form.visitors;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.util.visit.IVisit;
 import org.apache.wicket.util.visit.IVisitor;
+import org.devgateway.toolkit.forms.wicket.components.ListViewSectionPanel;
 import org.devgateway.toolkit.forms.wicket.components.form.GenericBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.SummernoteBootstrapFormComponent;
 
@@ -32,6 +35,17 @@ public class GenericBootstrapValidationVisitor implements IVisitor<GenericBootst
             return;
         }
         target.add(object.getBorder());
+
+        if (ListItem.class.isAssignableFrom(object.getParent().getClass())) {
+            Component parent = object.getParent().getParent();
+            while (parent != null && !ListViewSectionPanel.class.isAssignableFrom(parent.getClass())) {
+                parent = parent.getParent();
+            }
+            if (parent != null) {
+                ListViewSectionPanel listViewSectionPanel = (ListViewSectionPanel) parent;
+                listViewSectionPanel.expandEntry(target, (ListItem) object.getParent());
+            }
+        }
 
         // remember last invalid visited object, we used this later to
         // trigger the visibility of its parent container, if it is folded
