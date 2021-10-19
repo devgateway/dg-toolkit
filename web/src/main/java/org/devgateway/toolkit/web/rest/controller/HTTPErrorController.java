@@ -17,10 +17,6 @@ import static org.devgateway.toolkit.web.WebConstants.FORMS_BASE_PATH;
  */
 @RestController
 public class HTTPErrorController implements ErrorController {
-    @Override
-    public String getErrorPath() {
-        return null;
-    }
 
     @RequestMapping("/error")
     public void handleError(final HttpServletRequest request, final HttpServletResponse response) throws IOException {

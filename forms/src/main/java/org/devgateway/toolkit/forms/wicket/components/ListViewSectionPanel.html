@@ -16,9 +16,9 @@
         </div>
 
         <div class="col-md-12" wicket:id="list">
-            <div class="panel-group" wicket:id="accordion">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
+            <div class="card-group" wicket:id="accordion">
+                <div class="card bg-light">
+                    <div class="card-header bg-light">
                         <div class="row">
                             <div class="col-md-1">
                                 <span wicket:id="headerNo" class="list-number"></span>
@@ -29,7 +29,7 @@
                                     <div wicket:id="headerField" class="col-md-11 header-field"></div>
 
                                     <div class="col-md-1">
-                                        <span class="show-all pull-right"
+                                        <span class="show-all float-right"
                                               wicket:id="showDetailsLink">show details</span>
                                     </div>
                                 </div>
@@ -37,10 +37,10 @@
                         </div>
                     </div>
 
-                    <div wicket:id="hideableContainer" class="panel-body panel-collapse collapse">
+                    <div wicket:id="hideableContainer" class="card-body collapse">
                         <div class="row">
                             <div class="col-md-12">
-                                <button wicket:id="remove" type="button" class="btn btn-red pull-right">Remove</button>
+                                <button wicket:id="remove" type="button" class="btn btn-red float-right">Remove</button>
                             </div>
                         </div>
 

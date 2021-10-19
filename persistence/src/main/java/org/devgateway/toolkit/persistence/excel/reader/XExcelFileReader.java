@@ -1,6 +1,6 @@
 package org.devgateway.toolkit.persistence.excel.reader;
 
-import org.apache.poi.hssf.util.CellReference;
+import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.eventusermodel.ReadOnlySharedStringsTable;
 import org.apache.poi.xssf.eventusermodel.XSSFReader;
@@ -141,7 +141,7 @@ public final class XExcelFileReader {
                 if (xmlReader.getLocalName().equals("v")) {
                     if (cellType != null && cellType.equals("s")) {
                         final int idx = Integer.parseInt(xmlReader.getElementText());
-                        return new XSSFRichTextString(stringsTable.getEntryAt(idx)).toString();
+                        return stringsTable.getItemAt(idx).toString();
                     } else {
                         return xmlReader.getElementText();
                     }

@@ -13,6 +13,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
+import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.devgateway.toolkit.forms.util.JQueryUtil;
 import org.devgateway.toolkit.forms.wicket.components.form.BootstrapAddButton;
@@ -21,6 +22,7 @@ import org.devgateway.toolkit.persistence.dao.AbstractAuditableEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serial;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +39,9 @@ import java.util.Set;
 
 public abstract class ListViewSectionPanel<T extends AbstractAuditableEntity, PARENT extends AbstractAuditableEntity>
         extends CompoundSectionPanel<List<T>> {
+    @Serial
+    private static final long serialVersionUID = -2061827476916757756L;
+
     private static final Logger logger = LoggerFactory.getLogger(ListViewSectionPanel.class);
 
     protected WebMarkupContainer listWrapper;
@@ -65,6 +70,9 @@ public abstract class ListViewSectionPanel<T extends AbstractAuditableEntity, PA
         setOutputMarkupPlaceholderTag(true);
 
         listWrapper = new TransparentWebMarkupContainer("listWrapper") {
+            @Serial
+            private static final long serialVersionUID = -4932473438490751312L;
+
             @Override
             protected void onConfigure() {
                 super.onConfigure();
@@ -82,6 +90,9 @@ public abstract class ListViewSectionPanel<T extends AbstractAuditableEntity, PA
                 (IModel<Integer>) () -> ListViewSectionPanel.this.getModel().getObject().size()));
 
         final AjaxLink<Void> showHideAllEntries = new AjaxLink<Void>("showHideAllEntries") {
+            @Serial
+            private static final long serialVersionUID = -6174307224740134326L;
+
             @Override
             public void onClick(final AjaxRequestTarget target) {
                 // take the list of elements from the path: listWrapper/list
@@ -112,6 +123,9 @@ public abstract class ListViewSectionPanel<T extends AbstractAuditableEntity, PA
         listWrapper.add(showHideAllEntries);
 
         listView = new ListView<T>("list", getModel()) {
+            @Serial
+            private static final long serialVersionUID = -1316674324496770826L;
+
             @Override
             protected void populateItem(final ListItem<T> item) {
                 item.setOutputMarkupId(true);
@@ -156,6 +170,9 @@ public abstract class ListViewSectionPanel<T extends AbstractAuditableEntity, PA
         item.add(accordion);
 
         final AjaxLink<Void> accordionToggle = new AjaxLink<Void>(ID_ACCORDION_TOGGLE) {
+            @Serial
+            private static final long serialVersionUID = -3455614120288837893L;
+
             @Override
             public void onClick(final AjaxRequestTarget target) {
                 if (expandedContainerIds.contains(hideableContainer.getMarkupId())) {
@@ -181,7 +198,7 @@ public abstract class ListViewSectionPanel<T extends AbstractAuditableEntity, PA
         // if we display a new element that was just added then we make the accordion enabled
         if (item.getModelObject().isNew()
                 && item.getIndex() == getModel().getObject().size() - 1) {
-            hideableContainer.add(new AttributeModifier("class", new Model<>("panel-body panel-collapse collapse in")));
+            hideableContainer.add(new AttributeModifier("class", new Model<>("card-body panel-collapse collapse in")));
             showDetailsLink.setDefaultModel(new ResourceModel("hideDetailsLink"));
             expandedContainerIds.add(hideableContainer.getMarkupId());
 
@@ -234,6 +251,9 @@ public abstract class ListViewSectionPanel<T extends AbstractAuditableEntity, PA
     private BootstrapDeleteButton getRemoveChildButton(final T item) {
         final BootstrapDeleteButton removeButton = new BootstrapDeleteButton("remove",
                 new ResourceModel("removeButton")) {
+            @Serial
+            private static final long serialVersionUID = 6350277641786762027L;
+
             @Override
             protected void onSubmit(final AjaxRequestTarget target) {
                 ListViewSectionPanel.this.getModelObject().remove(item);
@@ -250,7 +270,11 @@ public abstract class ListViewSectionPanel<T extends AbstractAuditableEntity, PA
      * Returns the new child button.
      */
     final BootstrapAddButton getAddNewChildButton() {
-        final BootstrapAddButton newButton = new BootstrapAddButton("newButton", new ResourceModel("newButton")) {
+        final BootstrapAddButton newButton = new BootstrapAddButton("newButton",
+                new StringResourceModel("newButton", ListViewSectionPanel.this, null)) {
+            @Serial
+            private static final long serialVersionUID = 5195431828773253867L;
+
             @Override
             protected void onSubmit(final AjaxRequestTarget target) {
                 final T newChild = createNewChild(

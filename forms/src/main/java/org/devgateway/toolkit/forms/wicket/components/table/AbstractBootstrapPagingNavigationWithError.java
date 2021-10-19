@@ -23,5 +23,5 @@ public abstract class AbstractBootstrapPagingNavigationWithError extends Bootstr
                 .filter(s -> !s.isEmpty()).collect(Collectors.joining(" "));
     }
 
-    protected abstract boolean hasErrors(final long pageIndex);
+    protected abstract boolean hasErrors(long pageIndex);
 }
