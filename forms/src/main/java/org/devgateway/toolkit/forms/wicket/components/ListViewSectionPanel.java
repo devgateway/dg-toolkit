@@ -49,6 +49,8 @@ public abstract class ListViewSectionPanel<T extends AbstractAuditableEntity, PA
 
     public static final String ID_ACCORDION_TOGGLE = "accordionToggle";
 
+    public static final String ID_SHOW_DETAILS_LINK = "showDetailsLink";
+
     private Set<String> expandedContainerIds = new HashSet<>();
 
     public ListViewSectionPanel(final String id) {
@@ -95,7 +97,7 @@ public abstract class ListViewSectionPanel<T extends AbstractAuditableEntity, PA
 
                         if (accordion != null) {
                             final Label showDetailsLink =
-                                    (Label) accordion.get(ID_ACCORDION_TOGGLE).get("showDetailsLink");
+                                    (Label) accordion.get(ID_ACCORDION_TOGGLE).get(ID_SHOW_DETAILS_LINK);
 
                             if (show) {
                                 showSection(target, accordion.get(ID_HIDEABLE_CONTAINER), showDetailsLink);
@@ -140,7 +142,7 @@ public abstract class ListViewSectionPanel<T extends AbstractAuditableEntity, PA
     }
 
     private void addAcordion(final ListItem<T> item) {
-        final Label showDetailsLink = new Label("showDetailsLink", new ResourceModel("showDetailsLink"));
+        final Label showDetailsLink = new Label(ID_SHOW_DETAILS_LINK, new ResourceModel("showDetailsLink"));
         showDetailsLink.setOutputMarkupId(true);
 
         // the section that will collapse
@@ -189,6 +191,14 @@ public abstract class ListViewSectionPanel<T extends AbstractAuditableEntity, PA
                 goToComponent(target.get(), accordion.getMarkupId());
             }
         }
+    }
+
+    public void expandEntry(final AjaxRequestTarget target, ListItem<T> item) {
+        Component accordion = item.get(ID_ACCORDION);
+        Component hideableContainer = accordion.get(ID_HIDEABLE_CONTAINER);
+        Component accordionToggle = accordion.get(ID_ACCORDION_TOGGLE);
+        Component showDetailsLink = accordionToggle.get(ID_SHOW_DETAILS_LINK);
+        showSection(target, hideableContainer, (Label) showDetailsLink);
     }
 
     /**
