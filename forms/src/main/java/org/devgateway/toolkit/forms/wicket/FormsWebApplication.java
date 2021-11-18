@@ -17,7 +17,6 @@ import de.agilecoders.wicket.core.request.resource.caching.version.Adler32Resour
 import de.agilecoders.wicket.core.settings.BootstrapSettings;
 import de.agilecoders.wicket.core.settings.IBootstrapSettings;
 import de.agilecoders.wicket.extensions.javascript.GoogleClosureJavaScriptCompressor;
-import de.agilecoders.wicket.extensions.javascript.YuiCssCompressor;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.editor.SummernoteConfig;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.editor.SummernoteStoredImageResourceReference;
 import de.agilecoders.wicket.less.BootstrapLess;
@@ -55,6 +54,7 @@ import org.devgateway.toolkit.forms.wicket.page.Homepage;
 import org.devgateway.toolkit.forms.wicket.page.error.AccessDeniedPage;
 import org.devgateway.toolkit.forms.wicket.page.user.LoginPage;
 import org.devgateway.toolkit.forms.wicket.styles.BaseStyles;
+import org.devgateway.toolkit.forms.wicket.styles.CustomCssCompressor;
 import org.devgateway.toolkit.persistence.converter.DefaultDecimalFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -172,7 +172,7 @@ public class FormsWebApplication extends AuthenticatedWebApplication {
         if (usesDeploymentConfig()) {
             getResourceSettings().setJavaScriptCompressor(
                     new GoogleClosureJavaScriptCompressor(CompilationLevel.SIMPLE_OPTIMIZATIONS));
-            getResourceSettings().setCssCompressor(new YuiCssCompressor());
+            getResourceSettings().setCssCompressor(new CustomCssCompressor());
             getResourceSettings().setUseMinifiedResources(true);
 
             getMarkupSettings().setStripComments(true);
