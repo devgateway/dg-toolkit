@@ -59,12 +59,13 @@ This module is packaged as a fat jar. For testing purposes, the default configur
  You can run the forms module just as any module of dg-toolkit:
 
 
-`java @argfile.txt -Dspring.profiles.active=dev -jar target/forms-0.0.1-SNAPSHOT.jar`
+`java -Dwicket.ioc.useByteBuddy=true -Dspring.profiles.active=dev -jar target/forms-0.0.1-SNAPSHOT.jar`
 
  This will start everything, including an embedded Tomcat Web server and all the services attached it.
 
-`@argfile.txt` stores additional VM arguments, in particular to grant reflective access to
-specific modules for other modules. Use `@$MODULE_DIR$/src/main/resources/argfile.txt` in IDE.
+Important: App must be started with `-Dwicket.ioc.useByteBuddy=true`.
+
+Wicket IOC by default uses cglib but for Java 17 it added support for ByteBuddy which is maintained and works for Java 17. If this parameter is not set then app won't start since cglib was excluded from the classpath.
 
 # Using Spring Boot Developer Tools
 

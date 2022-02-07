@@ -8,6 +8,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.GenericPanel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LambdaModel;
 import org.apache.wicket.model.PropertyModel;
 
 import java.util.List;
@@ -89,10 +90,8 @@ public class RevisionsPanel<TYPE> extends GenericPanel<List<TYPE>> {
                 ));
                 item.add(lastModifiedBy);
 
-                final Label revisionType = new Label("revisionType", new PropertyModel<>(
-                        obj[2],
-                        "name"
-                ));
+                final Label revisionType = new Label("revisionType",
+                        LambdaModel.of(() -> ((Enum<?>) obj[2]).name()));
                 item.add(revisionType);
 
                 final Label id = new Label("id", item.getIndex());

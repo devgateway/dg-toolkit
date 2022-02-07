@@ -29,15 +29,14 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>16</java.version>
-        <wicket.version>9.3.0</wicket.version>
-        <wicketstuff.version>9.3.0</wicketstuff.version>
+        <java.version>17</java.version>
+        <wicket.version>9.7.0</wicket.version>
+        <wicketstuff.version>9.7.0</wicketstuff.version>
         <wicket.bootstrap.version>5.0.4</wicket.bootstrap.version>
         <wicket.bootstrap.less.version>4.0.4</wicket.bootstrap.less.version>
         <zt.zip.version>1.14</zt.zip.version>
         <wicket.webjars.version>3.0.3</wicket.webjars.version>
         <closure.compiler.version>v20210406</closure.compiler.version>
-        <cglib.version>3.3.0</cglib.version>
         <yuicompressor.version>2.4.8</yuicompressor.version>
         <javamelody.version>1.87.0</javamelody.version>
     </properties>
@@ -152,12 +151,6 @@
             <groupId>org.apache.wicket</groupId>
             <artifactId>wicket-spring</artifactId>
             <version>${wicket.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib</artifactId>
-            <version>${cglib.version}</version>
         </dependency>
 
         <dependency>
@@ -396,6 +389,17 @@
                 <groupId>org.apache.wicket</groupId>
                 <artifactId>wicket-request</artifactId>
                 <version>${wicket.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-ioc</artifactId>
+                <version>${wicket.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>cglib</groupId>
+                        <artifactId>cglib</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.derby</groupId>
