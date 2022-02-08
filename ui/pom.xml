@@ -14,6 +14,7 @@
         <java.version>17</java.version>
         <start-class>org.devgateway.toolkit.ui.UIWebApplication</start-class>
         <checkstyle.skip>true</checkstyle.skip>
+        <npmInstallArg>install</npmInstallArg>
     </properties>
 
     <parent>
@@ -90,7 +91,7 @@
                         </goals>
                         <!-- Optional configuration which provides for running any npm command -->
                         <configuration>
-                            <arguments>install</arguments>
+                            <arguments>${npmInstallArg}</arguments>
                         </configuration>
                     </execution>
 

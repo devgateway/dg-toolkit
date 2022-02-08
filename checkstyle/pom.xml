@@ -15,6 +15,10 @@
         <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
     </properties>
 
+    <build>
+        <finalName>checkstyle</finalName>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>

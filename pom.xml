@@ -27,13 +27,12 @@
         <spring.boot.version>2.5.0</spring.boot.version>
         <derby.version>10.14.2.0</derby.version>
         <poi.version>4.0.1</poi.version>
-        <docker.image.prefix>devgateway/toolkit</docker.image.prefix>
-        <docker-maven-plugin.version>0.4.13</docker-maven-plugin.version>
         <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <maven-release-plugin.version>3.0.0-M4</maven-release-plugin.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <javassist.version>3.27.0-GA</javassist.version>
+        <extraLocalRepositoryPath>${project.basedir}/.m2</extraLocalRepositoryPath>
     </properties>
 
     <modules>
@@ -99,6 +98,11 @@
                 <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
+        <pluginRepository>
+            <id>checkstyle</id>
+            <name>checkstyle</name>
+            <url>file:${extraLocalRepositoryPath}</url>
+        </pluginRepository>
     </pluginRepositories>
 
     <dependencies>
@@ -111,14 +115,6 @@
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>${javassist.version}</version>
-        </dependency>
-        <dependency>
-            <!-- run checkstyle `mvn clean install` once during project setup -->
-            <groupId>org.devgateway.toolkit</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>1.1</version>
-            <scope>compile</scope>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.reflections</groupId>
@@ -159,7 +155,6 @@
                         <groupId>org.devgateway.toolkit</groupId>
                         <artifactId>checkstyle</artifactId>
                         <version>1.1</version>
-                        <scope>compile</scope>
                     </dependency>
                 </dependencies>
                 <executions>

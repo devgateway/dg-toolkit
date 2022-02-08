@@ -1,0 +1,16 @@
+**/.git*
+
+target
+*/target
+ui/build
+ui/node
+ui/node_modules
+
+.idea
+**/*.iml
+
+**/LOG_DIR_IS_UNDEFINED
+**/derby.log
+
+Dockerfile
+Jenkinsfile
