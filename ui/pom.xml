@@ -11,9 +11,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>16</java.version>
+        <java.version>17</java.version>
         <start-class>org.devgateway.toolkit.ui.UIWebApplication</start-class>
-        <skip.frontend.build>false</skip.frontend.build>
         <checkstyle.skip>true</checkstyle.skip>
     </properties>
 
@@ -44,23 +43,9 @@
     <build>
         <resources>
             <resource>
-                <filtering>true</filtering>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.properties</include>
-                </includes>
-            </resource>
-
-            <resource>
                 <filtering>false</filtering>
-                <directory>${project.basedir}</directory>
-                <includes>
-                    <include>public/**</include>
-                </includes>
-                <excludes>
-                    <exclude>public/index.js</exclude>
-                    <exclude>public/index.js.map</exclude>
-                </excludes>
+                <directory>${project.basedir}/build</directory>
+                <targetPath>public/ui</targetPath>
             </resource>
         </resources>
         <plugins>
@@ -71,7 +56,7 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>public</directory>
+                            <directory>build</directory>
                             <includes>
                                 <include>**/*</include>
                             </includes>
@@ -84,7 +69,7 @@
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
-                <version>1.10.2</version>
+                <version>1.12.1</version>
 
                 <executions>
                     <execution>
@@ -94,8 +79,7 @@
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
-                            <nodeVersion>v6.11.3</nodeVersion>
-                            <npmVersion>3.10.10</npmVersion>
+                            <nodeVersion>v16.13.2</nodeVersion>
                         </configuration>
                     </execution>
 
@@ -117,41 +101,11 @@
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
+                            <environmentVariables>
+                                <PUBLIC_URL>.</PUBLIC_URL>
+                            </environmentVariables>
                             <arguments>run build</arguments>
                         </configuration>
-                    </execution>
-
-                    <!--
-                    This is not needed as npm invokes gulp.
-                    Uncomment if you plan to run gulp separately for some reason
-                        <execution>
-                            <id>gulp build</id>
-                            <goals>
-                                <goal>gulp</goal>
-                            </goals>
-                            <phase>generate-resources</phase>
-                        </execution>
-                    -->
-                </executions>
-
-                <configuration>
-                    <skip>${skip.frontend.build}</skip>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.boot.version}</version>
-                <configuration>
-                    <classifier>exec</classifier>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <!-- This will ensure a fat jar is created, will include all jar dependencies inside a /lib folder within this jar -->
-                            <goal>repackage</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>

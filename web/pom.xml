@@ -16,7 +16,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <start-class>org.devgateway.toolkit.web.spring.WebApplication</start-class>
-        <java.version>16</java.version>
+        <java.version>17</java.version>
         <ooxml-schemas.version>1.4</ooxml-schemas.version>
         <swagger.version>3.0.0</swagger.version>
     </properties>
