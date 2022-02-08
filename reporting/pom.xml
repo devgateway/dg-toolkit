@@ -23,7 +23,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>16</java.version>
+        <java.version>17</java.version>
         <pentaho.reporting.version>6.1.0.1-196</pentaho.reporting.version>
         <pentaho.reporting.java8.version>6.1.0.1-196-java8-1</pentaho.reporting.java8.version>
         <jfreechart.version>1.0.13</jfreechart.version>
