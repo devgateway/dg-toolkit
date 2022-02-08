@@ -95,9 +95,7 @@ We use the recommended layout and configuration as described in the official doc
 To create the image:
 
 ```
-mvn install
-cd forms
-mvn docker:build
+DOCKER_BUILDKIT=1 docker build -t dgtkitforms .
 ```
 
 This will build the image and automatically add to your local docker daemon.
@@ -105,16 +103,14 @@ After this, by running `docker images` you should be able to see the new image a
 
 ```
 $ docker images
-REPOSITORY                   TAG                 IMAGE ID            CREATED              SIZE
-devgateway/toolkit/forms     latest              86129946e668        About a minute ago   435.9 MB
-frolvlad/alpine-oraclejdk8   slim                00d8610f052e        2 weeks ago          166.6 MB
+REPOSITORY                         TAG            IMAGE ID       CREATED          SIZE
+dgtkitforms                        latest         70f8f162e698   12 seconds ago   652MB
 ```
 
 The image can be started with
 
 ```
-$docker run -p 8090:8090 -t devgateway/toolkit/forms
+$ docker run -d -p 8090:8090 dgtkitforms
 ```
 
 That's it, congrats!
-

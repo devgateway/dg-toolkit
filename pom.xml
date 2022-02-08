@@ -27,8 +27,6 @@
         <spring.boot.version>2.5.0</spring.boot.version>
         <derby.version>10.14.2.0</derby.version>
         <poi.version>4.0.1</poi.version>
-        <docker.image.prefix>devgateway/toolkit</docker.image.prefix>
-        <docker-maven-plugin.version>0.4.13</docker-maven-plugin.version>
         <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <maven-release-plugin.version>3.0.0-M4</maven-release-plugin.version>
