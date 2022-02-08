@@ -15,7 +15,6 @@
 package org.devgateway.toolkit.persistence.spring;
 
 import com.zaxxer.hikari.HikariDataSource;
-import liquibase.integration.spring.SpringLiquibase;
 import org.apache.derby.drda.NetworkServerControl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +29,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.mock.jndi.SimpleNamingContextBuilder;
 
 import javax.naming.NamingException;
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.net.InetAddress;
@@ -109,13 +107,4 @@ public class DatabaseConfiguration {
         nsc.start(new PrintWriter(java.lang.System.out, true));
         return nsc;
     }
-
-    @Bean
-    public SpringLiquibaseRunner liquibaseAfterJPA(final SpringLiquibase springLiquibase,
-                                                   final EntityManagerFactory entityManagerFactory) {
-        logger.info("Instantiating SpringLiquibaseRunner after initialization of entityManager using factory "
-                + entityManagerFactory);
-        return new SpringLiquibaseRunner(springLiquibase);
-    }
-
 }

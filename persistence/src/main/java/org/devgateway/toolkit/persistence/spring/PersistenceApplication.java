@@ -16,7 +16,6 @@ import org.devgateway.toolkit.persistence.dao.GenericPersistable;
 import org.devgateway.toolkit.persistence.repository.RoleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -50,9 +49,8 @@ public class PersistenceApplication {
 
     @Bean
     @Profile("!integration")
-    public TomcatServletWebServerFactory tomcatFactory(@Qualifier("liquibaseAfterJPA") final
-                                                       SpringLiquibaseRunner liquibaseAfterJPA) {
-        logger.info("Instantiating tomcat after initialization of " + liquibaseAfterJPA);
+    public TomcatServletWebServerFactory tomcatFactory() {
+        logger.info("Instantiating tomcat...");
         return new TomcatServletWebServerFactory() {
             @Override
             protected TomcatWebServer getTomcatWebServer(final Tomcat tomcat) {
