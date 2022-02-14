@@ -6,9 +6,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.repository.query.FluentQuery;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * @author idobre
@@ -188,5 +190,11 @@ public class TestAddressRepository implements BaseJpaRepository<TestAddress, Lon
     @Override
     public boolean exists(Example example) {
         return false;
+    }
+
+    @Override
+    public <S extends TestAddress, R> R findBy(final Example<S> example,
+            final Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
+        return null;
     }
 }
