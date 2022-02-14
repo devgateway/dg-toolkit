@@ -18,7 +18,7 @@
         <start-class>org.devgateway.toolkit.web.spring.WebApplication</start-class>
         <java.version>17</java.version>
         <ooxml-schemas.version>1.4</ooxml-schemas.version>
-        <swagger.version>3.0.0</swagger.version>
+        <springdoc.version>1.6.6</springdoc.version>
     </properties>
 
     <parent>
@@ -124,21 +124,9 @@
         </dependency>
 
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${swagger.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-spring-webmvc</artifactId>
-            <version>${swagger.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${swagger.version}</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc.version}</version>
         </dependency>
     </dependencies>
 
