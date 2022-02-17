@@ -1,35 +1,37 @@
 package org.devgateway.toolkit.web.spring;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import org.springdoc.core.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
-
-import static springfox.documentation.builders.PathSelectors.regex;
 
 @Configuration
-@EnableSwagger2WebMvc
 public class SwaggerConfig {
     @Bean
-    public Docket yaliApi() {
-        return new Docket(DocumentationType.SWAGGER_2).groupName("Api").apiInfo(apiInfo())
-                .select().apis(RequestHandlerSelectors.any()).paths(regex("/api/.*")).build();
+    public GroupedOpenApi cashewApi() {
+        return GroupedOpenApi.builder()
+                .group("dgtoolkit-api")
+                .pathsToMatch("/api/**")
+                .build();
     }
 
     @Bean
-    public Docket manageApi() {
-        return new Docket(DocumentationType.SWAGGER_2).groupName("manageApi")
-                .select().apis(RequestHandlerSelectors.any()).paths(regex("/manage/.*")).build();
+    public GroupedOpenApi manageApi() {
+        return GroupedOpenApi.builder()
+                .group("dgtoolkit-manage")
+                .pathsToMatch("/manage/**")
+                .build();
     }
 
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("DG-Toolkit Application API")
-                .description("Endpoints description").license("MIT License")
-                .licenseUrl("https://opensource.org/licenses/MIT").version("1.0").build();
+    @Bean
+    public OpenAPI apiInfo() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title("DG Toolkit API")
+                        .description("DG Toolkit endpoints")
+                        .version("1.0")
+                        .license(new License().name("MIT License").url("https://opensource.org/licenses/MIT")));
     }
-
 }

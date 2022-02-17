@@ -1,6 +1,6 @@
 package org.devgateway.toolkit.web.rest.controller;
 
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheConfig;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
     private static final Logger logger = LoggerFactory.getLogger(TestController.class);
 
-    @ApiOperation(value = "Test API")
+    @Operation(summary = "Test API")
     @RequestMapping(value = "/api/testAPI", method = RequestMethod.GET, produces = "application/json")
     public String testAPI() {
         String responseJson = "{\n"
