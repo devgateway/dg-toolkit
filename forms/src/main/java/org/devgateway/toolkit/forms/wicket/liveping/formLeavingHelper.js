@@ -1,27 +1,28 @@
 /*******************************************************************************
  * Copyright (c) 2015 Development Gateway, Inc and others.
- * 
+ *
  * All rights reserved. This program and the accompanying materials are made
  * available under the terms of the MIT License (MIT) which accompanies this
  * distribution, and is available at https://opensource.org/licenses/MIT
- * 
+ *
  * Contributors: Development Gateway - initial API and implementation
  ******************************************************************************/
 // if nothing has changed that the user can leave the page without any
 // confirmation
-var shouldConfirmFormLeaving = false;
+var shouldConfirmFormLeaving = true;
+var formChanged = false;
 
-$(document).ready(function () {
+function checkAnyChange() {
     $(':input').each(function () {
         $(this).on('change', function () {
-            shouldConfirmFormLeaving = true;
+            formChanged = true;
         });
     });
 
-    // set shouldConfirmFormLeaving when input has focus
+    // set formChanged when input has focus
     $(':input').each(function () {
         $(this).on('keyup', function () {
-            shouldConfirmFormLeaving = true;
+            formChanged = true;
         });
     });
 
@@ -38,7 +39,7 @@ $(document).ready(function () {
             that.trigger('change');
         }, 50);
 
-        shouldConfirmFormLeaving = true;
+        formChanged = true;
     });
 
     $(document).on('drop', ':input', function (e) {
@@ -53,14 +54,23 @@ $(document).ready(function () {
             that.trigger('change');
         }, 50);
 
-        shouldConfirmFormLeaving = true;
+        formChanged = true;
     });
-});
+}
+
+$(document).ready(function() { checkAnyChange(); });
+/*
+* Below works, but we only need to rebind on dynamic elements rendered based on some conditions.
+* Therefore better to append BIND_FORM_LEAVING_CHECK when dynamic content is loaded.
+$(document).ajaxComplete(function() { checkAnyChange(); });
+*/
 
 // confirmation modal before window unload
-$(window).on('beforeunload', function () {
-    if (shouldConfirmFormLeaving) {
-        return "${formLeavingWarning}";
+$(window).on('beforeunload', function (e) {
+    if (shouldConfirmFormLeaving && formChanged) {
+        e.preventDefault();
+        // heads up: the latest browsers use their own generic message, not customizable here.
+        return e.returnValue = "${formLeavingWarning}";
     }
 });
 
@@ -70,4 +80,8 @@ function enableFormLeavingConfirmation() {
 
 function disableFormLeavingConfirmation() {
     shouldConfirmFormLeaving = false;
+}
+
+function markFormAsChanged() {
+    formChanged = true;
 }
