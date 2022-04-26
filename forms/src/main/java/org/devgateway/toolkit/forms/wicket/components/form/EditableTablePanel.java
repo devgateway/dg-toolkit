@@ -15,7 +15,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.validation.IValidator;
-import org.devgateway.toolkit.forms.WebConstants;
+import org.devgateway.toolkit.forms.FormsConstants;
 import org.devgateway.toolkit.forms.wicket.components.PageableTablePanel;
 import org.devgateway.toolkit.forms.wicket.components.table.AbstractBootstrapPagingNavigationWithError;
 import org.devgateway.toolkit.forms.wicket.components.table.AjaxBootstrapNavigationToolbar;
@@ -68,7 +68,7 @@ public class EditableTablePanel<T extends Serializable, PARENT extends Serializa
 
     protected AjaxFallbackBootstrapDataTable buildDataTable() {
         AjaxFallbackBootstrapDataTable dataTable = super.buildDataTable();
-        if (this.rowsPerPage != WebConstants.PAGE_SIZE_NO_LIMIT && usePagingWithErrors) {
+        if (this.rowsPerPage != FormsConstants.PAGE_SIZE_NO_LIMIT && usePagingWithErrors) {
             AjaxBootstrapNavigationToolbar navToolbar = dataTable.getNavigationToolbar();
             navToolbar.withPagingNavFactory(new PagingNavigationFactory(EditableTablePagination.class, this));
         }

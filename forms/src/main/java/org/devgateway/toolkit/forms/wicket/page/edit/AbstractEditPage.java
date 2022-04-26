@@ -31,7 +31,7 @@ import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.ValidationError;
-import org.devgateway.toolkit.forms.WebConstants;
+import org.devgateway.toolkit.forms.FormsConstants;
 import org.devgateway.toolkit.forms.exceptions.NullJpaServiceException;
 import org.devgateway.toolkit.forms.exceptions.NullListPageClassException;
 import org.devgateway.toolkit.forms.util.MarkupCacheService;
@@ -469,8 +469,8 @@ public abstract class AbstractEditPage<T extends GenericPersistable & Serializab
     public AbstractEditPage(final PageParameters parameters) {
         super(parameters);
 
-        if (!parameters.get(WebConstants.PARAM_ID).isNull()) {
-            entityId = parameters.get(WebConstants.PARAM_ID).toLongObject();
+        if (!parameters.get(FormsConstants.PARAM_ID).isNull()) {
+            entityId = parameters.get(FormsConstants.PARAM_ID).toLongObject();
         }
 
         editForm = new EditForm("editForm") {

@@ -27,7 +27,7 @@ import org.apache.wicket.validation.IValidatable;
 import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
 import org.apache.wicket.validation.validator.PatternValidator;
-import org.devgateway.toolkit.forms.WebConstants;
+import org.devgateway.toolkit.forms.FormsConstants;
 import org.devgateway.toolkit.forms.security.SecurityConstants;
 import org.devgateway.toolkit.forms.security.SecurityUtil;
 import org.devgateway.toolkit.forms.service.SendEmailService;
@@ -50,7 +50,7 @@ import org.devgateway.toolkit.persistence.service.category.GroupService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.wicketstuff.annotation.mount.MountPath;
 
-import static org.devgateway.toolkit.forms.WebConstants.StringValidators.MAXIMUM_LENGTH_VALIDATOR_STD_DEFAULT_TEXT;
+import static org.devgateway.toolkit.forms.FormsConstants.StringValidators.MAXIMUM_LENGTH_VALIDATOR_STD_DEFAULT_TEXT;
 
 @AuthorizeInstantiation(SecurityConstants.Roles.ROLE_USER)
 @MountPath(value = "/account")
@@ -109,7 +109,7 @@ public class EditUserPage extends AbstractEditPage<Person> {
         Person person = SecurityUtil.getCurrentAuthenticatedPerson();
 
         if (!SecurityUtil.isCurrentUserAdmin()) {
-            if (person.getId() != getPageParameters().get(WebConstants.PARAM_ID).toLong()) {
+            if (person.getId() != getPageParameters().get(FormsConstants.PARAM_ID).toLong()) {
                 setResponsePage(getApplication().getHomePage());
             }
         }
@@ -120,7 +120,7 @@ public class EditUserPage extends AbstractEditPage<Person> {
         username.required();
         username.getField().add(MAXIMUM_LENGTH_VALIDATOR_STD_DEFAULT_TEXT);
         username.getField().add(new UsernamePatternValidator());
-        StringValue idPerson = getPageParameters().get(WebConstants.PARAM_ID);
+        StringValue idPerson = getPageParameters().get(FormsConstants.PARAM_ID);
         if (!idPerson.isNull()) {
             username.getField().add(new UniqueUsernameValidator(idPerson.toLong()));
         } else {

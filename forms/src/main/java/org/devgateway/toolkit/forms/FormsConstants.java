@@ -19,10 +19,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-// TODO rename to FormConstants
-public final class WebConstants {
+public final class FormsConstants {
 
-    private WebConstants() {
+    private FormsConstants() {
 
     }
 

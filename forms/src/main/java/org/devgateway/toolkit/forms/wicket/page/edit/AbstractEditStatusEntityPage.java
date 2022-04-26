@@ -42,7 +42,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.string.Strings;
 import org.apache.wicket.util.visit.IVisit;
 import org.apache.wicket.util.visit.IVisitor;
-import org.devgateway.toolkit.forms.WebConstants;
+import org.devgateway.toolkit.forms.FormsConstants;
 import org.devgateway.toolkit.forms.security.SecurityConstants;
 import org.devgateway.toolkit.forms.wicket.components.form.BootstrapSubmitButton;
 import org.devgateway.toolkit.forms.wicket.components.form.CheckBoxBootstrapFormComponent;
@@ -184,7 +184,7 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
 
         @Override
         protected String getOnClickScript() {
-            return WebConstants.DISABLE_FORM_LEAVING_JS;
+            return FormsConstants.DISABLE_FORM_LEAVING_JS;
         }
 
         @Override
@@ -271,8 +271,8 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
     protected void afterSaveEntity(final T saveable) {
         super.afterSaveEntity(saveable);
 
-        getPageParameters().set(WebConstants.V_POSITION, verticalPosition.getValue())
-                .set(WebConstants.MAX_HEIGHT, maxHeight.getValue());
+        getPageParameters().set(FormsConstants.V_POSITION, verticalPosition.getValue())
+                .set(FormsConstants.MAX_HEIGHT, maxHeight.getValue());
     }
 
     @Override
@@ -510,7 +510,7 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
 
             @Override
             protected String getOnClickScript() {
-                return WebConstants.DISABLE_FORM_LEAVING_JS;
+                return FormsConstants.DISABLE_FORM_LEAVING_JS;
             }
 
             @Override
@@ -533,7 +533,7 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
 
             @Override
             protected String getOnClickScript() {
-                return WebConstants.DISABLE_FORM_LEAVING_JS;
+                return FormsConstants.DISABLE_FORM_LEAVING_JS;
             }
 
             @Override
@@ -555,7 +555,7 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
 
             @Override
             protected String getOnClickScript() {
-                return WebConstants.DISABLE_FORM_LEAVING_JS;
+                return FormsConstants.DISABLE_FORM_LEAVING_JS;
             }
 
             @Override
@@ -602,7 +602,7 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
 
             @Override
             protected String getOnClickScript() {
-                return WebConstants.DISABLE_FORM_LEAVING_JS;
+                return FormsConstants.DISABLE_FORM_LEAVING_JS;
             }
 
             @Override
@@ -636,7 +636,7 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
 
             @Override
             protected String getOnClickScript() {
-                return WebConstants.DISABLE_FORM_LEAVING_JS;
+                return FormsConstants.DISABLE_FORM_LEAVING_JS;
             }
 
             @Override
@@ -657,7 +657,7 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
 
             @Override
             protected String getOnClickScript() {
-                return WebConstants.DISABLE_FORM_LEAVING_JS;
+                return FormsConstants.DISABLE_FORM_LEAVING_JS;
             }
 
             @Override
@@ -765,8 +765,8 @@ public abstract class AbstractEditStatusEntityPage<T extends AbstractStatusAudit
         response.render(OnDomReadyHeaderItem.forScript(String.format(
                 "var vPosition= +%s, mHeight = +%s, cmHeight=$(document).height();"
                         + "if(mHeight!=0) $(window).scrollTop(vPosition*cmHeight/mHeight)",
-                getPageParameters().get(WebConstants.V_POSITION).toDouble(0),
-                getPageParameters().get(WebConstants.MAX_HEIGHT).toDouble(0)
+                getPageParameters().get(FormsConstants.V_POSITION).toDouble(0),
+                getPageParameters().get(FormsConstants.MAX_HEIGHT).toDouble(0)
         )));
     }
 
