@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.devgateway.toolkit.web;
 
@@ -11,7 +11,7 @@ import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
@@ -39,7 +39,7 @@ public abstract class AbstractSpringDataRestControllerTest extends AbstractWebTe
     private MockMvc mockMvc;
 
     /**
-     * http://stackoverflow.com/a/36960968 
+     * http://stackoverflow.com/a/36960968
      * This is needed if you do
      * {@link PagedResourcesAssembler#toResource(org.springframework.data.domain.Page)}
      * in your controller
@@ -56,7 +56,7 @@ public abstract class AbstractSpringDataRestControllerTest extends AbstractWebTe
         RequestContextHolder.setRequestAttributes(servletRequestAttributes);
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context).build();
         this.persistentEntityResourceAssembler = mock(PersistentEntityResourceAssembler.class);

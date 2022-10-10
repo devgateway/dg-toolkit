@@ -24,11 +24,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
         <liquibase.version>4.7.1</liquibase.version>
-        <spring.boot.version>2.7.3</spring.boot.version>
+        <spring.boot.version>2.7.4</spring.boot.version>
         <derby.version>10.14.2.0</derby.version>
         <poi.version>4.0.1</poi.version>
         <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
-        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
         <maven-release-plugin.version>3.0.0-M5</maven-release-plugin.version>
         <maven-compiler-plugin.version>3.9.0</maven-compiler-plugin.version>
         <javassist.version>3.27.0-GA</javassist.version>

@@ -1,8 +1,8 @@
 package org.devgateway.toolkit.persistence.excel.info;
 
 import org.devgateway.toolkit.persistence.excel.annotation.ExcelExport;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -51,7 +51,8 @@ public class ClassFieldsExcelExportTest {
             actualFields.add(f.getName());
         }
 
-        Assert.assertArrayEquals("Check declared @ExcelExport fields", expectedFields, actualFields.toArray());
+        Assertions.assertArrayEquals(expectedFields, actualFields.toArray(),
+                "Check declared @ExcelExport fields");
     }
 
     @Test
@@ -69,7 +70,7 @@ public class ClassFieldsExcelExportTest {
             actualFields.add(f.getName());
         }
 
-        Assert.assertArrayEquals("Check declared & inherited @ExcelExport fields",
-                expectedFields, actualFields.toArray());
+        Assertions.assertArrayEquals(expectedFields, actualFields.toArray(),
+                "Check declared & inherited @ExcelExport fields");
     }
 }

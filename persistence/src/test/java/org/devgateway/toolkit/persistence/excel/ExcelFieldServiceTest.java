@@ -3,8 +3,8 @@ package org.devgateway.toolkit.persistence.excel;
 import org.devgateway.toolkit.persistence.excel.annotation.ExcelExport;
 import org.devgateway.toolkit.persistence.excel.info.ClassFields;
 import org.devgateway.toolkit.persistence.excel.info.ClassFieldsDefault;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Persistable;
 
 import java.lang.reflect.Field;
@@ -58,16 +58,16 @@ public class ExcelFieldServiceTest {
         final Iterator<Field> fields = classFields.getFields();
 
         final Field firstField = fields.next();      // get first element
-        Assert.assertEquals("Check basic field type", FieldType.basic, ExcelFieldService.getFieldType(firstField));
+        Assertions.assertEquals(FieldType.basic, ExcelFieldService.getFieldType(firstField), "Check basic field type");
 
         final Field secondField = fields.next();      // get second element
-        Assert.assertEquals("Check type class for a List", FieldType.basic, ExcelFieldService.getFieldType(secondField));
+        Assertions.assertEquals(FieldType.basic, ExcelFieldService.getFieldType(secondField), "Check type class for a List");
 
         final Field thirdField = fields.next();      // get third element
-        Assert.assertEquals("Check basic field type for Object", FieldType.basic, ExcelFieldService.getFieldType(thirdField));
+        Assertions.assertEquals(FieldType.basic, ExcelFieldService.getFieldType(thirdField), "Check basic field type for Object");
 
         final Field fourthField = fields.next();      // get fourth element
-        Assert.assertEquals("Check objectSeparateSheet field type Object", FieldType.objectSeparateSheet, ExcelFieldService.getFieldType(fourthField));
+        Assertions.assertEquals(FieldType.objectSeparateSheet, ExcelFieldService.getFieldType(fourthField), "Check objectSeparateSheet field type Object");
     }
 
     @Test
@@ -76,11 +76,11 @@ public class ExcelFieldServiceTest {
         final Iterator<Field> fields = classFields.getFields();
 
         final Field firstField = fields.next();      // get first element
-        Assert.assertEquals("Check basic field class", Long.class, ExcelFieldService.getFieldClass(firstField));
+        Assertions.assertEquals(Long.class, ExcelFieldService.getFieldClass(firstField), "Check basic field class");
 
 
         final Field secondField = fields.next();      // get second element
-        Assert.assertEquals("Check field class for a List", String.class, ExcelFieldService.getFieldClass(secondField));
+        Assertions.assertEquals(String.class, ExcelFieldService.getFieldClass(secondField), "Check field class for a List");
     }
 
     @Test
@@ -95,16 +95,16 @@ public class ExcelFieldServiceTest {
             actualFields.add(f.getName());
         }
 
-        Assert.assertArrayEquals("Check get fields", expectedFields, actualFields.toArray());
+        Assertions.assertArrayEquals(expectedFields, actualFields.toArray(), "Check get fields");
     }
 
     @Test
     public void getObjectID() throws Exception {
         final OtherClass otherClass = new OtherClass();
-        Assert.assertEquals("Check object ID", Long.valueOf(-1), ExcelFieldService.getObjectID(otherClass));
+        Assertions.assertEquals(Long.valueOf(-1), ExcelFieldService.getObjectID(otherClass), "Check object ID");
 
         final TestClass testclass = new TestClass((long) 10);
-        Assert.assertEquals("Check object ID", Long.valueOf(10), ExcelFieldService.getObjectID(testclass));
+        Assertions.assertEquals(Long.valueOf(10), ExcelFieldService.getObjectID(testclass), "Check object ID");
     }
 
     @Test
@@ -113,9 +113,9 @@ public class ExcelFieldServiceTest {
         final Iterator<Field> fields = classFields.getFields();
 
         final Field firstField = fields.next();      // get first element
-        Assert.assertEquals("Check field name", "valid", ExcelFieldService.getFieldName(null, firstField, null));
+        Assertions.assertEquals("valid", ExcelFieldService.getFieldName(null, firstField, null), "Check field name");
 
         final Field secondField = fields.next();      // get second element
-        Assert.assertEquals("Check field name", "money", ExcelFieldService.getFieldName(null, secondField, null));
+        Assertions.assertEquals("money", ExcelFieldService.getFieldName(null, secondField, null), "Check field name");
     }
 }

@@ -5,8 +5,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -58,9 +58,9 @@ public class AbstractExcelSheetTest {
         excelSheet.writeCell("text", row, 2);
         excelSheet.writeCell(1, row, 3);
 
-        Assert.assertEquals(CellType.BLANK, row.getCell(0).getCellType());
-        Assert.assertEquals("Yes", row.getCell(1).getStringCellValue());
-        Assert.assertEquals(CellType.STRING, row.getCell(2).getCellType());
-        Assert.assertEquals(CellType.NUMERIC, row.getCell(3).getCellType());
+        Assertions.assertEquals(CellType.BLANK, row.getCell(0).getCellType());
+        Assertions.assertEquals("Yes", row.getCell(1).getStringCellValue());
+        Assertions.assertEquals(CellType.STRING, row.getCell(2).getCellType());
+        Assertions.assertEquals(CellType.NUMERIC, row.getCell(3).getCellType());
     }
 }

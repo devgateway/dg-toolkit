@@ -1,15 +1,14 @@
 package org.devgateway.toolkit.web.excelcharts;
 
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Chart;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.charts.ChartDataSource;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +25,7 @@ public class ExcelChartSheetDefaultTest {
 
     private Workbook workbook;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         workbook = new XSSFWorkbook();
     }
@@ -41,10 +40,10 @@ public class ExcelChartSheetDefaultTest {
         excelChartSheet.writeCell("text", row, 2);
         excelChartSheet.writeCell(1, row, 3);
 
-        Assert.assertEquals(CellType.BLANK, row.getCell(0).getCellTypeEnum());
-        Assert.assertEquals("Yes", row.getCell(1).getStringCellValue());
-        Assert.assertEquals(CellType.STRING, row.getCell(2).getCellTypeEnum());
-        Assert.assertEquals(CellType.NUMERIC, row.getCell(3).getCellTypeEnum());
+        Assertions.assertEquals(CellType.BLANK, row.getCell(0).getCellTypeEnum());
+        Assertions.assertEquals("Yes", row.getCell(1).getStringCellValue());
+        Assertions.assertEquals(CellType.STRING, row.getCell(2).getCellTypeEnum());
+        Assertions.assertEquals(CellType.NUMERIC, row.getCell(3).getCellTypeEnum());
     }
 
     @Test
@@ -52,10 +51,10 @@ public class ExcelChartSheetDefaultTest {
         final ExcelChartSheet excelChartSheet = new ExcelChartSheetDefault(workbook, ChartType.area.toString());
 
         Row row1 = excelChartSheet.createRow();
-        Assert.assertNotNull("check row creation", row1);
+        Assertions.assertNotNull(row1, "check row creation");
 
         Row row2 = excelChartSheet.createRow(2);
-        Assert.assertNotNull("check row creation", row2);
+        Assertions.assertNotNull(row2, "check row creation");
     }
 
     @Test
@@ -63,7 +62,7 @@ public class ExcelChartSheetDefaultTest {
         final ExcelChartSheet excelChartSheet = new ExcelChartSheetDefault(workbook, ChartType.pie.toString());
         Chart chart = excelChartSheet.createChartAndLegend();
 
-        Assert.assertNotNull(chart);
+        Assertions.assertNotNull(chart);
     }
 
     @Test
@@ -73,9 +72,9 @@ public class ExcelChartSheetDefaultTest {
 
         ChartDataSource categoryChartDataSource = excelChartSheet.getCategoryChartDataSource();
 
-        Assert.assertEquals("check count of categories", 5, categoryChartDataSource.getPointCount());
-        Assert.assertEquals("check first category", "cat 1", categoryChartDataSource.getPointAt(0));
-        Assert.assertEquals("check last category", "cat 5", categoryChartDataSource.getPointAt(4));
+        Assertions.assertEquals(5, categoryChartDataSource.getPointCount(), "check count of categories");
+        Assertions.assertEquals("cat 1", categoryChartDataSource.getPointAt(0), "check first category");
+        Assertions.assertEquals("cat 5", categoryChartDataSource.getPointAt(4), "check last category");
     }
 
     @Test
@@ -86,15 +85,15 @@ public class ExcelChartSheetDefaultTest {
 
         List<ChartDataSource<Number>> valuesChartDataSource = excelChartSheet.getValuesChartDataSource();
 
-        Assert.assertEquals("numbers of values data source", 2, valuesChartDataSource.size());
-        Assert.assertEquals("check count of values", 5, valuesChartDataSource.get(0).getPointCount());
-        Assert.assertEquals("check count of values", 5, valuesChartDataSource.get(1).getPointCount());
+        Assertions.assertEquals(2, valuesChartDataSource.size(), "numbers of values data source");
+        Assertions.assertEquals(5, valuesChartDataSource.get(0).getPointCount(), "check count of values");
+        Assertions.assertEquals(5, valuesChartDataSource.get(1).getPointCount(), "check count of values");
 
-        Assert.assertEquals("check first value", 5.0, valuesChartDataSource.get(0).getPointAt(0));
-        Assert.assertEquals("check last value", 6.0, valuesChartDataSource.get(0).getPointAt(4));
+        Assertions.assertEquals(5.0, valuesChartDataSource.get(0).getPointAt(0), "check first value");
+        Assertions.assertEquals(6.0, valuesChartDataSource.get(0).getPointAt(4), "check last value");
 
-        Assert.assertEquals("check first value", 20.0, valuesChartDataSource.get(1).getPointAt(0));
-        Assert.assertEquals("check last value", 14.0, valuesChartDataSource.get(1).getPointAt(4));
+        Assertions.assertEquals(20.0, valuesChartDataSource.get(1).getPointAt(0), "check first value");
+        Assertions.assertEquals(14.0, valuesChartDataSource.get(1).getPointAt(4), "check last value");
     }
 
     /**

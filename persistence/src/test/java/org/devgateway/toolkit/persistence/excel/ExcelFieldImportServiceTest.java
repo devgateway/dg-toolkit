@@ -3,8 +3,8 @@ package org.devgateway.toolkit.persistence.excel;
 import org.devgateway.toolkit.persistence.excel.annotation.ExcelImport;
 import org.devgateway.toolkit.persistence.excel.info.ClassFields;
 import org.devgateway.toolkit.persistence.excel.info.ClassFieldsDefault;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -45,13 +45,13 @@ public class ExcelFieldImportServiceTest {
         final Iterator<Field> fields = classFields.getFields();
 
         final Field firstField = fields.next();      // get first element
-        Assert.assertEquals("Check basic field type", FieldTypeImport.basic, ExcelFieldImportService.getFieldType(firstField));
+        Assertions.assertEquals(FieldTypeImport.basic, ExcelFieldImportService.getFieldType(firstField), "Check basic field type");
 
         final Field thirdField = fields.next();      // get second element
-        Assert.assertEquals("Check basic field type for Object", FieldTypeImport.object, ExcelFieldImportService.getFieldType(thirdField));
+        Assertions.assertEquals(FieldTypeImport.object, ExcelFieldImportService.getFieldType(thirdField), "Check basic field type for Object");
 
         final Field fourthField = fields.next();      // get third element
-        Assert.assertEquals("Check importByProp field type Object", FieldTypeImport.objectImportByProp, ExcelFieldImportService.getFieldType(fourthField));
+        Assertions.assertEquals(FieldTypeImport.objectImportByProp, ExcelFieldImportService.getFieldType(fourthField), "Check importByProp field type Object");
     }
 
     @Test
@@ -66,6 +66,6 @@ public class ExcelFieldImportServiceTest {
             actualFields.add(f.getName());
         }
 
-        Assert.assertArrayEquals("Check get fields", expectedFields, actualFields.toArray());
+        Assertions.assertArrayEquals(expectedFields, actualFields.toArray(), "Check get fields");
     }
 }

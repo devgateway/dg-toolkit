@@ -7,8 +7,8 @@ import org.apache.poi.xssf.usermodel.XSSFDrawing;
 import org.apache.poi.xssf.usermodel.charts.XSSFCategoryAxis;
 import org.apache.poi.xssf.usermodel.charts.XSSFChartAxis;
 import org.apache.poi.xssf.usermodel.charts.XSSFValueAxis;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.openxmlformats.schemas.drawingml.x2006.chart.CTAxDataSource;
 import org.openxmlformats.schemas.drawingml.x2006.chart.CTChart;
 import org.openxmlformats.schemas.drawingml.x2006.chart.CTLineChart;
@@ -34,48 +34,48 @@ public class ExcelChartDefaultTest {
         final ExcelChart excelChart = new ExcelChartDefault("line chart", ChartType.line, CATEGORIES, VALUES);
         excelChart.configureSeriesTitle(Arrays.asList("foo", "bar"));
         final Workbook workbook = excelChart.createWorkbook();
-        Assert.assertNotNull(workbook);
+        Assertions.assertNotNull(workbook);
 
         final Sheet sheet = workbook.getSheet(ChartType.line.toString());
-        Assert.assertNotNull(sheet);
+        Assertions.assertNotNull(sheet);
 
         final XSSFDrawing drawing = (XSSFDrawing) sheet.getDrawingPatriarch();
         final List<XSSFChart> charts = drawing.getCharts();
-        Assert.assertEquals("number of charts", 1, charts.size());
+        Assertions.assertEquals(1, charts.size(), "number of charts");
 
         final XSSFChart chart = charts.get(0);
-        Assert.assertEquals("chart title", "line chart", chart.getTitleText().getString());
+        Assertions.assertEquals("line chart", chart.getTitleText().getString(), "chart title");
 
         final CTChart ctChart = chart.getCTChart();
-        Assert.assertEquals("We should not have any area chart", 0, ctChart.getPlotArea().getAreaChartArray().length);
-        Assert.assertEquals("Check if we have 1 line chart", 1, ctChart.getPlotArea().getLineChartArray().length);
-        Assert.assertEquals("Check that we have a legend and that it's position is bottom", STLegendPos.B,
-                ctChart.getLegend().getLegendPos().getVal());
+        Assertions.assertEquals(0, ctChart.getPlotArea().getAreaChartArray().length, "We should not have any area chart");
+        Assertions.assertEquals(1, ctChart.getPlotArea().getLineChartArray().length, "Check if we have 1 line chart");
+        Assertions.assertEquals(STLegendPos.B, ctChart.getLegend().getLegendPos().getVal(),
+                "Check that we have a legend and that it's position is bottom");
 
         // check the actual chart data
         final CTLineChart ctLineChart = ctChart.getPlotArea().getLineChartArray()[0];
         final CTLineSer[] ctLineSer = ctLineChart.getSerArray();
-        Assert.assertEquals("Check number of CTLineSer", 2, ctLineSer.length);
-        Assert.assertEquals("check first series title", "foo", ctLineSer[0].getTx().getV());
-        Assert.assertEquals("check second series title", "bar", ctLineSer[1].getTx().getV());
+        Assertions.assertEquals(2, ctLineSer.length, "Check number of CTLineSer");
+        Assertions.assertEquals("foo", ctLineSer[0].getTx().getV(), "check first series title");
+        Assertions.assertEquals("bar", ctLineSer[1].getTx().getV(), "check second series title");
 
         final CTAxDataSource cat1 = ctLineSer[0].getCat();
-        Assert.assertEquals("check first category", "cat 1", cat1.getStrRef().getStrCache().getPtArray()[0].getV());
-        Assert.assertEquals("check last category", "cat 5", cat1.getStrRef().getStrCache().getPtArray()[4].getV());
+        Assertions.assertEquals("cat 1", cat1.getStrRef().getStrCache().getPtArray()[0].getV(), "check first category");
+        Assertions.assertEquals("cat 5", cat1.getStrRef().getStrCache().getPtArray()[4].getV(), "check last category");
         final CTAxDataSource cat2 = ctLineSer[1].getCat();
-        Assert.assertEquals("check first category", "cat 1", cat2.getStrRef().getStrCache().getPtArray()[0].getV());
-        Assert.assertEquals("check last category", "cat 5", cat2.getStrRef().getStrCache().getPtArray()[4].getV());
+        Assertions.assertEquals("cat 1", cat2.getStrRef().getStrCache().getPtArray()[0].getV(), "check first category");
+        Assertions.assertEquals("cat 5", cat2.getStrRef().getStrCache().getPtArray()[4].getV(), "check last category");
 
         final CTNumDataSource val1 = ctLineSer[0].getVal();
-        Assert.assertEquals("check first value", "5.0", val1.getNumRef().getNumCache().getPtArray()[0].getV());
-        Assert.assertEquals("check last value", "6.0", val1.getNumRef().getNumCache().getPtArray()[4].getV());
+        Assertions.assertEquals("5.0", val1.getNumRef().getNumCache().getPtArray()[0].getV(), "check first value");
+        Assertions.assertEquals("6.0", val1.getNumRef().getNumCache().getPtArray()[4].getV(), "check last value");
         final CTNumDataSource val2 = ctLineSer[1].getVal();
-        Assert.assertEquals("check first value", "20.0", val2.getNumRef().getNumCache().getPtArray()[0].getV());
-        Assert.assertEquals("check last value", "14.0", val2.getNumRef().getNumCache().getPtArray()[4].getV());
+        Assertions.assertEquals("20.0", val2.getNumRef().getNumCache().getPtArray()[0].getV(), "check first value");
+        Assertions.assertEquals("14.0", val2.getNumRef().getNumCache().getPtArray()[4].getV(), "check last value");
 
         final List<? extends XSSFChartAxis> axis = chart.getAxis();
-        Assert.assertEquals("number of axis", 2, axis.size());
-        Assert.assertTrue("category axis", axis.get(0) instanceof XSSFCategoryAxis);
-        Assert.assertTrue("category axis", axis.get(1) instanceof XSSFValueAxis);
+        Assertions.assertEquals(2, axis.size(), "number of axis");
+        Assertions.assertTrue(axis.get(0) instanceof XSSFCategoryAxis, "category axis");
+        Assertions.assertTrue(axis.get(1) instanceof XSSFValueAxis, "category axis");
     }
 }

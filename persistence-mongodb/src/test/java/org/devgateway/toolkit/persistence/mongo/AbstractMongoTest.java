@@ -1,13 +1,13 @@
 package org.devgateway.toolkit.persistence.mongo;
 
 import org.devgateway.toolkit.persistence.mongo.spring.MongoPersistenceApplication;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @ActiveProfiles("integration")
 @SpringBootTest(classes = { MongoPersistenceApplication.class })
 @TestPropertySource("classpath:test.properties")

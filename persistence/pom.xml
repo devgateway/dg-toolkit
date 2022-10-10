@@ -34,8 +34,10 @@
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite</artifactId>
+            <!-- matching the version of junit.jupiter provided by spring-boot-test-starter  -->
+            <version>1.8.2</version>
             <scope>test</scope>
         </dependency>
 
