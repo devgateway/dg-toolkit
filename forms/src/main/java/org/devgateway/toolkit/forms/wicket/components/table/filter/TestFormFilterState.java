@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,6 +18,8 @@ public class TestFormFilterState extends JpaFilterState<TestForm> {
 
     private static final long serialVersionUID = 8005371716983257722L;
     private String textField;
+
+    private Date date;
 
     @Override
     public Specification<TestForm> getSpecification() {
@@ -29,6 +32,9 @@ public class TestFormFilterState extends JpaFilterState<TestForm> {
             if (StringUtils.isNotBlank(textField)) {
                 predicates.add(cb.like(root.get(TestForm_.textField), "%" + textField + "%"));
             }
+            if (date != null) {
+                predicates.add(cb.equal(root.get(TestForm_.date), date));
+            }
             return cb.and(predicates.toArray(new Predicate[predicates.size()]));
         };
     }
@@ -39,5 +45,13 @@ public class TestFormFilterState extends JpaFilterState<TestForm> {
 
     public void setTextField(final String textField) {
         this.textField = textField;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(final Date date) {
+        this.date = date;
     }
 }
