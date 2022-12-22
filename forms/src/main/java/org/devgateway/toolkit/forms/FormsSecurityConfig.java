@@ -24,6 +24,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.rememberme.AbstractRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
+import org.springframework.security.web.context.SecurityContextHolderFilter;
 
 import static org.devgateway.toolkit.web.WebConstants.FORMS_BASE_PATH;
 
@@ -45,7 +46,7 @@ public class FormsSecurityConfig extends WebSecurityConfig {
      * resources
      */
     @Override
-    public void configure(final WebSecurity web) throws Exception {
+    public void configure(final WebSecurity web) {
         super.configure(web);
         web.ignoring().antMatchers("/img/**", "/css*/**", "/js*/**", "/assets*/**", "/favicon.ico", "/resources/**",
                 "/resources/public/**");
@@ -87,8 +88,9 @@ public class FormsSecurityConfig extends WebSecurityConfig {
     }
 
     @Override
-    protected void configure(final HttpSecurity http) throws Exception {
-        super.configure(http);
+    protected void configure(final HttpSecurity http, final SecurityContextHolderFilter securityContextHolderFilter)
+            throws Exception {
+        super.configure(http, securityContextHolderFilter);
 
         // we do not allow anyonymous token. When
         // enabled this basically means any guest

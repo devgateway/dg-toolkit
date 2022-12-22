@@ -23,16 +23,18 @@ import org.springframework.security.access.expression.SecurityExpressionHandler;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.FilterInvocation;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.security.web.context.SecurityContextPersistenceFilter;
+import org.springframework.security.web.context.SecurityContextHolderFilter;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 
@@ -49,7 +51,7 @@ import static org.devgateway.toolkit.web.WebConstants.FORMS_BASE_PATH;
 // them overlayed, it must pick that one first)
 @PropertySource("classpath:allowedApiEndpoints.properties")
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
     @Autowired
     protected CustomJPAUserDetailsService customJPAUserDetailsService;
@@ -78,14 +80,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public SecurityContextPersistenceFilter securityContextPersistenceFilter() {
-        final SecurityContextPersistenceFilter securityContextPersistenceFilter =
-                new SecurityContextPersistenceFilter(httpSessionSecurityContextRepository());
-        return securityContextPersistenceFilter;
+    public SecurityContextHolderFilter securityContextHolderFilter(
+            HttpSessionSecurityContextRepository securityContextRepository) {
+        SecurityContextHolderFilter securityContextHolderFilter =
+                new SecurityContextHolderFilter(securityContextRepository);
+        return securityContextHolderFilter;
     }
 
-    @Override
-    public void configure(final WebSecurity web) throws Exception {
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return this::configure;
+    }
+
+    public void configure(final WebSecurity web) {
         web.httpFirewall(allowUrlEncodedSlashHttpFirewall())
                 .ignoring().antMatchers(allowedApiEndpoints).and()
                 .ignoring().antMatchers(
@@ -93,15 +100,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         FORMS_BASE_PATH + "/forgotPassword/**");
     }
 
-    @Override
-    protected void configure(final HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(final HttpSecurity http,
+            final SecurityContextHolderFilter securityContextHolderFilter) throws Exception {
+        this.configure(http, securityContextHolderFilter);
+        return http.build();
+    }
+
+    protected void configure(final HttpSecurity http, final SecurityContextHolderFilter securityContextHolderFilter)
+            throws Exception {
         http.authorizeRequests().expressionHandler(webExpressionHandler()) // inject role hierarchy
                 .antMatchers(FORMS_BASE_PATH + "/monitoring/**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers(FORMS_BASE_PATH + "/**").authenticated().and()
                 .formLogin().loginPage(FORMS_BASE_PATH + "/login").permitAll().and()
                 .requestCache().and().logout().permitAll().and()
                 .sessionManagement().and().csrf().disable();
-        http.addFilter(securityContextPersistenceFilter());
+        http.addFilter(securityContextHolderFilter);
     }
 
     /**
@@ -128,13 +142,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
-    @Autowired
-    public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customJPAUserDetailsService).passwordEncoder(passwordEncoder);
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(customJPAUserDetailsService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
+        return authenticationProvider;
     }
 }
