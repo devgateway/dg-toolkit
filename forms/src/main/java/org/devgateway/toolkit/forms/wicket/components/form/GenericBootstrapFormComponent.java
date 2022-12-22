@@ -232,7 +232,7 @@ public abstract class GenericBootstrapFormComponent<TYPE, FIELD extends FormComp
      * but the field may be a wrapper, in which case you should override this
      * and provide the wrapped field.
      */
-    protected FormComponent<TYPE> updatingBehaviorComponent() {
+    public FormComponent<TYPE> updatingBehaviorComponent() {
         return field;
     }
 

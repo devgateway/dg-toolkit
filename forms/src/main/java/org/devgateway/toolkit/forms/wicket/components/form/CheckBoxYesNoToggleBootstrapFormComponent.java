@@ -39,7 +39,7 @@ public class CheckBoxYesNoToggleBootstrapFormComponent
     }
 
     @Override
-    protected FormComponent<Boolean> updatingBehaviorComponent() {
+    public FormComponent<Boolean> updatingBehaviorComponent() {
         return wrappedCheckbox;
     }
 
