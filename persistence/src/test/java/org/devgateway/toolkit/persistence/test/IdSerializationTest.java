@@ -10,7 +10,7 @@ import java.io.Serializable;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.devgateway.toolkit.persistence.dao.GenericPersistable;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**

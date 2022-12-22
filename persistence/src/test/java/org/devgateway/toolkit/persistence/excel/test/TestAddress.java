@@ -3,7 +3,6 @@ package org.devgateway.toolkit.persistence.excel.test;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.StandardToStringStyle;
 import org.devgateway.toolkit.persistence.excel.annotation.ExcelImport;
-import org.junit.Test;
 
 public class TestAddress {
     private Long id;

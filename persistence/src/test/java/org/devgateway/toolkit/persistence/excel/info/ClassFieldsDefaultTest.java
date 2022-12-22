@@ -1,7 +1,7 @@
 package org.devgateway.toolkit.persistence.excel.info;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class ClassFieldsDefaultTest {
             actualFields.add(f.getName());
         }
 
-        Assert.assertArrayEquals("Check declared fields", expectedFields, actualFields.toArray());
+        Assertions.assertArrayEquals(expectedFields, actualFields.toArray(), "Check declared fields");
     }
 
     @Test
@@ -56,6 +56,6 @@ public class ClassFieldsDefaultTest {
             actualFields.add(f.getName());
         }
 
-        Assert.assertArrayEquals("Check declared & inherited fields", expectedFields, actualFields.toArray());
+        Assertions.assertArrayEquals(expectedFields, actualFields.toArray(), "Check declared & inherited fields");
     }
 }

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.devgateway.toolkit.web;
 
@@ -10,8 +10,8 @@ import org.devgateway.toolkit.web.rest.controller.DummyController;
 import org.devgateway.toolkit.web.rest.entity.Dummy;
 import org.devgateway.toolkit.web.spring.AsyncControllerLookupService;
 import org.devgateway.toolkit.web.spring.util.AsyncBeanParamControllerMethodCallable;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -45,8 +45,8 @@ public class AsyncControllerLookupServiceTest extends AbstractWebTest {
 
         lookupService.waitTillDone(joe, wendy);
 
-        Assert.assertEquals("Hello, Joe!", joe.get().getContent());
-        Assert.assertEquals("Hello, Wendy!", wendy.get().getContent());
+        Assertions.assertEquals("Hello, Joe!", joe.get().getContent());
+        Assertions.assertEquals("Hello, Wendy!", wendy.get().getContent());
     }
 
 }

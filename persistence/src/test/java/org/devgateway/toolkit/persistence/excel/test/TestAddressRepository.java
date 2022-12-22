@@ -113,6 +113,11 @@ public class TestAddressRepository implements BaseJpaRepository<TestAddress, Lon
     }
 
     @Override
+    public TestAddress getReferenceById(final Long aLong) {
+        return null;
+    }
+
+    @Override
     public List findAll(Example example, Sort sort) {
         return null;
     }
@@ -189,6 +194,11 @@ public class TestAddressRepository implements BaseJpaRepository<TestAddress, Lon
 
     @Override
     public boolean exists(Example example) {
+        return false;
+    }
+
+    @Override
+    public boolean exists(final Specification<TestAddress> spec) {
         return false;
     }
 

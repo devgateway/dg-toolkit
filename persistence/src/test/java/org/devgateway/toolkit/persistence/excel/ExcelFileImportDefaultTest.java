@@ -4,9 +4,9 @@ import org.devgateway.toolkit.persistence.dao.categories.Category;
 import org.devgateway.toolkit.persistence.excel.info.ImportBean;
 import org.devgateway.toolkit.persistence.excel.test.TestAddressRepository;
 import org.devgateway.toolkit.persistence.excel.test.TestBuyer;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -35,7 +35,7 @@ import static org.slf4j.Logger.ROOT_LOGGER_NAME;
  * @since 21/03/2018
  */
 public class ExcelFileImportDefaultTest {
-    @BeforeClass
+    @BeforeAll
     public static void setErrorLogging() {
         LoggingSystem.get(ClassLoader.getSystemClassLoader()).setLogLevel(ROOT_LOGGER_NAME, LogLevel.WARN);
     }
@@ -49,11 +49,11 @@ public class ExcelFileImportDefaultTest {
         final ImportResponse importResponse = excelFileImport.readWorkbook();
 
         TestBuyer testBuyer = (TestBuyer) importResponse.getObjects().get(0);
-        Assert.assertEquals("check number of objects", 2, importResponse.getObjects().size());
-        Assert.assertEquals("check buyer name", "buyer 1", testBuyer.getName());
-        Assert.assertEquals("check organization name", "organization 1", testBuyer.getOrg().getName());
-        Assert.assertEquals("check address", "Street 1", testBuyer.getOrg().getAddress().getStreet());
-        Assert.assertEquals("check address", "Romania", testBuyer.getOrg().getAddress().getCountry());
+        Assertions.assertEquals(2, importResponse.getObjects().size(), "check number of objects");
+        Assertions.assertEquals("buyer 1", testBuyer.getName(), "check buyer name");
+        Assertions.assertEquals("organization 1", testBuyer.getOrg().getName(), "check organization name");
+        Assertions.assertEquals("Street 1", testBuyer.getOrg().getAddress().getStreet(), "check address");
+        Assertions.assertEquals("Romania", testBuyer.getOrg().getAddress().getCountry(), "check address");
     }
 
     /**

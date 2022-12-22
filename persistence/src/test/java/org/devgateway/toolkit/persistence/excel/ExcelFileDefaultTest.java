@@ -3,8 +3,8 @@ package org.devgateway.toolkit.persistence.excel;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.devgateway.toolkit.persistence.excel.annotation.ExcelExport;
 import org.devgateway.toolkit.persistence.excel.service.TranslateService;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Persistable;
@@ -36,27 +36,27 @@ public class ExcelFileDefaultTest {
         //     workbook.write(outputStream);
         // }
 
-        Assert.assertEquals("Number of sheets", 3, workbook.getNumberOfSheets());
+        Assertions.assertEquals(3, workbook.getNumberOfSheets(), "Number of sheets");
 
-        Assert.assertNotNull("buyer sheet", workbook.getSheet("testbuyer"));
-        Assert.assertNotNull("contract sheet", workbook.getSheet("testcontract"));
-        Assert.assertNotNull("document sheet", workbook.getSheet("testdocument"));
+        Assertions.assertNotNull(workbook.getSheet("testbuyer"), "buyer sheet");
+        Assertions.assertNotNull(workbook.getSheet("testcontract"), "contract sheet");
+        Assertions.assertNotNull(workbook.getSheet("testdocument"), "document sheet");
 
-        Assert.assertEquals("buyer name", "buyer 1",
-                workbook.getSheet("testbuyer").getRow(1).getCell(0).toString());
-        Assert.assertEquals("buyer classification", "TP-1 - alii aliquam",
-                workbook.getSheet("testbuyer").getRow(2).getCell(8).toString());
+        Assertions.assertEquals("buyer 1", workbook.getSheet("testbuyer").getRow(1).getCell(0).toString(),
+                "buyer name");
+        Assertions.assertEquals("TP-1 - alii aliquam", workbook.getSheet("testbuyer").getRow(2).getCell(8).toString(),
+                "buyer classification");
 
-        Assert.assertEquals("contract parent", "testbuyer - 1",
-                workbook.getSheet("testcontract").getRow(1).getCell(0).toString());
-        Assert.assertEquals("contract amount", 1000,
-                workbook.getSheet("testcontract").getRow(1).getCell(2).getNumericCellValue(), 0.0);
+        Assertions.assertEquals("testbuyer - 1", workbook.getSheet("testcontract").getRow(1).getCell(0).toString(),
+                "contract parent");
+        Assertions.assertEquals(1000, workbook.getSheet("testcontract").getRow(1).getCell(2).getNumericCellValue(), 0.0,
+                "contract amount");
 
 
-        Assert.assertEquals("document number of rows", 2, workbook.getSheet("testdocument").getLastRowNum());
+        Assertions.assertEquals(2, workbook.getSheet("testdocument").getLastRowNum(), "document number of rows");
 
-        Assert.assertEquals("buyer address flatten", "Street 1 | Street 2",
-                workbook.getSheet("testbuyer").getRow(1).getCell(4).toString());
+        Assertions.assertEquals("Street 1 | Street 2", workbook.getSheet("testbuyer").getRow(1).getCell(4).toString(),
+                "buyer address flatten");
     }
 
     private List createObjects() {
