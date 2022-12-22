@@ -37,7 +37,7 @@ import org.apache.wicket.request.IRequestHandler;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.devgateway.toolkit.forms.WebConstants;
+import org.devgateway.toolkit.forms.FormsConstants;
 import org.devgateway.toolkit.forms.exceptions.NullEditPageClassException;
 import org.devgateway.toolkit.forms.exceptions.NullJpaServiceException;
 import org.devgateway.toolkit.forms.wicket.components.form.AJAXDownload;
@@ -134,7 +134,7 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
                 cellItem.add(getActionPanel(componentId, model));
             }
         });
-        dataTable = new AjaxFallbackBootstrapDataTable<>("table", columns, dataProvider, WebConstants.PAGE_SIZE);
+        dataTable = new AjaxFallbackBootstrapDataTable<>("table", columns, dataProvider, FormsConstants.PAGE_SIZE);
 
         ResettingFilterForm<JpaFilterState<T>> filterForm =
                 new ResettingFilterForm<>("filterForm", dataProvider, dataTable);
@@ -154,7 +154,7 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
         }
 
         PageParameters pageParameters = new PageParameters();
-        pageParameters.set(WebConstants.PARAM_ID, null);
+        pageParameters.set(FormsConstants.PARAM_ID, null);
 
         editPageLink = new BootstrapBookmarkablePageLink<T>("new", editPageClass, pageParameters, Buttons.Type.Success);
         editPageLink.setIconType(FontAwesome5IconType.plus_circle_s).setSize(Size.Large)
@@ -180,7 +180,7 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
             @SuppressWarnings("unchecked")
             T entity = (T) ActionPanel.this.getDefaultModelObject();
             if (entity != null) {
-                pageParameters.set(WebConstants.PARAM_ID, entity.getId());
+                pageParameters.set(FormsConstants.PARAM_ID, entity.getId());
             }
 
             editItemPageLink =
@@ -193,8 +193,8 @@ public abstract class AbstractListPage<T extends GenericPersistable & Serializab
             add(getPrintButton(pageParameters));
 
             PageParameters revisionsPageParameters = new PageParameters();
-            revisionsPageParameters.set(WebConstants.PARAM_ID, entity.getId());
-            revisionsPageParameters.set(WebConstants.PARAM_ENTITY_CLASS, entity.getClass().getName());
+            revisionsPageParameters.set(FormsConstants.PARAM_ID, entity.getId());
+            revisionsPageParameters.set(FormsConstants.PARAM_ENTITY_CLASS, entity.getClass().getName());
 
             BootstrapBookmarkablePageLink<Void> revisionsPageLink = new BootstrapBookmarkablePageLink<>("revisions",
                     RevisionsPage.class, revisionsPageParameters, Buttons.Type.Info);

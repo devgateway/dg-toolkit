@@ -8,7 +8,7 @@ import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
-import org.devgateway.toolkit.forms.WebConstants;
+import org.devgateway.toolkit.forms.FormsConstants;
 import org.devgateway.toolkit.forms.wicket.components.form.CheckBoxBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.CheckBoxToggleBootstrapFormComponent;
 import org.devgateway.toolkit.forms.wicket.components.form.CheckBoxYesNoToggleBootstrapFormComponent;
@@ -42,23 +42,23 @@ public final class ComponentUtil {
     }
 
     /**
-     * Returns true if the {@link WebConstants#PARAM_VIEW_MODE} is used as a
+     * Returns true if the {@link FormsConstants#PARAM_VIEW_MODE} is used as a
      * parameter
      *
      * @return
      */
     public static boolean isViewMode() {
-        return RequestCycle.get().getRequest().getRequestParameters().getParameterValue(WebConstants.PARAM_VIEW_MODE)
+        return RequestCycle.get().getRequest().getRequestParameters().getParameterValue(FormsConstants.PARAM_VIEW_MODE)
                 .toBoolean(false);
     }
 
     /**
-     * Returns true if the {@link WebConstants#PARAM_PRINT} is used as a parameter
+     * Returns true if the {@link FormsConstants#PARAM_PRINT} is used as a parameter
      *
      * @return
      */
     public static boolean isPrintMode() {
-        return RequestCycle.get().getRequest().getRequestParameters().getParameterValue(WebConstants.PARAM_PRINT)
+        return RequestCycle.get().getRequest().getRequestParameters().getParameterValue(FormsConstants.PARAM_PRINT)
                 .toBoolean(false);
     }
 

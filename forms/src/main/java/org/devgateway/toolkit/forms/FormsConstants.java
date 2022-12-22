@@ -19,10 +19,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-// TODO rename to FormConstants
-public final class WebConstants {
+public final class FormsConstants {
 
-    private WebConstants() {
+    private FormsConstants() {
 
     }
 
@@ -34,6 +33,10 @@ public final class WebConstants {
 
     public static final String DISABLE_FORM_LEAVING_JS
             = "if(typeof disableFormLeavingConfirmation === 'function') disableFormLeavingConfirmation();";
+    public static final String ENABLE_FORM_LEAVING_JS
+            = "if(typeof enableFormLeavingConfirmation === 'function') enableFormLeavingConfirmation();";
+    public static final String BIND_FORM_LEAVING_CHECK = "if(typeof checkAnyChange === 'function') checkAnyChange();";
+    public static final String MARK_FORM_AS_CHANGED = "if(typeof checkAnyChange === 'function') markFormAsChanged();";
 
     public static final String PARAM_PRINT = "print";
 

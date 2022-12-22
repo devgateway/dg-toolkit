@@ -3,6 +3,7 @@ package org.devgateway.toolkit.forms.wicket.components.form;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.behavior.AbstractAjaxBehavior;
 import org.apache.wicket.request.IRequestHandler;
+import org.devgateway.toolkit.forms.FormsConstants;
 
 /**
  * AJAX update and file download.
@@ -33,7 +34,11 @@ public abstract class AJAXDownload extends AbstractAjaxBehavior {
         }
 
         // the timeout is needed to let Wicket release the channel
-        target.appendJavaScript("setTimeout(\"window.location.href='" + url + "'\", 100);");
+        target.appendJavaScript("setTimeout(function() {"
+                + FormsConstants.DISABLE_FORM_LEAVING_JS
+                + "window.location.href='" + url + "';"
+                + FormsConstants.ENABLE_FORM_LEAVING_JS
+                + "}, 100);");
     }
 
     @Override

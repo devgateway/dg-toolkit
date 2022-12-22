@@ -15,7 +15,7 @@
 package org.devgateway.toolkit.forms.wicket.providers;
 
 import org.apache.wicket.model.IModel;
-import org.devgateway.toolkit.forms.WebConstants;
+import org.devgateway.toolkit.forms.FormsConstants;
 import org.devgateway.toolkit.persistence.dao.GenericPersistable;
 import org.devgateway.toolkit.persistence.dao.Labelable;
 import org.devgateway.toolkit.persistence.service.TextSearchableService;
@@ -138,15 +138,15 @@ public class GenericPersistableJpaTextChoiceProvider<T extends GenericPersistabl
 
     private Page<T> getItemsByTerm(final String term, final int page) {
         final PageRequest pageRequest = sort == null
-                ? PageRequest.of(page, WebConstants.SELECT_PAGE_SIZE)
-                : PageRequest.of(page, WebConstants.SELECT_PAGE_SIZE, sort);
+                ? PageRequest.of(page, FormsConstants.SELECT_PAGE_SIZE)
+                : PageRequest.of(page, FormsConstants.SELECT_PAGE_SIZE, sort);
         return textSearchableService.searchText(term, pageRequest);
     }
 
     private Page<T> findAll(final int page) {
         final PageRequest pageRequest = sort == null
-                ? PageRequest.of(page, WebConstants.SELECT_PAGE_SIZE)
-                : PageRequest.of(page, WebConstants.SELECT_PAGE_SIZE, sort);
+                ? PageRequest.of(page, FormsConstants.SELECT_PAGE_SIZE)
+                : PageRequest.of(page, FormsConstants.SELECT_PAGE_SIZE, sort);
         return textSearchableService.findAll(pageRequest);
     }
 
