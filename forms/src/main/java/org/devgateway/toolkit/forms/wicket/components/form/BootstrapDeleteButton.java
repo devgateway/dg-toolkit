@@ -24,7 +24,7 @@ import org.apache.wicket.event.IEvent;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.OnEventHeaderItem;
 import org.apache.wicket.model.IModel;
-import org.devgateway.toolkit.forms.wicket.components.ComponentUtil;
+import org.devgateway.toolkit.forms.wicket.components.util.ComponentUtil;
 import org.devgateway.toolkit.forms.wicket.events.EditingDisabledEvent;
 
 /**
