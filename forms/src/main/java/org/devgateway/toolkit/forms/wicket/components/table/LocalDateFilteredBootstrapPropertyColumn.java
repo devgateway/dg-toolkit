@@ -1,7 +1,8 @@
 package org.devgateway.toolkit.forms.wicket.components.table;
 
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.filter.FilterForm;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.filter.TextFilteredPropertyColumn;
 import org.apache.wicket.model.IModel;
@@ -28,7 +29,12 @@ public class LocalDateFilteredBootstrapPropertyColumn<T, S> extends TextFiltered
         final LocalDateFieldBootstrapFormComponent dateField =
                 new LocalDateFieldBootstrapFormComponent(componentId, getFilterModel(form));
         dateField.hideLabel();
-        dateField.getField().add(AttributeModifier.replace("onchange", "this.form.submit();"));
+        dateField.getField().add(new AjaxFormComponentUpdatingBehavior("change") {
+            @Override
+            protected void onUpdate(final AjaxRequestTarget target) {
+                target.add(form);
+            }
+        });
         return dateField;
     }
 }
