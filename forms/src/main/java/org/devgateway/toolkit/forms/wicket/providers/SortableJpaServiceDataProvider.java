@@ -16,7 +16,7 @@ import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.devgateway.toolkit.forms.WebConstants;
+import org.devgateway.toolkit.forms.FormsConstants;
 import org.devgateway.toolkit.forms.models.PersistableJpaRepositoryModel;
 import org.devgateway.toolkit.forms.wicket.components.table.filter.JpaFilterState;
 import org.devgateway.toolkit.persistence.dao.GenericPersistable;
@@ -68,11 +68,11 @@ public class SortableJpaServiceDataProvider<T extends GenericPersistable & Seria
      */
     @Override
     public Iterator<? extends T> iterator(final long first, final long count) {
-        int page = (int) ((double) first / WebConstants.PAGE_SIZE);
+        int page = (int) ((double) first / FormsConstants.PAGE_SIZE);
         final Page<T> findAll = jpaService.findAll(filterState.getSpecification(),
                 translateSort() == null
-                        ? PageRequest.of(page, WebConstants.PAGE_SIZE)
-                        : PageRequest.of(page, WebConstants.PAGE_SIZE, translateSort()));
+                        ? PageRequest.of(page, FormsConstants.PAGE_SIZE)
+                        : PageRequest.of(page, FormsConstants.PAGE_SIZE, translateSort()));
         return findAll.iterator();
     }
 

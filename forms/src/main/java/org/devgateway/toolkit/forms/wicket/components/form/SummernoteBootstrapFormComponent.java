@@ -30,7 +30,7 @@ import org.apache.wicket.validation.IValidatable;
 import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
 import org.apache.wicket.validation.validator.StringValidator;
-import org.devgateway.toolkit.forms.WebConstants;
+import org.devgateway.toolkit.forms.FormsConstants;
 import org.devgateway.toolkit.forms.wicket.components.ComponentUtil;
 
 /**
@@ -82,7 +82,7 @@ public class SummernoteBootstrapFormComponent extends GenericBootstrapFormCompon
 
     private ToolkitSummernoteEditor summernoteEditor;
 
-    private StringValidator validator = WebConstants.StringValidators.MAXIMUM_LENGTH_VALIDATOR_ONE_LINE_TEXTAREA;
+    private StringValidator validator = FormsConstants.StringValidators.MAXIMUM_LENGTH_VALIDATOR_ONE_LINE_TEXTAREA;
 
     private ToolkitSummernoteEditor.ToolkitSummernoteConfig config;
 

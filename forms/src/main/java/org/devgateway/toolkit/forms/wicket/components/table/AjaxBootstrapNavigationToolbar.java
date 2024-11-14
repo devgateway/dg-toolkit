@@ -19,6 +19,7 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.model.IModel;
+import org.devgateway.toolkit.forms.FormsConstants;
 
 /**
  * @author idobre
@@ -53,6 +54,7 @@ public class AjaxBootstrapNavigationToolbar extends AbstractToolbar {
             @Override
             protected void onAjaxEvent(final AjaxRequestTarget target) {
                 target.add(table);
+                target.appendJavaScript(FormsConstants.BIND_FORM_LEAVING_CHECK);
             }
         }.withPagingNavFactory(navigationFactory);
     }

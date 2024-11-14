@@ -28,7 +28,7 @@ import org.apache.wicket.request.flow.RedirectToUrlException;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.string.StringValue;
-import org.devgateway.toolkit.forms.WebConstants;
+import org.devgateway.toolkit.forms.FormsConstants;
 import org.devgateway.toolkit.forms.security.SecurityUtil;
 import org.devgateway.toolkit.forms.wicket.SSAuthenticatedWebSession;
 import org.devgateway.toolkit.forms.wicket.components.form.PasswordFieldBootstrapFormComponent;
@@ -158,7 +158,7 @@ public class LoginPage extends BasePage {
                         changeSessionId();
                         if (BooleanUtils.isTrue(user.getChangePasswordNextSignIn())) {
                             final PageParameters pageParam = new PageParameters();
-                            pageParam.add(WebConstants.PARAM_ID, user.getId());
+                            pageParam.add(FormsConstants.PARAM_ID, user.getId());
                             setResponsePage(ChangePasswordPage.class, pageParam);
                         } else {
                             if (referrer != null) {

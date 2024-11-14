@@ -14,6 +14,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.cycle.RequestCycle;
+import org.devgateway.toolkit.forms.FormsConstants;
 import org.devgateway.toolkit.forms.util.JQueryUtil;
 import org.devgateway.toolkit.forms.wicket.components.form.BootstrapAddButton;
 import org.devgateway.toolkit.forms.wicket.components.form.BootstrapDeleteButton;
@@ -254,6 +255,14 @@ public abstract class ListViewSectionPanel<T extends AbstractAuditableEntity, PA
             private static final long serialVersionUID = 6350277641786762027L;
 
             @Override
+            protected String getOnClickScript() {
+                if (item.isNew()) {
+                    return super.getOnClickScript();
+                }
+                return FormsConstants.MARK_FORM_AS_CHANGED;
+            }
+
+            @Override
             protected void onSubmit(final AjaxRequestTarget target) {
                 ListViewSectionPanel.this.getModelObject().remove(item);
                 listView.removeAll();
@@ -273,6 +282,11 @@ public abstract class ListViewSectionPanel<T extends AbstractAuditableEntity, PA
                 new StringResourceModel("newButton", ListViewSectionPanel.this, null)) {
             @Serial
             private static final long serialVersionUID = 5195431828773253867L;
+
+            @Override
+            protected String getOnClickScript() {
+                return FormsConstants.MARK_FORM_AS_CHANGED;
+            }
 
             @Override
             protected void onSubmit(final AjaxRequestTarget target) {

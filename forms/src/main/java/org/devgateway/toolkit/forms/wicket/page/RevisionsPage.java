@@ -18,7 +18,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.devgateway.toolkit.forms.WebConstants;
+import org.devgateway.toolkit.forms.FormsConstants;
 import org.devgateway.toolkit.forms.security.SecurityConstants;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
@@ -30,7 +30,6 @@ import org.wicketstuff.datetime.markup.html.basic.DateLabel;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.devgateway.toolkit.persistence.PersistenceConstants.ZONED_DATE_TIME_PATTER;
@@ -53,8 +52,8 @@ public class RevisionsPage extends BasePage {
     public RevisionsPage(final PageParameters parameters) {
         super(parameters);
 
-        final long entityId = parameters.get(WebConstants.PARAM_ID).toLong();
-        String entityClass = parameters.get(WebConstants.PARAM_ENTITY_CLASS).toString();
+        final long entityId = parameters.get(FormsConstants.PARAM_ID).toLong();
+        String entityClass = parameters.get(FormsConstants.PARAM_ENTITY_CLASS).toString();
 
         Class<?> clazz = null;
         try {
@@ -82,8 +81,8 @@ public class RevisionsPage extends BasePage {
             @Override
             protected void populateItem(final ListItem<DefaultRevisionEntity> item) {
                 final PageParameters pp = new PageParameters();
-                pp.set(WebConstants.PARAM_REVISION_ID, item.getModelObject().getId());
-                pp.set(WebConstants.PARAM_ID, entityId);
+                pp.set(FormsConstants.PARAM_REVISION_ID, item.getModelObject().getId());
+                pp.set(FormsConstants.PARAM_ID, entityId);
 
                 item.add(new Label("revisionNumber", new PropertyModel<Integer>(item.getModel(), "id")));
                 item.add(DateLabel.forDatePattern("revisionDate",

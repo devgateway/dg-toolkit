@@ -50,7 +50,7 @@ import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.resource.JQueryResourceReference;
 import org.apache.wicket.util.string.StringValue;
-import org.devgateway.toolkit.forms.WebConstants;
+import org.devgateway.toolkit.forms.FormsConstants;
 import org.devgateway.toolkit.forms.security.SecurityConstants;
 import org.devgateway.toolkit.forms.security.SecurityUtil;
 import org.devgateway.toolkit.forms.wicket.page.lists.ListGroupPage;
@@ -109,12 +109,12 @@ public abstract class BasePage extends GenericWebPage<Void> {
 
     /**
      * Selects/changes the default language in the current session. If the
-     * {@link WebConstants#LANGUAGE_PARAM} is found in the
+     * {@link FormsConstants#LANGUAGE_PARAM} is found in the
      * {@link PageParameters} then its contents is set as language in the
      * session object.
      */
     protected void selectLanguage() {
-        StringValue lang = this.getPageParameters().get(WebConstants.LANGUAGE_PARAM);
+        StringValue lang = this.getPageParameters().get(FormsConstants.LANGUAGE_PARAM);
         if (!lang.isEmpty()) {
             WebSession.get().setLocale(new Locale(lang.toString()));
         }
@@ -187,9 +187,9 @@ public abstract class BasePage extends GenericWebPage<Void> {
                     protected List<AbstractLink> newSubMenuButtons(final String buttonMarkupId) {
                         final List<AbstractLink> list = new ArrayList<>();
 
-                        for (final Locale l : WebConstants.AVAILABLE_LOCALES) {
+                        for (final Locale l : FormsConstants.AVAILABLE_LOCALES) {
                             final PageParameters params = new PageParameters(BasePage.this.getPageParameters());
-                            params.set(WebConstants.LANGUAGE_PARAM, l.getLanguage());
+                            params.set(FormsConstants.LANGUAGE_PARAM, l.getLanguage());
                             list.add(new MenuBookmarkablePageLink<Page>(BasePage.this.getPageClass(), params,
                                     Model.of(l.getDisplayName())));
                         }
@@ -228,7 +228,7 @@ public abstract class BasePage extends GenericWebPage<Void> {
         Model<String> account = null;
         if (person != null) {
             account = Model.of(person.getFirstName());
-            pageParametersForAccountPage.add(WebConstants.PARAM_ID, person.getId());
+            pageParametersForAccountPage.add(FormsConstants.PARAM_ID, person.getId());
         }
 
         final NavbarButton<EditUserPage> accountMenu =

@@ -8,7 +8,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
-import org.devgateway.toolkit.forms.WebConstants;
+import org.devgateway.toolkit.forms.FormsConstants;
 import org.devgateway.toolkit.forms.wicket.components.table.AjaxFallbackBootstrapDataTable;
 import org.devgateway.toolkit.forms.wicket.providers.ListDataProvider;
 
@@ -33,7 +33,7 @@ public class PageableTablePanel<T extends Serializable, PARENT extends Serializa
 
     protected ISortableDataProvider<T, String> dataProvider;
 
-    protected int rowsPerPage = WebConstants.PAGE_SIZE;
+    protected int rowsPerPage = FormsConstants.PAGE_SIZE;
 
     protected List<IColumn<T, String>> columns = new ArrayList<>();
 
