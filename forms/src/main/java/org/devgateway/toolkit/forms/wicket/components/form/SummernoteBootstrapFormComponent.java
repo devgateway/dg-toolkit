@@ -177,7 +177,7 @@ public class SummernoteBootstrapFormComponent extends GenericBootstrapFormCompon
     }
 
     @Override
-    protected FormComponent<String> updatingBehaviorComponent() {
+    public FormComponent<String> updatingBehaviorComponent() {
         return summernoteEditor;
     }
 
